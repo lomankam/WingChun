@@ -398,6 +398,7 @@ font-family:Georgia,serif;
     <div class="chatStats"><span class="chatStatPill">💬 累積留言：<span id="messageCount">0</span></span><span class="chatStatPill">🟢 即時在線：<span id="onlineCountMini">1</span></span></div>
     <div class="chatStatusRow">
       <div class="onlineBadge"><span class="onlineDot"></span>目前在線：<span id="onlineCount">1</span> 人</div>
+      <div class="chatOpenStatus" id="chatOpenStatus">💬 留言狀態：讀取中……</div>
       <div class="adminLoginBox"><button class="chatClear" id="adminLoginBtn" type="button">管理員登入</button><span class="adminStatus" id="adminStatus">一般訪客模式</span></div>
       <div class="pinnedNotice"><b>📌 管理員公告：</b><span id="pinnedNoticeText">歡迎留下觀課心得與詠春交流問題，請保持尊重與友善。</span></div>
     </div>
@@ -572,6 +573,7 @@ const firebaseConfig = {
   const announcementInput=document.getElementById('adminAnnouncementInput');
   const saveAnnouncementBtn=document.getElementById('saveAnnouncementBtn');
   const commentClosedNotice=document.getElementById('commentClosedNotice');
+  const chatOpenStatus=document.getElementById('chatOpenStatus');
   const chatControlAdminStatus=document.getElementById('chatControlAdminStatus');
   const chatCloseAtInput=document.getElementById('chatCloseAtInput');
   const chatOpenAtInput=document.getElementById('chatOpenAtInput');
@@ -666,7 +668,7 @@ const firebaseConfig = {
   function fromDateTimeLocal(value){
     if(!value) return null;
     const t=new Date(value).getTime();
-    return Number.isFinite(t) ? new Date(t).toISOString() : null;
+    return Number.isFinite(t) ? new Date(t) : null;
   }
   function isChatClosedNow(data){
     if(!data || !data.disabled) return false;
@@ -690,11 +692,17 @@ const firebaseConfig = {
   }
   function updateChatControlUI(){
     chatClosed = isChatClosedNow(chatControl);
+    const text = chatControlText();
     if(commentClosedNotice){
       commentClosedNotice.hidden = !chatClosed;
-      commentClosedNotice.textContent = chatControlText();
+      commentClosedNotice.textContent = text;
     }
-    if(chatControlAdminStatus) chatControlAdminStatus.textContent = `目前留言狀態：${chatControlText()}`;
+    if(chatOpenStatus){
+      chatOpenStatus.textContent = `💬 留言狀態：${text}`;
+      chatOpenStatus.classList.toggle('closed', chatClosed);
+      chatOpenStatus.classList.toggle('scheduled', !chatClosed && !!(chatControl.disabled && toMillis(chatControl.closeAt) && Date.now() < toMillis(chatControl.closeAt)));
+    }
+    if(chatControlAdminStatus) chatControlAdminStatus.textContent = `目前留言狀態：${text}`;
     if(chatCloseAtInput && document.activeElement !== chatCloseAtInput) chatCloseAtInput.value = toDateTimeLocal(chatControl.closeAt);
     if(chatOpenAtInput && document.activeElement !== chatOpenAtInput) chatOpenAtInput.value = toDateTimeLocal(chatControl.openAt);
     updateRestrictionNotice();
@@ -746,7 +754,7 @@ const firebaseConfig = {
     const bannedUsersRef = collection(db, 'bannedUsers');
     const myBanRef = doc(db, 'bannedUsers', visitorId);
     const chatQuery = query(chatRef, orderBy('createdAt','asc'), limit(80));
-    if(toolsText) toolsText.textContent = '雲端聊天室已啟用：所有訪客都能同步看到留言、在線人數與按讚。';
+    if(toolsText) toolsText.textContent = '雲端聊天室已啟用：所有訪客都能同步看到留言、在線人數、留言狀態與按讚。';
     if(clearBtn){ clearBtn.textContent = '清空聊天室'; clearBtn.style.display='none'; }
 
     function refreshAdminUI(user){
@@ -817,17 +825,21 @@ const firebaseConfig = {
       if(!closeAt && !openAt) return alert('請至少設定關閉開始時間或重新開放時間。');
       if(closeAt && openAt && new Date(openAt).getTime() <= new Date(closeAt).getTime()) return alert('重新開放時間必須晚於關閉開始時間。');
       await setDoc(chatControlRef, {disabled:true, closeAt, openAt, updatedAt:serverTimestamp(), updatedBy:auth.currentUser.email}, {merge:true});
+      chatControl={disabled:true, closeAt, openAt}; updateChatControlUI();
       alert('留言開關排程已儲存。');
     });
     closeChatNowBtn && closeChatNowBtn.addEventListener('click', async ()=>{
       if(!isAdmin) return alert('只有管理員可以關閉留言。');
       const openAt=fromDateTimeLocal(chatOpenAtInput && chatOpenAtInput.value);
-      await setDoc(chatControlRef, {disabled:true, closeAt:new Date().toISOString(), openAt, updatedAt:serverTimestamp(), updatedBy:auth.currentUser.email}, {merge:true});
+      const closeAt=new Date();
+      await setDoc(chatControlRef, {disabled:true, closeAt, openAt, updatedAt:serverTimestamp(), updatedBy:auth.currentUser.email}, {merge:true});
+      chatControl={disabled:true, closeAt, openAt}; updateChatControlUI();
       alert(openAt ? '留言已立即關閉，並會依設定時間重新開放。' : '留言已立即關閉。');
     });
     openChatNowBtn && openChatNowBtn.addEventListener('click', async ()=>{
       if(!isAdmin) return alert('只有管理員可以開放留言。');
       await setDoc(chatControlRef, {disabled:false, closeAt:null, openAt:null, updatedAt:serverTimestamp(), updatedBy:auth.currentUser.email}, {merge:true});
+      chatControl={disabled:false, closeAt:null, openAt:null}; updateChatControlUI();
       alert('留言已重新開放。');
     });
 
