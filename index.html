@@ -4,6 +4,7 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>盧文錦師父授課精華｜影片目錄 v18.1</title>
+<script>if(new URLSearchParams(location.search).get('chat')==='1'){document.documentElement.classList.add('chat-only-mode');}</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Cormorant+Garamond:ital,wght@1,500;1,600&display=swap" rel="stylesheet">
@@ -339,6 +340,29 @@ font-family:Georgia,serif;
   .chatMsg{max-width:94%}
 }
 
+
+/* ===== Chat standalone page button / 留言區單獨頁 ===== */
+.chatHeaderActions{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.chatStandaloneBtn{
+  cursor:pointer;
+  border:1px solid rgba(217,181,109,.34);
+  border-radius:999px;
+  padding:9px 14px;
+  color:#15110a;
+  background:linear-gradient(135deg,var(--gold2),var(--gold),#9e7840);
+  font-weight:900;
+  font-size:13px;
+  box-shadow:0 8px 20px rgba(217,181,109,.14);
+}
+.chatStandaloneBtn:hover{filter:brightness(1.06)}
+html.chat-only-mode body{background:radial-gradient(circle at top left,#1d2c3c 0,#0b0f14 42%,#06080b 100%)}
+html.chat-only-mode .wrap{max-width:920px;padding:18px 14px 28px}
+html.chat-only-mode .wrap > :not(#chatroom){display:none!important}
+html.chat-only-mode #chatroom{margin:0;min-height:calc(100vh - 46px)}
+html.chat-only-mode .chatMessages{height:min(58vh,520px)}
+html.chat-only-mode .footer{display:none!important}
+@media(max-width:760px){.chatHeaderActions{width:100%}.chatStandaloneBtn{width:100%}}
+
 </style>
 </head>
 <body>
@@ -398,6 +422,9 @@ font-family:Georgia,serif;
     <div>
       <h2>💬 留言交流區</h2>
       <p>歡迎分享觀課心得與學習交流。</p>
+    </div>
+    <div class="chatHeaderActions">
+      <button class="chatStandaloneBtn" id="chatStandaloneBtn" type="button">↗ 單獨開啟留言交流區</button>
     </div>
   </div>
   <div class="chatBox">
@@ -1057,6 +1084,31 @@ const firebaseConfig = {
   textInput.addEventListener('keydown', function(e){
     if(e.key==='Enter' && !e.shiftKey){e.preventDefault();form.requestSubmit();}
   });
+})();
+</script>
+
+<script>
+(function(){
+  const btn=document.getElementById('chatStandaloneBtn');
+  if(!btn) return;
+  const params=new URLSearchParams(window.location.search);
+  const chatOnly=params.get('chat')==='1';
+  if(chatOnly){
+    document.title='留言交流區｜盧文錦師父授課精華';
+    btn.textContent='↩ 返回完整網站';
+    btn.setAttribute('aria-label','返回完整網站');
+    btn.addEventListener('click', function(){
+      const url=new URL(window.location.href);
+      url.searchParams.delete('chat');
+      window.location.href=url.toString();
+    });
+  }else{
+    btn.addEventListener('click', function(){
+      const url=new URL(window.location.href);
+      url.searchParams.set('chat','1');
+      window.open(url.toString(), '_blank', 'noopener');
+    });
+  }
 })();
 </script>
 
