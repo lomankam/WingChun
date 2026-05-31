@@ -304,6 +304,18 @@ font-family:Georgia,serif;
 .chatActions{display:flex;align-items:center;justify-content:flex-end;margin-top:8px}
 .likeBtn{cursor:pointer;border:1px solid rgba(217,181,109,.28);border-radius:999px;background:rgba(255,255,255,.07);color:#f6df9f;padding:5px 10px;font-weight:900;font-size:12px}
 .likeBtn:hover,.likeBtn.liked{background:linear-gradient(135deg,var(--gold2),var(--gold));color:#15110a;border-color:transparent}
+
+.adminLoginBox{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.adminStatus{color:var(--muted);font-size:13px}
+.adminPanel{margin:12px 0 14px;border:1px solid rgba(217,181,109,.28);border-radius:18px;padding:12px;background:rgba(217,181,109,.07)}
+.adminPanel[hidden]{display:none!important}
+.adminPanelTitle{font-weight:900;color:var(--gold2);margin-bottom:8px}
+.adminAnnouncementInput{width:100%;min-height:74px;border:1px solid var(--line);border-radius:14px;background:rgba(255,255,255,.07);color:var(--text);padding:12px 14px;font-family:inherit;font-size:14px;resize:vertical;outline:none}
+.adminAnnouncementInput:focus{border-color:var(--gold)}
+.adminPanelActions{display:flex;gap:8px;justify-content:flex-end;margin-top:8px}
+.adminBtn,.deleteBtn{cursor:pointer;border:1px solid rgba(217,181,109,.28);border-radius:999px;background:rgba(255,255,255,.07);color:#f6df9f;padding:7px 12px;font-weight:900;font-size:12px}
+.adminBtn:hover,.deleteBtn:hover{background:linear-gradient(135deg,var(--gold2),var(--gold));color:#15110a;border-color:transparent}
+.deleteBtn{color:#ffd1d1;border-color:rgba(255,120,120,.3)}
 @media(max-width:760px){
   .chatHead{align-items:flex-start;flex-direction:column}
   .chatForm{grid-template-columns:1fr}
@@ -345,6 +357,7 @@ font-family:Georgia,serif;
     <div class="bar"><input id="q" class="search" placeholder="搜尋：反應、套路、標指、鎖喉、持刀、尋橋……" /><button class="btn" onclick="clearSearch()">清除</button></div>
     
 <div class="langRow" style="display:flex;justify-content:flex-end;gap:8px;margin-top:10px;margin-bottom:10px;">
+<button class="btn" onclick="document.getElementById('chatroom').scrollIntoView({behavior:'smooth'});">💬 聊天室</button>
 <button class="btn active" onclick="setLang('both')">雙語</button>
 <button class="btn" onclick="setLang('zh')">中文</button>
 <button class="btn" onclick="setLang('en')">English</button>
@@ -354,6 +367,7 @@ font-family:Georgia,serif;
   </nav>
   
 <div style="margin:18px 0;display:flex;gap:10px;flex-wrap:wrap">
+<button class="btn" onclick="document.getElementById('chatroom').scrollIntoView({behavior:'smooth'});">💬 聊天室</button>
 <button class="btn active" onclick="setLang('both')">雙語</button>
 <button class="btn" onclick="setLang('zh')">中文</button>
 <button class="btn" onclick="setLang('en')">English</button>
@@ -366,15 +380,20 @@ font-family:Georgia,serif;
 <section class="chatSection" id="chatroom" aria-label="留言聊天室">
   <div class="chatHead">
     <div>
-      <h2>留言聊天室</h2>
-      <p>可以在這裡留下觀課心得、問題或回饋。已加入在線人數、訪客名稱、留言時間、按讚與管理員置頂公告。</p>
+      <h2>💬 留言交流區</h2>
+      <p>歡迎分享觀課心得與學習交流。</p>
     </div>
-    <div class="chatBadge">Wing Chun Chat</div>
   </div>
   <div class="chatBox">
     <div class="chatStatusRow">
       <div class="onlineBadge"><span class="onlineDot"></span>目前在線：<span id="onlineCount">1</span> 人</div>
-      <div class="pinnedNotice"><b>📌 管理員公告：</b>歡迎留下觀課心得與詠春交流問題，請保持尊重與友善。</div>
+      <div class="adminLoginBox"><button class="chatClear" id="adminLoginBtn" type="button">管理員登入</button><span class="adminStatus" id="adminStatus">一般訪客模式</span></div>
+      <div class="pinnedNotice"><b>📌 管理員公告：</b><span id="pinnedNoticeText">歡迎留下觀課心得與詠春交流問題，請保持尊重與友善。</span></div>
+    </div>
+    <div class="adminPanel" id="adminPanel" hidden>
+      <div class="adminPanelTitle">🛠 管理員功能</div>
+      <textarea class="adminAnnouncementInput" id="adminAnnouncementInput" maxlength="300" placeholder="輸入新的公告內容……"></textarea>
+      <div class="adminPanelActions"><button class="adminBtn" id="saveAnnouncementBtn" type="button">儲存公告</button></div>
     </div>
     <div class="chatMessages" id="chatMessages"></div>
     <form class="chatForm" id="chatForm">
@@ -383,7 +402,7 @@ font-family:Georgia,serif;
       <button class="chatSend" type="submit">送出</button>
     </form>
     <div class="chatTools">
-      <span>提示：若尚未填入 Firebase 設定，系統會暫時使用本機留言；填入後會自動改為雲端同步聊天室。</span>
+      <span>提示：一般訪客可留言與按讚；管理員登入後可修改公告與刪除留言。</span>
       <button class="chatClear" id="chatClear" type="button">清除本機留言</button>
     </div>
   </div>
@@ -460,7 +479,10 @@ import {
   serverTimestamp, onSnapshot, getDocs, deleteDoc,
   doc, setDoc, updateDoc, arrayUnion
 } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
-import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
+import {
+  getAuth, signInAnonymously, GoogleAuthProvider, signInWithPopup,
+  signOut, onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyDfyRZeA2T6ar6ebXIHhMIGo9_-5CrHEJY",
@@ -482,6 +504,15 @@ const firebaseConfig = {
   const clearBtn=document.getElementById('chatClear');
   const toolsText=document.querySelector('.chatTools span');
   const onlineCountEl=document.getElementById('onlineCount');
+  const adminEmail='lomankam.master@gmail.com';
+  const adminLoginBtn=document.getElementById('adminLoginBtn');
+  const adminStatus=document.getElementById('adminStatus');
+  const adminPanel=document.getElementById('adminPanel');
+  const announcementText=document.getElementById('pinnedNoticeText');
+  const announcementInput=document.getElementById('adminAnnouncementInput');
+  const saveAnnouncementBtn=document.getElementById('saveAnnouncementBtn');
+  let isAdmin=false;
+  let latestMessages=[];
   if(!box||!form) return;
 
   function getOrCreateId(storageKey){
@@ -512,12 +543,15 @@ const firebaseConfig = {
     }catch(e){return '';}
   }
   function renderMessages(messages){
-    const list = messages.length ? messages : defaultMessages;
+    latestMessages = messages || [];
+    const list = latestMessages.length ? latestMessages : defaultMessages;
     box.innerHTML=list.map(m=>{
       const likedBy=Array.isArray(m.likedBy)?m.likedBy:[];
       const liked=likedBy.includes(visitorId);
       const likeCount=likedBy.length;
-      const likeHTML=m.system ? '' : `<div class="chatActions"><button class="likeBtn ${liked?'liked':''}" data-id="${escapeHTML(m.id||'')}">👍 ${likeCount}</button></div>`;
+      const likeBtn=m.system ? '' : `<button class="likeBtn ${liked?'liked':''}" data-id="${escapeHTML(m.id||'')}">👍 ${likeCount}</button>`;
+      const deleteBtn=(!m.system && isAdmin) ? `<button class="deleteBtn" data-id="${escapeHTML(m.id||'')}">🗑 刪除</button>` : '';
+      const likeHTML=m.system ? '' : `<div class="chatActions">${likeBtn}${deleteBtn}</div>`;
       return `<div class="chatMsg ${m.system?'':'me'}"><span class="chatMeta">${escapeHTML(m.name||'訪客')}<span class="chatTime">${timeLabel(m.createdAt || m.time)}</span></span>${escapeHTML(m.text||'')}${likeHTML}</div>`;
     }).join('');
     box.scrollTop=box.scrollHeight;
@@ -527,6 +561,7 @@ const firebaseConfig = {
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
     const auth = getAuth(app);
+    const googleProvider = new GoogleAuthProvider();
     const authReady = signInAnonymously(auth).catch((error)=>{
       console.error('anonymous auth failed', error);
       renderMessages([{id:'auth-error', name:'系統', text:'Firebase 匿名登入失敗，請確認 Authentication 已啟用 Anonymous。', time:new Date().toISOString(), system:true, likedBy:[]}]);
@@ -535,9 +570,55 @@ const firebaseConfig = {
     const chatRef = collection(db, collectionName);
     const onlineRef = collection(db, onlineCollectionName);
     const myOnlineRef = doc(db, onlineCollectionName, sessionId);
+    const announcementRef = doc(db, 'announcements', 'main');
     const chatQuery = query(chatRef, orderBy('createdAt','asc'), limit(80));
     if(toolsText) toolsText.textContent = '雲端聊天室已啟用：所有訪客都能同步看到留言、在線人數與按讚。';
-    if(clearBtn) clearBtn.textContent = '清除雲端留言';
+    if(clearBtn){ clearBtn.textContent = '清除全部留言'; clearBtn.style.display='none'; }
+
+    function refreshAdminUI(user){
+      isAdmin = !!(user && user.email && user.email.toLowerCase() === adminEmail);
+      if(adminPanel) adminPanel.hidden = !isAdmin;
+      if(clearBtn) clearBtn.style.display = isAdmin ? '' : 'none';
+      if(adminLoginBtn) adminLoginBtn.textContent = isAdmin ? '管理員登出' : '管理員登入';
+      if(adminStatus) adminStatus.textContent = isAdmin ? `管理員模式：${user.email}` : '一般訪客模式';
+      renderMessages(latestMessages);
+    }
+
+    onAuthStateChanged(auth, (user)=>{ refreshAdminUI(user); });
+
+    adminLoginBtn && adminLoginBtn.addEventListener('click', async ()=>{
+      try{
+        if(isAdmin){
+          await signOut(auth);
+          await signInAnonymously(auth);
+          return;
+        }
+        const result = await signInWithPopup(auth, googleProvider);
+        const email = (result.user.email || '').toLowerCase();
+        if(email !== adminEmail){
+          alert('這個 Google 帳號不是管理員帳號。');
+          await signOut(auth);
+          await signInAnonymously(auth);
+        }
+      }catch(err){
+        console.error(err);
+        alert('管理員登入失敗，請確認 Firebase Authentication 已啟用 Google 登入。');
+      }
+    });
+
+    onSnapshot(announcementRef, (snap)=>{
+      const text = snap.exists() && snap.data().text ? snap.data().text : '歡迎留下觀課心得與詠春交流問題，請保持尊重與友善。';
+      if(announcementText) announcementText.textContent = text;
+      if(announcementInput && !announcementInput.value) announcementInput.value = text;
+    });
+
+    saveAnnouncementBtn && saveAnnouncementBtn.addEventListener('click', async ()=>{
+      if(!isAdmin) return alert('只有管理員可以修改公告。');
+      const text=(announcementInput.value||'').trim().slice(0,300);
+      if(!text) return alert('公告不可空白。');
+      await setDoc(announcementRef, {text, updatedAt:serverTimestamp(), updatedBy:auth.currentUser.email}, {merge:true});
+      alert('公告已更新。');
+    });
 
     async function updatePresence(){
       try{
@@ -582,15 +663,27 @@ const firebaseConfig = {
     });
 
     box.addEventListener('click', async function(e){
-      const btn=e.target.closest('.likeBtn');
-      if(!btn || !btn.dataset.id) return;
-      btn.disabled=true;
-      try{ await authReady; await updateDoc(doc(db, collectionName, btn.dataset.id), {likedBy: arrayUnion(visitorId)}); }
-      catch(err){ console.error(err); }
-      finally{ btn.disabled=false; }
+      const likeBtn=e.target.closest('.likeBtn');
+      const deleteBtn=e.target.closest('.deleteBtn');
+      if(likeBtn && likeBtn.dataset.id){
+        likeBtn.disabled=true;
+        try{ await authReady; await updateDoc(doc(db, collectionName, likeBtn.dataset.id), {likedBy: arrayUnion(visitorId)}); }
+        catch(err){ console.error(err); }
+        finally{ likeBtn.disabled=false; }
+        return;
+      }
+      if(deleteBtn && deleteBtn.dataset.id){
+        if(!isAdmin) return alert('只有管理員可以刪除留言。');
+        if(!confirm('確定刪除這則留言嗎？')) return;
+        deleteBtn.disabled=true;
+        try{ await deleteDoc(doc(db, collectionName, deleteBtn.dataset.id)); }
+        catch(err){ console.error(err); alert('刪除失敗，請檢查 Firestore Rules 是否允許管理員刪除。'); }
+        finally{ deleteBtn.disabled=false; }
+      }
     });
 
     clearBtn && clearBtn.addEventListener('click', async function(){
+      if(!isAdmin) return alert('只有管理員可以清除留言。');
       if(!confirm('確定要清除雲端聊天室留言嗎？所有訪客都會看不到。')) return;
       await authReady;
       const snap = await getDocs(chatRef);
