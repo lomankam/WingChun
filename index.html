@@ -361,6 +361,7 @@ html.chat-only-mode .wrap > :not(#chatroom){display:none!important}
 html.chat-only-mode #chatroom{margin:0;min-height:calc(100vh - 46px)}
 html.chat-only-mode .chatMessages{height:min(58vh,520px)}
 html.chat-only-mode .footer{display:none!important}
+html.chat-only-mode #chatStandaloneBtn{display:none!important}
 @media(max-width:760px){.chatHeaderActions{width:100%}.chatStandaloneBtn{width:100%}}
 
 </style>
@@ -424,7 +425,7 @@ html.chat-only-mode .footer{display:none!important}
       <p>歡迎分享觀課心得與學習交流。</p>
     </div>
     <div class="chatHeaderActions">
-      <button class="chatStandaloneBtn" id="chatStandaloneBtn" type="button">↗ 單獨開啟留言交流區</button>
+      <button class="chatStandaloneBtn" id="chatStandaloneBtn" type="button">💬 獨立聊天室</button>
     </div>
   </div>
   <div class="chatBox">
@@ -1095,14 +1096,10 @@ const firebaseConfig = {
   const chatOnly=params.get('chat')==='1';
   if(chatOnly){
     document.title='留言交流區｜盧文錦師父授課精華';
-    btn.textContent='↩ 返回完整網站';
-    btn.setAttribute('aria-label','返回完整網站');
-    btn.addEventListener('click', function(){
-      const url=new URL(window.location.href);
-      url.searchParams.delete('chat');
-      window.location.href=url.toString();
-    });
+    btn.hidden = true;
   }else{
+    btn.textContent='💬 獨立聊天室';
+    btn.setAttribute('aria-label','在新分頁開啟獨立聊天室');
     btn.addEventListener('click', function(){
       const url=new URL(window.location.href);
       url.searchParams.set('chat','1');
