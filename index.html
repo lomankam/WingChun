@@ -647,7 +647,7 @@ const firebaseConfig = {
   const visitorId=getOrCreateId('lo-man-kam-visitor-id');
   const sessionId=(crypto.randomUUID ? crypto.randomUUID() : String(Date.now())+'-'+Math.random().toString(16).slice(2));
   nameInput.value = localStorage.getItem('lo-man-kam-chat-name') || '';
-  nameInput.addEventListener('change',()=>{ const checked=validateName(nameInput.value); if(!checked){ alert('這個名稱不可使用，請換一個暱稱。'); nameInput.value=''; localStorage.removeItem('lo-man-kam-chat-name'); } else { nameInput.value=checked; localStorage.setItem('lo-man-kam-chat-name', checked); } });
+  nameInput.addEventListener('change',()=>{ if(isAdmin){ nameInput.value='管理員'; return; } const checked=validateName(nameInput.value); if(!checked){ alert('這個名稱不可使用，請換一個暱稱。'); nameInput.value=''; localStorage.removeItem('lo-man-kam-chat-name'); } else { nameInput.value=checked; localStorage.setItem('lo-man-kam-chat-name', checked); } });
 
   const firebaseReady = !firebaseConfig.apiKey.includes('PASTE_') && !firebaseConfig.projectId.includes('PASTE_');
   const defaultMessages=[
@@ -963,11 +963,11 @@ const firebaseConfig = {
       e.preventDefault();
       if(isKicked) return alert('你已被管理員限制發言，暫時無法留言。');
       if(chatClosed && !isAdmin) return alert(chatControlText());
-      const name=validateName(nameInput.value||'訪客');
+      const name = isAdmin ? '管理員' : validateName(nameInput.value||'訪客');
       const text=(textInput.value||'').trim().slice(0,300);
       if(!name){ alert('這個名稱不可使用，請換一個暱稱。'); nameInput.focus(); return; }
       if(!text) return;
-      localStorage.setItem('lo-man-kam-chat-name', name);
+      if(!isAdmin) localStorage.setItem('lo-man-kam-chat-name', name);
       textInput.value='';
       await authReady;
       await addDoc(chatRef, {name: isAdmin ? '管理員' : name, text, likedBy:[], adminMessage: !!isAdmin, createdAt:serverTimestamp()});
@@ -1058,13 +1058,13 @@ const firebaseConfig = {
     function render(){const localMessages=load(); if(messageCountEl) messageCountEl.textContent=String(localMessages.filter(m=>!m.system).length); renderMessages(localMessages);}
     form.addEventListener('submit', function(e){
       e.preventDefault();
-      const name=validateName(nameInput.value||'訪客');
+      const name = isAdmin ? '管理員' : validateName(nameInput.value||'訪客');
       const text=(textInput.value||'').trim().slice(0,300);
       if(!name){ alert('這個名稱不可使用，請換一個暱稱。'); nameInput.focus(); return; }
       if(!text) return;
-      localStorage.setItem('lo-man-kam-chat-name', name);
+      if(!isAdmin) localStorage.setItem('lo-man-kam-chat-name', name);
       const messages=load();
-      messages.push({id:String(Date.now()), name,text,time:new Date().toISOString(),likedBy:[]});
+      messages.push({id:String(Date.now()), name,text,time:new Date().toISOString(),likedBy:[], adminMessage: !!isAdmin});
       save(messages);
       textInput.value='';
       render();
