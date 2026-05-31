@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>盧文錦師父授課精華｜影片目錄 v17</title>
+<title>盧文錦師父授課精華｜影片目錄 v18.1</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Cormorant+Garamond:ital,wght@1,500;1,600&display=swap" rel="stylesheet">
@@ -273,6 +273,7 @@ font-family:Georgia,serif;
   gap:10px;
   margin-top:12px;
 }
+.chatForm.adminMode{grid-template-columns:1fr auto}
 .chatInput,.chatText{
   width:100%;
   border:1px solid var(--line);
@@ -318,7 +319,7 @@ font-family:Georgia,serif;
 .adminAnnouncementInput{width:100%;min-height:74px;border:1px solid var(--line);border-radius:14px;background:rgba(255,255,255,.07);color:var(--text);padding:12px 14px;font-family:inherit;font-size:14px;resize:vertical;outline:none}
 .adminAnnouncementInput:focus{border-color:var(--gold)}
 .adminPanelActions{display:flex;gap:8px;justify-content:flex-end;margin-top:8px;flex-wrap:wrap}
-.adminScheduleGrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:8px}.adminScheduleGrid label{display:grid;gap:5px;color:var(--muted);font-size:13px}.adminDateInput{width:100%;border:1px solid var(--line);border-radius:14px;background:rgba(255,255,255,.07);color:var(--text);padding:10px 12px;font-family:inherit;outline:none}.adminDateInput:focus{border-color:var(--gold)}.commentClosedNotice{margin:12px 0;border:1px solid rgba(217,181,109,.35);border-radius:16px;padding:12px;background:rgba(217,181,109,.10);color:#f5e6bd;font-weight:900}.commentClosedNotice[hidden]{display:none!important}
+.adminScheduleGrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:8px}.adminScheduleGrid label{display:grid;gap:5px;color:var(--muted);font-size:13px}.adminDateInput{width:100%;border:1px solid var(--line);border-radius:14px;background:rgba(255,255,255,.07);color:var(--text);padding:10px 12px;font-family:inherit;outline:none}.adminDateInput:focus{border-color:var(--gold)}.commentClosedNotice{margin:12px 0;border:1px solid rgba(255,100,100,.42);border-radius:16px;padding:12px;background:rgba(255,90,90,.14);color:#ffd1d1;font-weight:900;line-height:1.7}.commentClosedNotice[hidden]{display:none!important}
 .adminOnlineList,.adminBannedList{display:grid;gap:8px;margin-top:10px}.adminOnlineItem,.adminBannedItem{display:flex;align-items:center;justify-content:space-between;gap:10px;border:1px solid var(--line);border-radius:14px;padding:8px 10px;background:rgba(0,0,0,.12);color:var(--muted);font-size:13px}.adminOnlineItem b,.adminBannedItem b{color:var(--gold2)}.kickedNotice{margin:12px 0;border:1px solid rgba(255,120,120,.38);border-radius:16px;padding:12px;background:rgba(255,90,90,.10);color:#ffd1d1;font-weight:900}.kickedNotice[hidden]{display:none!important}
 .adminBtn,.deleteBtn,.kickBtn,.banBtn,.unbanBtn{cursor:pointer;border:1px solid rgba(217,181,109,.28);border-radius:999px;background:rgba(255,255,255,.07);color:#f6df9f;padding:7px 12px;font-weight:900;font-size:12px}
 .adminBtn:hover,.deleteBtn:hover,.kickBtn:hover,.banBtn:hover,.unbanBtn:hover{background:linear-gradient(135deg,var(--gold2),var(--gold));color:#15110a;border-color:transparent}
@@ -404,7 +405,6 @@ font-family:Georgia,serif;
     <div class="chatStatusRow">
       <div class="chatStatusGroup">
         <div class="onlineBadge"><span class="onlineDot"></span>目前在線：<span id="onlineCount">1</span> 人</div>
-        <div class="chatOpenStatus" id="chatOpenStatus">💬 留言狀態：讀取中……</div>
       </div>
       <div class="adminLoginBox"><button class="chatClear" id="adminLoginBtn" type="button">管理員登入</button><span class="adminStatus" id="adminStatus">一般訪客模式</span></div>
       <div class="pinnedNotice"><b>📌 管理員公告：</b><span id="pinnedNoticeText">歡迎留下觀課心得與詠春交流問題，請保持尊重與友善。</span></div>
@@ -416,10 +416,15 @@ font-family:Georgia,serif;
       <div class="adminPanelTitle" style="margin-top:12px">⏰ 留言開放時間管理</div>
       <div class="small" id="chatControlAdminStatus">目前留言狀態：讀取中……</div>
       <div class="adminScheduleGrid">
-        <label>關閉開始時間<input class="adminDateInput" id="chatCloseAtInput" type="datetime-local"></label>
-        <label>重新開放時間<input class="adminDateInput" id="chatOpenAtInput" type="datetime-local"></label>
+        <label>關閉日期<input class="adminDateInput" id="chatCloseDateInput" type="date"></label>
+        <label>關閉時間<input class="adminDateInput" id="chatCloseTimeInput" type="time" step="60"></label>
+        <label>開放日期<input class="adminDateInput" id="chatOpenDateInput" type="date"></label>
+        <label>開放時間<input class="adminDateInput" id="chatOpenTimeInput" type="time" step="60"></label>
       </div>
       <div class="adminPanelActions">
+        <button class="adminBtn" id="close1hBtn" type="button">關閉 1 小時</button>
+        <button class="adminBtn" id="close24hBtn" type="button">關閉 24 小時</button>
+        <button class="adminBtn" id="close7dBtn" type="button">關閉 7 天</button>
         <button class="adminBtn" id="saveChatScheduleBtn" type="button">儲存排程</button>
         <button class="adminBtn" id="closeChatNowBtn" type="button">立即關閉留言</button>
         <button class="adminBtn" id="openChatNowBtn" type="button">立即開放留言</button>
@@ -430,7 +435,7 @@ font-family:Georgia,serif;
       <div class="adminBannedList" id="adminBannedList"><span class="small">管理員登入後可查看黑名單並解除限制。</span></div>
     </div>
     <div class="kickedNotice" id="kickedNotice" hidden>你已被管理員限制發言，暫時無法留言或按讚。</div>
-    <div class="commentClosedNotice" id="commentClosedNotice" hidden>留言功能目前暫時關閉。</div>
+    <div class="commentClosedNotice" id="commentClosedNotice" hidden>🔴 留言功能目前暫停開放。</div>
     <div class="chatMessages" id="chatMessages"></div>
     <form class="chatForm" id="chatForm">
       <input class="chatInput" id="chatName" maxlength="18" placeholder="你的名字" autocomplete="name">
@@ -438,7 +443,7 @@ font-family:Georgia,serif;
       <button class="chatSend" type="submit">送出</button>
     </form>
     <div class="chatTools">
-      <span>提示：一般訪客可留言與按讚；管理員登入後可修改公告、刪除留言、踢出訪客、加入或取消黑名單。</span>
+      <span>提示：一般訪客可留言與按讚；管理員登入後可修改公告、刪除留言、管理黑名單，並可用年曆與 24 小時制設定留言開放時間。</span>
       <button class="chatClear" id="chatClear" type="button">清除本機留言</button>
     </div>
   </div>
@@ -580,13 +585,17 @@ const firebaseConfig = {
   const announcementInput=document.getElementById('adminAnnouncementInput');
   const saveAnnouncementBtn=document.getElementById('saveAnnouncementBtn');
   const commentClosedNotice=document.getElementById('commentClosedNotice');
-  const chatOpenStatus=document.getElementById('chatOpenStatus');
   const chatControlAdminStatus=document.getElementById('chatControlAdminStatus');
-  const chatCloseAtInput=document.getElementById('chatCloseAtInput');
-  const chatOpenAtInput=document.getElementById('chatOpenAtInput');
+  const chatCloseDateInput=document.getElementById('chatCloseDateInput');
+  const chatCloseTimeInput=document.getElementById('chatCloseTimeInput');
+  const chatOpenDateInput=document.getElementById('chatOpenDateInput');
+  const chatOpenTimeInput=document.getElementById('chatOpenTimeInput');
   const saveChatScheduleBtn=document.getElementById('saveChatScheduleBtn');
   const closeChatNowBtn=document.getElementById('closeChatNowBtn');
   const openChatNowBtn=document.getElementById('openChatNowBtn');
+  const close1hBtn=document.getElementById('close1hBtn');
+  const close24hBtn=document.getElementById('close24hBtn');
+  const close7dBtn=document.getElementById('close7dBtn');
   let isAdmin=false;
   let latestMessages=[];
   let latestOnlineDocs=[];
@@ -665,17 +674,27 @@ const firebaseConfig = {
     const t = new Date(value).getTime();
     return Number.isFinite(t) ? t : null;
   }
-  function toDateTimeLocal(value){
+  function dateTimeParts(value){
     const ms=toMillis(value);
-    if(!ms) return '';
+    if(!ms) return {date:'', time:''};
     const d=new Date(ms);
     const pad=n=>String(n).padStart(2,'0');
-    return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}`;
+    return {date:`${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`, time:`${pad(d.getHours())}:${pad(d.getMinutes())}`};
   }
-  function fromDateTimeLocal(value){
-    if(!value) return null;
-    const t=new Date(value).getTime();
+  function fromDateAndTime(dateValue, timeValue){
+    if(!dateValue || !timeValue) return null;
+    const t=new Date(`${dateValue}T${timeValue}`).getTime();
     return Number.isFinite(t) ? new Date(t) : null;
+  }
+  function fillDateTimeInputs(prefix, value){
+    const parts=dateTimeParts(value);
+    if(prefix==='close'){
+      if(chatCloseDateInput && document.activeElement !== chatCloseDateInput) chatCloseDateInput.value=parts.date;
+      if(chatCloseTimeInput && document.activeElement !== chatCloseTimeInput) chatCloseTimeInput.value=parts.time;
+    }else{
+      if(chatOpenDateInput && document.activeElement !== chatOpenDateInput) chatOpenDateInput.value=parts.date;
+      if(chatOpenTimeInput && document.activeElement !== chatOpenTimeInput) chatOpenTimeInput.value=parts.time;
+    }
   }
   function isChatClosedNow(data){
     if(!data || !data.disabled) return false;
@@ -690,7 +709,7 @@ const firebaseConfig = {
     const closeAt=toMillis(chatControl.closeAt);
     const openAt=toMillis(chatControl.openAt);
     if(chatClosed){
-      return openAt ? `留言目前關閉，預計 ${timeLabel(openAt)} 重新開放。` : '留言目前關閉，開放時間未設定。';
+      return openAt ? `留言功能目前暫停開放\n預計開放時間：${timeLabel(openAt)}` : '留言功能目前暫停開放\n請等待管理員公告。';
     }
     if(chatControl.disabled && closeAt && Date.now() < closeAt){
       return `留言目前開放，將於 ${timeLabel(closeAt)} 關閉。`;
@@ -702,18 +721,11 @@ const firebaseConfig = {
     const text = chatControlText();
     if(commentClosedNotice){
       commentClosedNotice.hidden = !chatClosed;
-      commentClosedNotice.textContent = (chatClosed && isAdmin) ? text + '（管理員仍可留言）' : text;
+      commentClosedNotice.textContent = (chatClosed && isAdmin) ? `🔴 ${text}\n（管理員仍可留言）` : `🔴 ${text}`;
     }
-    if(chatOpenStatus){
-      const scheduled = !chatClosed && !!(chatControl.disabled && toMillis(chatControl.closeAt) && Date.now() < toMillis(chatControl.closeAt));
-      chatOpenStatus.textContent = `💬 留言狀態：${text}${(chatClosed && isAdmin) ? '（管理員可留言）' : ''}`;
-      chatOpenStatus.classList.toggle('closed', chatClosed);
-      chatOpenStatus.classList.toggle('scheduled', scheduled);
-      chatOpenStatus.classList.toggle('open', !chatClosed && !scheduled);
-    }
-    if(chatControlAdminStatus) chatControlAdminStatus.textContent = `目前留言狀態：${text}`;
-    if(chatCloseAtInput && document.activeElement !== chatCloseAtInput) chatCloseAtInput.value = toDateTimeLocal(chatControl.closeAt);
-    if(chatOpenAtInput && document.activeElement !== chatOpenAtInput) chatOpenAtInput.value = toDateTimeLocal(chatControl.openAt);
+    if(chatControlAdminStatus) chatControlAdminStatus.textContent = `目前留言狀態：${text.replace(/\n/g,' ')}`;
+    fillDateTimeInputs('close', chatControl.closeAt);
+    fillDateTimeInputs('open', chatControl.openAt);
     updateRestrictionNotice();
   }
   function updateRestrictionNotice(){
@@ -723,7 +735,15 @@ const firebaseConfig = {
       kickedNotice.textContent = isBanned ? '你已被管理員列入黑名單，暫時無法留言或按讚。' : '你已被管理員踢出本次聊天室，重新整理後可再嘗試加入。';
     }
     const shouldDisable = isKicked || (chatClosed && !isAdmin);
-    if(form) form.querySelectorAll('input,textarea,button').forEach(el=>{ el.disabled = shouldDisable; });
+    if(form) form.classList.toggle('adminMode', isAdmin);
+    if(nameInput){
+      nameInput.style.display = isAdmin ? 'none' : '';
+      if(isAdmin) nameInput.value='管理員';
+      nameInput.disabled = shouldDisable;
+    }
+    if(textInput) textInput.disabled = shouldDisable;
+    const sendBtn=form ? form.querySelector('.chatSend') : null;
+    if(sendBtn) sendBtn.disabled = shouldDisable;
     if(isKicked){
       renderMessages([{id:'kicked', name:'系統', text:(isBanned ? '你已被管理員列入黑名單，暫時無法留言或按讚。' : '你已被管理員踢出本次聊天室，重新整理後可再嘗試加入。'), time:new Date().toISOString(), system:true, likedBy:[]}]);
     }
@@ -740,7 +760,8 @@ const firebaseConfig = {
       const likeHTML=m.system ? '' : `<div class="chatActions">${likeBtn}${deleteBtn}</div>`;
       const adminClass=m.adminMessage ? 'adminMsg' : (m.system ? '' : 'me');
       const adminBadge=m.adminMessage ? '<span class="adminShield">🛡 管理員</span>' : '';
-      return `<div class="chatMsg ${adminClass}"><span class="chatMeta">${adminBadge}${escapeHTML(m.name||'訪客')}<span class="chatTime">${timeLabel(m.createdAt || m.time)}</span></span>${escapeHTML(m.text||'')}${likeHTML}</div>`;
+      const displayName=m.adminMessage ? '' : escapeHTML(m.name||'訪客');
+      return `<div class="chatMsg ${adminClass}"><span class="chatMeta">${adminBadge}${displayName}<span class="chatTime">${timeLabel(m.createdAt || m.time)}</span></span>${escapeHTML(m.text||'')}${likeHTML}</div>`;
     }).join('');
     box.scrollTop=box.scrollHeight;
   }
@@ -775,6 +796,8 @@ const firebaseConfig = {
       renderMessages(latestMessages);
       renderOnlineAdminList();
       renderBannedAdminList();
+      updateRestrictionNotice();
+      updateChatControlUI();
     }
 
     onAuthStateChanged(auth, (user)=>{ refreshAdminUI(user); });
@@ -827,27 +850,41 @@ const firebaseConfig = {
     });
     setInterval(updateChatControlUI, 30000);
 
+    function getScheduleValues(){
+      const closeAt=fromDateAndTime(chatCloseDateInput && chatCloseDateInput.value, chatCloseTimeInput && chatCloseTimeInput.value);
+      const openAt=fromDateAndTime(chatOpenDateInput && chatOpenDateInput.value, chatOpenTimeInput && chatOpenTimeInput.value);
+      return {closeAt, openAt};
+    }
+    async function saveChatControl(closeAt, openAt, message){
+      await setDoc(chatControlRef, {disabled:true, closeAt, openAt, updatedAt:serverTimestamp(), updatedBy:(auth.currentUser && auth.currentUser.email) || adminEmail}, {merge:true});
+      chatControl={disabled:true, closeAt, openAt}; updateChatControlUI();
+      if(message) alert(message);
+    }
+    async function closeForHours(hours){
+      if(!isAdmin) return alert('只有管理員可以關閉留言。');
+      const closeAt=new Date();
+      const openAt=new Date(Date.now()+hours*60*60*1000);
+      await saveChatControl(closeAt, openAt, `留言已關閉 ${hours>=24 ? (hours/24)+' 天' : hours+' 小時'}。`);
+    }
     saveChatScheduleBtn && saveChatScheduleBtn.addEventListener('click', async ()=>{
       if(!isAdmin) return alert('只有管理員可以設定留言開放時間。');
-      const closeAt=fromDateTimeLocal(chatCloseAtInput && chatCloseAtInput.value);
-      const openAt=fromDateTimeLocal(chatOpenAtInput && chatOpenAtInput.value);
-      if(!closeAt && !openAt) return alert('請至少設定關閉開始時間或重新開放時間。');
-      if(closeAt && openAt && new Date(openAt).getTime() <= new Date(closeAt).getTime()) return alert('重新開放時間必須晚於關閉開始時間。');
-      await setDoc(chatControlRef, {disabled:true, closeAt, openAt, updatedAt:serverTimestamp(), updatedBy:auth.currentUser.email}, {merge:true});
-      chatControl={disabled:true, closeAt, openAt}; updateChatControlUI();
-      alert('留言開關排程已儲存。');
+      const {closeAt, openAt}=getScheduleValues();
+      if(!closeAt && !openAt) return alert('請至少設定關閉日期/時間或開放日期/時間。');
+      if(closeAt && openAt && openAt.getTime() <= closeAt.getTime()) return alert('重新開放時間必須晚於關閉開始時間。');
+      await saveChatControl(closeAt, openAt, '留言開關排程已儲存。');
     });
     closeChatNowBtn && closeChatNowBtn.addEventListener('click', async ()=>{
       if(!isAdmin) return alert('只有管理員可以關閉留言。');
-      const openAt=fromDateTimeLocal(chatOpenAtInput && chatOpenAtInput.value);
+      const {openAt}=getScheduleValues();
       const closeAt=new Date();
-      await setDoc(chatControlRef, {disabled:true, closeAt, openAt, updatedAt:serverTimestamp(), updatedBy:auth.currentUser.email}, {merge:true});
-      chatControl={disabled:true, closeAt, openAt}; updateChatControlUI();
-      alert(openAt ? '留言已立即關閉，並會依設定時間重新開放。' : '留言已立即關閉。');
+      await saveChatControl(closeAt, openAt, openAt ? '留言已立即關閉，並會依設定時間重新開放。' : '留言已立即關閉。');
     });
+    close1hBtn && close1hBtn.addEventListener('click', ()=>closeForHours(1));
+    close24hBtn && close24hBtn.addEventListener('click', ()=>closeForHours(24));
+    close7dBtn && close7dBtn.addEventListener('click', ()=>closeForHours(168));
     openChatNowBtn && openChatNowBtn.addEventListener('click', async ()=>{
       if(!isAdmin) return alert('只有管理員可以開放留言。');
-      await setDoc(chatControlRef, {disabled:false, closeAt:null, openAt:null, updatedAt:serverTimestamp(), updatedBy:auth.currentUser.email}, {merge:true});
+      await setDoc(chatControlRef, {disabled:false, closeAt:null, openAt:null, updatedAt:serverTimestamp(), updatedBy:(auth.currentUser && auth.currentUser.email) || adminEmail}, {merge:true});
       chatControl={disabled:false, closeAt:null, openAt:null}; updateChatControlUI();
       alert('留言已重新開放。');
     });
