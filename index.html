@@ -313,10 +313,11 @@ font-family:Georgia,serif;
 .adminAnnouncementInput{width:100%;min-height:74px;border:1px solid var(--line);border-radius:14px;background:rgba(255,255,255,.07);color:var(--text);padding:12px 14px;font-family:inherit;font-size:14px;resize:vertical;outline:none}
 .adminAnnouncementInput:focus{border-color:var(--gold)}
 .adminPanelActions{display:flex;gap:8px;justify-content:flex-end;margin-top:8px;flex-wrap:wrap}
-.adminOnlineList{display:grid;gap:8px;margin-top:10px}.adminOnlineItem{display:flex;align-items:center;justify-content:space-between;gap:10px;border:1px solid var(--line);border-radius:14px;padding:8px 10px;background:rgba(0,0,0,.12);color:var(--muted);font-size:13px}.adminOnlineItem b{color:var(--gold2)}.kickedNotice{margin:12px 0;border:1px solid rgba(255,120,120,.38);border-radius:16px;padding:12px;background:rgba(255,90,90,.10);color:#ffd1d1;font-weight:900}.kickedNotice[hidden]{display:none!important}
-.adminBtn,.deleteBtn,.kickBtn{cursor:pointer;border:1px solid rgba(217,181,109,.28);border-radius:999px;background:rgba(255,255,255,.07);color:#f6df9f;padding:7px 12px;font-weight:900;font-size:12px}
-.adminBtn:hover,.deleteBtn:hover,.kickBtn:hover{background:linear-gradient(135deg,var(--gold2),var(--gold));color:#15110a;border-color:transparent}
-.deleteBtn,.kickBtn{color:#ffd1d1;border-color:rgba(255,120,120,.3)}
+.adminScheduleGrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:8px}.adminScheduleGrid label{display:grid;gap:5px;color:var(--muted);font-size:13px}.adminDateInput{width:100%;border:1px solid var(--line);border-radius:14px;background:rgba(255,255,255,.07);color:var(--text);padding:10px 12px;font-family:inherit;outline:none}.adminDateInput:focus{border-color:var(--gold)}.commentClosedNotice{margin:12px 0;border:1px solid rgba(217,181,109,.35);border-radius:16px;padding:12px;background:rgba(217,181,109,.10);color:#f5e6bd;font-weight:900}.commentClosedNotice[hidden]{display:none!important}
+.adminOnlineList,.adminBannedList{display:grid;gap:8px;margin-top:10px}.adminOnlineItem,.adminBannedItem{display:flex;align-items:center;justify-content:space-between;gap:10px;border:1px solid var(--line);border-radius:14px;padding:8px 10px;background:rgba(0,0,0,.12);color:var(--muted);font-size:13px}.adminOnlineItem b,.adminBannedItem b{color:var(--gold2)}.kickedNotice{margin:12px 0;border:1px solid rgba(255,120,120,.38);border-radius:16px;padding:12px;background:rgba(255,90,90,.10);color:#ffd1d1;font-weight:900}.kickedNotice[hidden]{display:none!important}
+.adminBtn,.deleteBtn,.kickBtn,.banBtn,.unbanBtn{cursor:pointer;border:1px solid rgba(217,181,109,.28);border-radius:999px;background:rgba(255,255,255,.07);color:#f6df9f;padding:7px 12px;font-weight:900;font-size:12px}
+.adminBtn:hover,.deleteBtn:hover,.kickBtn:hover,.banBtn:hover,.unbanBtn:hover{background:linear-gradient(135deg,var(--gold2),var(--gold));color:#15110a;border-color:transparent}
+.deleteBtn,.kickBtn,.banBtn,.unbanBtn{color:#ffd1d1;border-color:rgba(255,120,120,.3)}
 
 .chatStats{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:0 0 12px;color:var(--muted);font-size:13px}
 .chatStatPill{border:1px solid rgba(217,181,109,.28);border-radius:999px;padding:7px 11px;background:rgba(255,255,255,.055);color:#f5e6bd;font-weight:800}
@@ -325,6 +326,7 @@ font-family:Georgia,serif;
 .adminShield{display:inline-block;margin-right:4px;color:#ffe0a3;font-weight:900}
 
 @media(max-width:760px){
+  .adminScheduleGrid{grid-template-columns:1fr}
   .chatHead{align-items:flex-start;flex-direction:column}
   .chatForm{grid-template-columns:1fr}
   .chatSend{padding:12px 18px}
@@ -403,10 +405,24 @@ font-family:Georgia,serif;
       <div class="adminPanelTitle">🛠 管理員功能</div>
       <textarea class="adminAnnouncementInput" id="adminAnnouncementInput" maxlength="300" placeholder="輸入新的公告內容……"></textarea>
       <div class="adminPanelActions"><button class="adminBtn" id="saveAnnouncementBtn" type="button">儲存公告</button></div>
+      <div class="adminPanelTitle" style="margin-top:12px">⏰ 留言開放時間管理</div>
+      <div class="small" id="chatControlAdminStatus">目前留言狀態：讀取中……</div>
+      <div class="adminScheduleGrid">
+        <label>關閉開始時間<input class="adminDateInput" id="chatCloseAtInput" type="datetime-local"></label>
+        <label>重新開放時間<input class="adminDateInput" id="chatOpenAtInput" type="datetime-local"></label>
+      </div>
+      <div class="adminPanelActions">
+        <button class="adminBtn" id="saveChatScheduleBtn" type="button">儲存排程</button>
+        <button class="adminBtn" id="closeChatNowBtn" type="button">立即關閉留言</button>
+        <button class="adminBtn" id="openChatNowBtn" type="button">立即開放留言</button>
+      </div>
       <div class="adminPanelTitle" style="margin-top:12px">👥 在線訪客管理</div>
-      <div class="adminOnlineList" id="adminOnlineList"><span class="small">管理員登入後可查看目前在線訪客並踢出。</span></div>
+      <div class="adminOnlineList" id="adminOnlineList"><span class="small">管理員登入後可查看目前在線訪客，並選擇「踢出」或「加入黑名單」。</span></div>
+      <div class="adminPanelTitle" style="margin-top:12px">🚫 黑名單管理</div>
+      <div class="adminBannedList" id="adminBannedList"><span class="small">管理員登入後可查看黑名單並解除限制。</span></div>
     </div>
     <div class="kickedNotice" id="kickedNotice" hidden>你已被管理員限制發言，暫時無法留言或按讚。</div>
+    <div class="commentClosedNotice" id="commentClosedNotice" hidden>留言功能目前暫時關閉。</div>
     <div class="chatMessages" id="chatMessages"></div>
     <form class="chatForm" id="chatForm">
       <input class="chatInput" id="chatName" maxlength="18" placeholder="你的名字" autocomplete="name">
@@ -414,7 +430,7 @@ font-family:Georgia,serif;
       <button class="chatSend" type="submit">送出</button>
     </form>
     <div class="chatTools">
-      <span>提示：一般訪客可留言與按讚；管理員登入後可修改公告、刪除留言與踢出訪客。</span>
+      <span>提示：一般訪客可留言與按讚；管理員登入後可修改公告、刪除留言、踢出訪客、加入或取消黑名單。</span>
       <button class="chatClear" id="chatClear" type="button">清除本機留言</button>
     </div>
   </div>
@@ -509,7 +525,7 @@ document.addEventListener('click', async function(e){
   4. Firestore Database 建立資料庫
      - 聊天集合：chatMessages
      - 在線集合：onlineUsers
-  5. 本版功能：雲端留言、在線人數、留言時間、訪客名稱、按讚、置頂公告、名稱保護、管理員踢人
+  5. 本版功能：雲端留言、在線人數、留言時間、訪客名稱、按讚、置頂公告、名稱保護、管理員踢人、黑名單管理、留言開關排程
      ※ 禁止洗版功能尚未加入，可日後再加。
 */
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
@@ -550,14 +566,27 @@ const firebaseConfig = {
   const adminStatus=document.getElementById('adminStatus');
   const adminPanel=document.getElementById('adminPanel');
   const adminOnlineList=document.getElementById('adminOnlineList');
+  const adminBannedList=document.getElementById('adminBannedList');
   const kickedNotice=document.getElementById('kickedNotice');
   const announcementText=document.getElementById('pinnedNoticeText');
   const announcementInput=document.getElementById('adminAnnouncementInput');
   const saveAnnouncementBtn=document.getElementById('saveAnnouncementBtn');
+  const commentClosedNotice=document.getElementById('commentClosedNotice');
+  const chatControlAdminStatus=document.getElementById('chatControlAdminStatus');
+  const chatCloseAtInput=document.getElementById('chatCloseAtInput');
+  const chatOpenAtInput=document.getElementById('chatOpenAtInput');
+  const saveChatScheduleBtn=document.getElementById('saveChatScheduleBtn');
+  const closeChatNowBtn=document.getElementById('closeChatNowBtn');
+  const openChatNowBtn=document.getElementById('openChatNowBtn');
   let isAdmin=false;
   let latestMessages=[];
   let latestOnlineDocs=[];
   let isKicked=false;
+  let isBanned=false;
+  let isTempKicked=false;
+  let latestBannedDocs=[];
+  let chatControl={disabled:false, closeAt:null, openAt:null};
+  let chatClosed=false;
   const reservedNames=['管理員','admin','系統','版主','站長'];
   if(!box||!form) return;
 
@@ -600,14 +629,87 @@ const firebaseConfig = {
   }
   function renderOnlineAdminList(){
     if(!adminOnlineList) return;
-    if(!isAdmin){ adminOnlineList.innerHTML='<span class="small">管理員登入後可查看目前在線訪客並踢出。</span>'; return; }
+    if(!isAdmin){ adminOnlineList.innerHTML='<span class="small">管理員登入後可查看目前在線訪客，並選擇「踢出」或「加入黑名單」。</span>'; return; }
     const now=Date.now();
-    const list=latestOnlineDocs.filter(item=>{
+    const seen=new Map();
+    latestOnlineDocs.forEach(item=>{
       const t=item.lastSeen && item.lastSeen.toDate ? item.lastSeen.toDate().getTime() : 0;
-      return now-t < 70000 && item.visitorId !== visitorId;
+      if(now-t < 70000 && item.visitorId && item.visitorId !== visitorId && !item.kicked){
+        seen.set(item.visitorId, item);
+      }
     });
+    const list=[...seen.values()];
     if(!list.length){ adminOnlineList.innerHTML='<span class="small">目前沒有其他在線訪客。</span>'; return; }
-    adminOnlineList.innerHTML=list.map(item=>`<div class="adminOnlineItem"><span><b>${escapeHTML(item.name||'訪客')}</b><br><small>${escapeHTML(item.visitorId||item.id||'')}</small></span><button class="kickBtn" data-visitor="${escapeHTML(item.visitorId||'')}" data-name="${escapeHTML(item.name||'訪客')}">踢出</button></div>`).join('');
+    adminOnlineList.innerHTML=list.map(item=>`<div class="adminOnlineItem"><span><b>${escapeHTML(item.name||'訪客')}</b><br><small>${escapeHTML(item.visitorId||item.id||'')}</small></span><span style="display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end"><button class="kickBtn" data-visitor="${escapeHTML(item.visitorId||'')}" data-name="${escapeHTML(item.name||'訪客')}">踢出</button><button class="banBtn" data-visitor="${escapeHTML(item.visitorId||'')}" data-name="${escapeHTML(item.name||'訪客')}">加入黑名單</button></span></div>`).join('');
+  }
+  function renderBannedAdminList(){
+    if(!adminBannedList) return;
+    if(!isAdmin){ adminBannedList.innerHTML='<span class="small">管理員登入後可查看黑名單並解除限制。</span>'; return; }
+    const list=latestBannedDocs.filter(item=>item.visitorId);
+    if(!list.length){ adminBannedList.innerHTML='<span class="small">目前沒有黑名單使用者。</span>'; return; }
+    adminBannedList.innerHTML=list.map(item=>`<div class="adminBannedItem"><span><b>${escapeHTML(item.name||'訪客')}</b><br><small>${escapeHTML(item.visitorId||item.id||'')}</small></span><button class="unbanBtn" data-visitor="${escapeHTML(item.visitorId||item.id||'')}" data-name="${escapeHTML(item.name||'訪客')}">取消黑名單</button></div>`).join('');
+  }
+  function toMillis(value){
+    if(!value) return null;
+    if(value.toDate) return value.toDate().getTime();
+    if(typeof value === 'number') return value;
+    const t = new Date(value).getTime();
+    return Number.isFinite(t) ? t : null;
+  }
+  function toDateTimeLocal(value){
+    const ms=toMillis(value);
+    if(!ms) return '';
+    const d=new Date(ms);
+    const pad=n=>String(n).padStart(2,'0');
+    return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}`;
+  }
+  function fromDateTimeLocal(value){
+    if(!value) return null;
+    const t=new Date(value).getTime();
+    return Number.isFinite(t) ? new Date(t).toISOString() : null;
+  }
+  function isChatClosedNow(data){
+    if(!data || !data.disabled) return false;
+    const now=Date.now();
+    const closeAt=toMillis(data.closeAt);
+    const openAt=toMillis(data.openAt);
+    if(closeAt && now < closeAt) return false;
+    if(openAt && now >= openAt) return false;
+    return true;
+  }
+  function chatControlText(){
+    const closeAt=toMillis(chatControl.closeAt);
+    const openAt=toMillis(chatControl.openAt);
+    if(chatClosed){
+      return openAt ? `留言目前關閉，預計 ${timeLabel(openAt)} 重新開放。` : '留言目前關閉，開放時間未設定。';
+    }
+    if(chatControl.disabled && closeAt && Date.now() < closeAt){
+      return `留言目前開放，將於 ${timeLabel(closeAt)} 關閉。`;
+    }
+    return '留言目前開放。';
+  }
+  function updateChatControlUI(){
+    chatClosed = isChatClosedNow(chatControl);
+    if(commentClosedNotice){
+      commentClosedNotice.hidden = !chatClosed;
+      commentClosedNotice.textContent = chatControlText();
+    }
+    if(chatControlAdminStatus) chatControlAdminStatus.textContent = `目前留言狀態：${chatControlText()}`;
+    if(chatCloseAtInput && document.activeElement !== chatCloseAtInput) chatCloseAtInput.value = toDateTimeLocal(chatControl.closeAt);
+    if(chatOpenAtInput && document.activeElement !== chatOpenAtInput) chatOpenAtInput.value = toDateTimeLocal(chatControl.openAt);
+    updateRestrictionNotice();
+  }
+  function updateRestrictionNotice(){
+    isKicked = !!(isBanned || isTempKicked);
+    if(kickedNotice){
+      kickedNotice.hidden = !isKicked;
+      kickedNotice.textContent = isBanned ? '你已被管理員列入黑名單，暫時無法留言或按讚。' : '你已被管理員踢出本次聊天室，重新整理後可再嘗試加入。';
+    }
+    const shouldDisable = isKicked || chatClosed;
+    if(form) form.querySelectorAll('input,textarea,button').forEach(el=>{ el.disabled = shouldDisable; });
+    if(isKicked){
+      renderMessages([{id:'kicked', name:'系統', text:(isBanned ? '你已被管理員列入黑名單，暫時無法留言或按讚。' : '你已被管理員踢出本次聊天室，重新整理後可再嘗試加入。'), time:new Date().toISOString(), system:true, likedBy:[]}]);
+    }
   }
   function renderMessages(messages){
     latestMessages = messages || [];
@@ -640,11 +742,12 @@ const firebaseConfig = {
     const onlineRef = collection(db, onlineCollectionName);
     const myOnlineRef = doc(db, onlineCollectionName, sessionId);
     const announcementRef = doc(db, 'announcements', 'main');
+    const chatControlRef = doc(db, 'chatSettings', 'commentControl');
     const bannedUsersRef = collection(db, 'bannedUsers');
     const myBanRef = doc(db, 'bannedUsers', visitorId);
     const chatQuery = query(chatRef, orderBy('createdAt','asc'), limit(80));
     if(toolsText) toolsText.textContent = '雲端聊天室已啟用：所有訪客都能同步看到留言、在線人數與按讚。';
-    if(clearBtn){ clearBtn.textContent = '清除全部留言'; clearBtn.style.display='none'; }
+    if(clearBtn){ clearBtn.textContent = '清空聊天室'; clearBtn.style.display='none'; }
 
     function refreshAdminUI(user){
       isAdmin = !!(user && user.email && user.email.toLowerCase() === adminEmail);
@@ -654,6 +757,7 @@ const firebaseConfig = {
       if(adminStatus) adminStatus.textContent = isAdmin ? `管理員模式：${user.email}` : '一般訪客模式';
       renderMessages(latestMessages);
       renderOnlineAdminList();
+      renderBannedAdminList();
     }
 
     onAuthStateChanged(auth, (user)=>{ refreshAdminUI(user); });
@@ -680,18 +784,51 @@ const firebaseConfig = {
 
 
     onSnapshot(myBanRef, (snap)=>{
-      isKicked = snap.exists();
-      if(kickedNotice) kickedNotice.hidden = !isKicked;
-      if(form) form.querySelectorAll('input,textarea,button').forEach(el=>{ el.disabled = isKicked; });
-      if(isKicked){
-        renderMessages([{id:'kicked', name:'系統', text:'你已被管理員限制發言，暫時無法留言或按讚。', time:new Date().toISOString(), system:true, likedBy:[]}]);
-      }
+      isBanned = snap.exists();
+      updateRestrictionNotice();
+    });
+
+    onSnapshot(myOnlineRef, (snap)=>{
+      isTempKicked = !!(snap.exists() && snap.data().kicked);
+      updateRestrictionNotice();
+    });
+
+    onSnapshot(bannedUsersRef, (snapshot)=>{
+      latestBannedDocs = snapshot.docs.map(d=>({id:d.id,...d.data()}));
+      renderBannedAdminList();
     });
 
     onSnapshot(announcementRef, (snap)=>{
       const text = snap.exists() && snap.data().text ? snap.data().text : '歡迎留下觀課心得與詠春交流問題，請保持尊重與友善。';
       if(announcementText) announcementText.textContent = text;
       if(announcementInput && !announcementInput.value) announcementInput.value = text;
+    });
+
+    onSnapshot(chatControlRef, (snap)=>{
+      chatControl = snap.exists() ? {disabled:false, closeAt:null, openAt:null, ...snap.data()} : {disabled:false, closeAt:null, openAt:null};
+      updateChatControlUI();
+    });
+    setInterval(updateChatControlUI, 30000);
+
+    saveChatScheduleBtn && saveChatScheduleBtn.addEventListener('click', async ()=>{
+      if(!isAdmin) return alert('只有管理員可以設定留言開放時間。');
+      const closeAt=fromDateTimeLocal(chatCloseAtInput && chatCloseAtInput.value);
+      const openAt=fromDateTimeLocal(chatOpenAtInput && chatOpenAtInput.value);
+      if(!closeAt && !openAt) return alert('請至少設定關閉開始時間或重新開放時間。');
+      if(closeAt && openAt && new Date(openAt).getTime() <= new Date(closeAt).getTime()) return alert('重新開放時間必須晚於關閉開始時間。');
+      await setDoc(chatControlRef, {disabled:true, closeAt, openAt, updatedAt:serverTimestamp(), updatedBy:auth.currentUser.email}, {merge:true});
+      alert('留言開關排程已儲存。');
+    });
+    closeChatNowBtn && closeChatNowBtn.addEventListener('click', async ()=>{
+      if(!isAdmin) return alert('只有管理員可以關閉留言。');
+      const openAt=fromDateTimeLocal(chatOpenAtInput && chatOpenAtInput.value);
+      await setDoc(chatControlRef, {disabled:true, closeAt:new Date().toISOString(), openAt, updatedAt:serverTimestamp(), updatedBy:auth.currentUser.email}, {merge:true});
+      alert(openAt ? '留言已立即關閉，並會依設定時間重新開放。' : '留言已立即關閉。');
+    });
+    openChatNowBtn && openChatNowBtn.addEventListener('click', async ()=>{
+      if(!isAdmin) return alert('只有管理員可以開放留言。');
+      await setDoc(chatControlRef, {disabled:false, closeAt:null, openAt:null, updatedAt:serverTimestamp(), updatedBy:auth.currentUser.email}, {merge:true});
+      alert('留言已重新開放。');
     });
 
     saveAnnouncementBtn && saveAnnouncementBtn.addEventListener('click', async ()=>{
@@ -739,6 +876,7 @@ const firebaseConfig = {
     form.addEventListener('submit', async function(e){
       e.preventDefault();
       if(isKicked) return alert('你已被管理員限制發言，暫時無法留言。');
+      if(chatClosed) return alert(chatControlText());
       const name=validateName(nameInput.value||'訪客');
       const text=(textInput.value||'').trim().slice(0,300);
       if(!name){ alert('這個名稱不可使用，請換一個暱稱。'); nameInput.focus(); return; }
@@ -755,6 +893,7 @@ const firebaseConfig = {
       const deleteBtn=e.target.closest('.deleteBtn');
       if(likeBtn && likeBtn.dataset.id){
         if(isKicked) return alert('你已被管理員請出聊天室，暫時無法按讚。');
+        if(chatClosed) return alert(chatControlText());
         likeBtn.disabled=true;
         try{ await authReady; await updateDoc(doc(db, collectionName, likeBtn.dataset.id), {likedBy: arrayUnion(visitorId)}); }
         catch(err){ console.error(err); }
@@ -772,19 +911,49 @@ const firebaseConfig = {
     });
 
 
+    async function markVisitorKicked(targetVisitorId){
+      const targets=latestOnlineDocs.filter(item=>item.visitorId===targetVisitorId);
+      await Promise.all(targets.map(item=>updateDoc(doc(db, onlineCollectionName, item.id), {kicked:true, kickedAt:serverTimestamp(), kickedBy:auth.currentUser.email || adminEmail}).catch(()=>{})));
+    }
+
     adminOnlineList && adminOnlineList.addEventListener('click', async function(e){
-      const btn=e.target.closest('.kickBtn');
+      const kickBtn=e.target.closest('.kickBtn');
+      const banBtn=e.target.closest('.banBtn');
+      const btn=kickBtn || banBtn;
       if(!btn || !btn.dataset.visitor) return;
-      if(!isAdmin) return alert('只有管理員可以踢出訪客。');
+      if(!isAdmin) return alert('只有管理員可以管理訪客。');
       const targetName=btn.dataset.name || '訪客';
-      if(!confirm(`確定要將「${targetName}」加入黑名單並限制發言嗎？`)) return;
       btn.disabled=true;
       try{
-        await setDoc(doc(db, 'bannedUsers', btn.dataset.visitor), {visitorId:btn.dataset.visitor, name:targetName, kickedBy:auth.currentUser.email, createdAt:serverTimestamp()}, {merge:true});
-        alert('已將該訪客加入黑名單並限制發言。');
+        if(kickBtn){
+          if(!confirm(`確定要將「${targetName}」踢出本次聊天室嗎？\n\n這不會加入黑名單，對方重新整理後可再次嘗試加入。`)) return;
+          await markVisitorKicked(btn.dataset.visitor);
+          alert('已踢出該訪客，但未加入黑名單。');
+        }else if(banBtn){
+          if(!confirm(`確定要將「${targetName}」加入黑名單並限制發言嗎？`)) return;
+          await setDoc(doc(db, 'bannedUsers', btn.dataset.visitor), {visitorId:btn.dataset.visitor, name:targetName, bannedBy:auth.currentUser.email, createdAt:serverTimestamp()}, {merge:true});
+          await markVisitorKicked(btn.dataset.visitor);
+          alert('已將該訪客加入黑名單並限制發言。');
+        }
       }catch(err){
         console.error(err);
-        alert('踢出失敗，請檢查 Firestore Rules 是否允許管理員寫入 bannedUsers。');
+        alert('操作失敗，請檢查 Firestore Rules 是否允許管理員寫入 onlineUsers / bannedUsers。');
+      }finally{ btn.disabled=false; }
+    });
+
+    adminBannedList && adminBannedList.addEventListener('click', async function(e){
+      const btn=e.target.closest('.unbanBtn');
+      if(!btn || !btn.dataset.visitor) return;
+      if(!isAdmin) return alert('只有管理員可以取消黑名單。');
+      const targetName=btn.dataset.name || '訪客';
+      if(!confirm(`確定要取消「${targetName}」的黑名單限制嗎？`)) return;
+      btn.disabled=true;
+      try{
+        await deleteDoc(doc(db, 'bannedUsers', btn.dataset.visitor));
+        alert('已取消黑名單。');
+      }catch(err){
+        console.error(err);
+        alert('取消黑名單失敗，請檢查 Firestore Rules。');
       }finally{ btn.disabled=false; }
     });
 
