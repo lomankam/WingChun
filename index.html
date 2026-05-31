@@ -204,6 +204,113 @@ font-family:Georgia,serif;
   line-height:1.4;
 }
 
+
+/* ===== Bottom Chat Room / 留言聊天室 ===== */
+.chatSection{
+  margin:34px 0 18px;
+  border:1px solid rgba(217,181,109,.26);
+  border-radius:26px;
+  overflow:hidden;
+  background:
+    radial-gradient(circle at 10% 0%,rgba(217,181,109,.18),transparent 34%),
+    linear-gradient(180deg,rgba(255,255,255,.07),rgba(255,255,255,.025));
+  box-shadow:0 16px 42px rgba(0,0,0,.28);
+}
+.chatHead{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:14px;
+  padding:18px 20px;
+  border-bottom:1px solid var(--line);
+  background:rgba(0,0,0,.16);
+}
+.chatHead h2{margin:0;font-size:25px;color:var(--gold2)}
+.chatHead p{margin:4px 0 0;color:var(--muted);line-height:1.55;font-size:14px}
+.chatBadge{
+  flex:0 0 auto;
+  border:1px solid rgba(217,181,109,.34);
+  border-radius:999px;
+  padding:8px 12px;
+  color:#f5dc9a;
+  background:rgba(217,181,109,.09);
+  font-weight:800;
+  font-size:13px;
+}
+.chatBox{padding:18px 20px 20px}
+.chatMessages{
+  height:260px;
+  overflow:auto;
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+  padding:14px;
+  border:1px solid var(--line);
+  border-radius:18px;
+  background:rgba(0,0,0,.18);
+}
+.chatMsg{
+  max-width:84%;
+  padding:11px 13px;
+  border:1px solid rgba(255,255,255,.1);
+  border-radius:16px 16px 16px 6px;
+  background:rgba(255,255,255,.07);
+  line-height:1.65;
+  color:var(--text);
+  word-break:break-word;
+}
+.chatMsg.me{
+  align-self:flex-end;
+  border-radius:16px 16px 6px 16px;
+  background:linear-gradient(135deg,rgba(217,181,109,.26),rgba(119,183,255,.10));
+  border-color:rgba(217,181,109,.3);
+}
+.chatMeta{display:block;margin-bottom:3px;color:var(--gold2);font-weight:800;font-size:12px;letter-spacing:.04em}
+.chatTime{color:var(--muted);font-weight:500;margin-left:6px}
+.chatForm{
+  display:grid;
+  grid-template-columns:180px 1fr auto;
+  gap:10px;
+  margin-top:12px;
+}
+.chatInput,.chatText{
+  width:100%;
+  border:1px solid var(--line);
+  background:rgba(255,255,255,.07);
+  color:var(--text);
+  border-radius:14px;
+  padding:12px 14px;
+  font-size:15px;
+  outline:none;
+}
+.chatText{resize:none;min-height:48px;max-height:120px;font-family:inherit}
+.chatInput:focus,.chatText:focus{border-color:var(--gold)}
+.chatSend,.chatClear{
+  cursor:pointer;
+  border:0;
+  border-radius:14px;
+  padding:0 18px;
+  font-weight:900;
+  color:#15110a;
+  background:linear-gradient(135deg,var(--gold2),var(--gold),#9e7840);
+}
+.chatTools{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:10px;color:var(--muted);font-size:13px;line-height:1.55}
+.chatClear{background:rgba(255,255,255,.08);color:var(--muted);border:1px solid var(--line);padding:8px 12px}
+
+.chatStatusRow{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:12px;flex-wrap:wrap}
+.onlineBadge{display:inline-flex;align-items:center;gap:8px;border:1px solid rgba(76,217,100,.35);border-radius:999px;padding:8px 12px;background:rgba(76,217,100,.10);color:#d8ffe0;font-weight:900;font-size:14px}
+.onlineDot{width:9px;height:9px;border-radius:50%;background:#4cd964;box-shadow:0 0 12px rgba(76,217,100,.8)}
+.pinnedNotice{flex:1;min-width:240px;border:1px solid rgba(217,181,109,.28);border-radius:16px;padding:10px 12px;background:linear-gradient(135deg,rgba(217,181,109,.16),rgba(255,255,255,.045));color:#f5e6bd;line-height:1.6;font-size:14px}
+.chatActions{display:flex;align-items:center;justify-content:flex-end;margin-top:8px}
+.likeBtn{cursor:pointer;border:1px solid rgba(217,181,109,.28);border-radius:999px;background:rgba(255,255,255,.07);color:#f6df9f;padding:5px 10px;font-weight:900;font-size:12px}
+.likeBtn:hover,.likeBtn.liked{background:linear-gradient(135deg,var(--gold2),var(--gold));color:#15110a;border-color:transparent}
+@media(max-width:760px){
+  .chatHead{align-items:flex-start;flex-direction:column}
+  .chatForm{grid-template-columns:1fr}
+  .chatSend{padding:12px 18px}
+  .chatMsg{max-width:94%}
+}
+
 </style>
 </head>
 <body>
@@ -254,6 +361,34 @@ font-family:Georgia,serif;
 <div class="sectionTitle"><h2>全部課程</h2><span class="small" id="count"></span></div>
   <main class="grid" id="grid"></main>
   <div class="empty" id="empty">找不到符合條件的影片，請換一個關鍵字或分類。</div>
+
+
+<section class="chatSection" id="chatroom" aria-label="留言聊天室">
+  <div class="chatHead">
+    <div>
+      <h2>留言聊天室</h2>
+      <p>可以在這裡留下觀課心得、問題或回饋。已加入在線人數、訪客名稱、留言時間、按讚與管理員置頂公告。</p>
+    </div>
+    <div class="chatBadge">Wing Chun Chat</div>
+  </div>
+  <div class="chatBox">
+    <div class="chatStatusRow">
+      <div class="onlineBadge"><span class="onlineDot"></span>目前在線：<span id="onlineCount">1</span> 人</div>
+      <div class="pinnedNotice"><b>📌 管理員公告：</b>歡迎留下觀課心得與詠春交流問題，請保持尊重與友善。</div>
+    </div>
+    <div class="chatMessages" id="chatMessages"></div>
+    <form class="chatForm" id="chatForm">
+      <input class="chatInput" id="chatName" maxlength="18" placeholder="你的名字" autocomplete="name">
+      <textarea class="chatText" id="chatText" maxlength="300" placeholder="輸入留言……"></textarea>
+      <button class="chatSend" type="submit">送出</button>
+    </form>
+    <div class="chatTools">
+      <span>提示：若尚未填入 Firebase 設定，系統會暫時使用本機留言；填入後會自動改為雲端同步聊天室。</span>
+      <button class="chatClear" id="chatClear" type="button">清除本機留言</button>
+    </div>
+  </div>
+</section>
+
   <div class="footer">資料來源：使用者提供之 PDF 目錄整理；縮圖與播放連結來自 YouTube。</div>
 </div>
 <script>
@@ -305,6 +440,198 @@ function setLang(mode){
   applyLang();
 }
 </script>
+
+
+<script type="module">
+/*
+  Firebase Firestore 雲端聊天室設定說明：
+  1. 到 Firebase 建立專案
+  2. 建立 Web App，複製 firebaseConfig
+  3. 把下面 firebaseConfig 的內容換成你的設定
+  4. Firestore Database 建立資料庫
+     - 聊天集合：chatMessages
+     - 在線集合：onlineUsers
+  5. 本版功能：雲端留言、在線人數、留言時間、訪客名稱、按讚、置頂公告
+     ※ 禁止洗版功能尚未加入，可日後再加。
+*/
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
+import {
+  getFirestore, collection, addDoc, query, orderBy, limit,
+  serverTimestamp, onSnapshot, getDocs, deleteDoc,
+  doc, setDoc, updateDoc, arrayUnion
+} from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
+import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyDfyRZeA2T6ar6ebXIHhMIGo9_-5CrHEJY",
+  authDomain: "wing-chun-chat.firebaseapp.com",
+  projectId: "wing-chun-chat",
+  storageBucket: "wing-chun-chat.firebasestorage.app",
+  messagingSenderId: "76301547906",
+  appId: "1:76301547906:web:3319b99f885d3b0164379b"
+};
+
+(function(){
+  const key='lo-man-kam-chat-v2';
+  const collectionName='chatMessages';
+  const onlineCollectionName='onlineUsers';
+  const box=document.getElementById('chatMessages');
+  const form=document.getElementById('chatForm');
+  const nameInput=document.getElementById('chatName');
+  const textInput=document.getElementById('chatText');
+  const clearBtn=document.getElementById('chatClear');
+  const toolsText=document.querySelector('.chatTools span');
+  const onlineCountEl=document.getElementById('onlineCount');
+  if(!box||!form) return;
+
+  function getOrCreateId(storageKey){
+    let id=localStorage.getItem(storageKey);
+    if(!id){
+      id=(crypto.randomUUID ? crypto.randomUUID() : String(Date.now())+'-'+Math.random().toString(16).slice(2));
+      localStorage.setItem(storageKey,id);
+    }
+    return id;
+  }
+  const visitorId=getOrCreateId('lo-man-kam-visitor-id');
+  const sessionId=(crypto.randomUUID ? crypto.randomUUID() : String(Date.now())+'-'+Math.random().toString(16).slice(2));
+  nameInput.value = localStorage.getItem('lo-man-kam-chat-name') || '';
+  nameInput.addEventListener('change',()=>localStorage.setItem('lo-man-kam-chat-name', nameInput.value.trim().slice(0,18)));
+
+  const firebaseReady = !firebaseConfig.apiKey.includes('PASTE_') && !firebaseConfig.projectId.includes('PASTE_');
+  const defaultMessages=[
+    {id:'system', name:'系統', text: firebaseReady ? '雲端聊天室已啟用，歡迎留下觀課心得。' : '尚未填入 Firebase 設定，目前暫用本機留言。', time:new Date().toISOString(), system:true, likedBy:[]}
+  ];
+
+  function escapeHTML(str){
+    return String(str).replace(/[&<>'"]/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]));
+  }
+  function timeLabel(value){
+    try{
+      const d = value && value.toDate ? value.toDate() : new Date(value || Date.now());
+      return d.toLocaleString('zh-TW',{month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit'});
+    }catch(e){return '';}
+  }
+  function renderMessages(messages){
+    const list = messages.length ? messages : defaultMessages;
+    box.innerHTML=list.map(m=>{
+      const likedBy=Array.isArray(m.likedBy)?m.likedBy:[];
+      const liked=likedBy.includes(visitorId);
+      const likeCount=likedBy.length;
+      const likeHTML=m.system ? '' : `<div class="chatActions"><button class="likeBtn ${liked?'liked':''}" data-id="${escapeHTML(m.id||'')}">👍 ${likeCount}</button></div>`;
+      return `<div class="chatMsg ${m.system?'':'me'}"><span class="chatMeta">${escapeHTML(m.name||'訪客')}<span class="chatTime">${timeLabel(m.createdAt || m.time)}</span></span>${escapeHTML(m.text||'')}${likeHTML}</div>`;
+    }).join('');
+    box.scrollTop=box.scrollHeight;
+  }
+
+  if(firebaseReady){
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+    const auth = getAuth(app);
+    const authReady = signInAnonymously(auth).catch((error)=>{
+      console.error('anonymous auth failed', error);
+      renderMessages([{id:'auth-error', name:'系統', text:'Firebase 匿名登入失敗，請確認 Authentication 已啟用 Anonymous。', time:new Date().toISOString(), system:true, likedBy:[]}]);
+      throw error;
+    });
+    const chatRef = collection(db, collectionName);
+    const onlineRef = collection(db, onlineCollectionName);
+    const myOnlineRef = doc(db, onlineCollectionName, sessionId);
+    const chatQuery = query(chatRef, orderBy('createdAt','asc'), limit(80));
+    if(toolsText) toolsText.textContent = '雲端聊天室已啟用：所有訪客都能同步看到留言、在線人數與按讚。';
+    if(clearBtn) clearBtn.textContent = '清除雲端留言';
+
+    async function updatePresence(){
+      try{
+        await authReady;
+        await setDoc(myOnlineRef, {visitorId, sessionId, name:(nameInput.value||'訪客').trim().slice(0,18)||'訪客', lastSeen:serverTimestamp()}, {merge:true});
+      }catch(e){console.warn('presence update failed', e);}
+    }
+    updatePresence();
+    const presenceTimer=setInterval(updatePresence, 20000);
+    window.addEventListener('beforeunload',()=>{clearInterval(presenceTimer); deleteDoc(myOnlineRef).catch(()=>{});});
+    document.addEventListener('visibilitychange',()=>{ if(!document.hidden) updatePresence(); });
+
+    onSnapshot(onlineRef, (snapshot)=>{
+      const now=Date.now();
+      const activeVisitors=new Set();
+      snapshot.docs.forEach(d=>{
+        const data=d.data();
+        const t=data.lastSeen && data.lastSeen.toDate ? data.lastSeen.toDate().getTime() : 0;
+        if(now-t < 70000) activeVisitors.add(data.visitorId || d.id);
+      });
+      if(onlineCountEl) onlineCountEl.textContent=String(Math.max(activeVisitors.size,1));
+    });
+
+    onSnapshot(chatQuery, (snapshot)=>{
+      const messages = snapshot.docs.map(docSnap=>({id:docSnap.id,...docSnap.data()}));
+      renderMessages(messages);
+    }, (error)=>{
+      console.error(error);
+      renderMessages([{id:'error', name:'系統', text:'Firebase 連線失敗，請檢查設定或 Firestore 規則。', time:new Date().toISOString(), system:true, likedBy:[]}]);
+    });
+
+    form.addEventListener('submit', async function(e){
+      e.preventDefault();
+      const name=(nameInput.value||'訪客').trim().slice(0,18) || '訪客';
+      const text=(textInput.value||'').trim().slice(0,300);
+      if(!text) return;
+      localStorage.setItem('lo-man-kam-chat-name', name);
+      textInput.value='';
+      await authReady;
+      await addDoc(chatRef, {name, text, likedBy:[], createdAt:serverTimestamp()});
+      await updatePresence();
+    });
+
+    box.addEventListener('click', async function(e){
+      const btn=e.target.closest('.likeBtn');
+      if(!btn || !btn.dataset.id) return;
+      btn.disabled=true;
+      try{ await authReady; await updateDoc(doc(db, collectionName, btn.dataset.id), {likedBy: arrayUnion(visitorId)}); }
+      catch(err){ console.error(err); }
+      finally{ btn.disabled=false; }
+    });
+
+    clearBtn && clearBtn.addEventListener('click', async function(){
+      if(!confirm('確定要清除雲端聊天室留言嗎？所有訪客都會看不到。')) return;
+      await authReady;
+      const snap = await getDocs(chatRef);
+      await Promise.all(snap.docs.map(d=>deleteDoc(d.ref)));
+    });
+  }else{
+    if(onlineCountEl) onlineCountEl.textContent='1';
+    function load(){try{return JSON.parse(localStorage.getItem(key))||defaultMessages;}catch(e){return defaultMessages;}}
+    function save(messages){localStorage.setItem(key, JSON.stringify(messages.slice(-80)));}
+    function render(){renderMessages(load());}
+    form.addEventListener('submit', function(e){
+      e.preventDefault();
+      const name=(nameInput.value||'訪客').trim().slice(0,18) || '訪客';
+      const text=(textInput.value||'').trim().slice(0,300);
+      if(!text) return;
+      localStorage.setItem('lo-man-kam-chat-name', name);
+      const messages=load();
+      messages.push({id:String(Date.now()), name,text,time:new Date().toISOString(),likedBy:[]});
+      save(messages);
+      textInput.value='';
+      render();
+    });
+    box.addEventListener('click', function(e){
+      const btn=e.target.closest('.likeBtn');
+      if(!btn || !btn.dataset.id) return;
+      const messages=load();
+      const msg=messages.find(m=>String(m.id)===String(btn.dataset.id));
+      if(msg){msg.likedBy=Array.from(new Set([...(msg.likedBy||[]), visitorId])); save(messages); render();}
+    });
+    clearBtn && clearBtn.addEventListener('click', function(){
+      if(confirm('確定要清除這台裝置上的留言嗎？')){localStorage.removeItem(key);render();}
+    });
+    render();
+  }
+
+  textInput.addEventListener('keydown', function(e){
+    if(e.key==='Enter' && !e.shiftKey){e.preventDefault();form.requestSubmit();}
+  });
+})();
+</script>
+
 <script defer src="https://events.vercount.one/js"></script>
 </body>
 </html>
