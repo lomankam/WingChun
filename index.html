@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>盧文錦師父授課精華｜影片目錄 v20.4</title>
+<title>盧文錦師父授課精華｜影片目錄 v20.5</title>
 <script>if(new URLSearchParams(location.search).get('chat')==='1'){document.documentElement.classList.add('chat-only-mode');}</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -691,13 +691,15 @@ const firebaseConfig = {
   const AZHI_WORKER_URL = 'https://wingchun.lomankam-master.workers.dev';
   function shouldAskAzhi(text){
     const value = String(text || '').trim();
-    return value.includes('@阿智') || value.startsWith('阿智') || /(^|\s)@?AI([：:\s]|$)/i.test(value);
+    const lower = value.toLowerCase();
+    return value.includes('@阿智') || value.startsWith('阿智') || lower.includes('@ai') || lower.startsWith('ai ') || lower.startsWith('ai:') || lower.startsWith('ai：');
   }
   function extractAzhiQuestion(text){
     return String(text || '')
-      .replace(/@阿智/g, '')
-      .replace(/^阿智[：:\s]*/g, '')
-      .replace(/(^|\s)@?AI([：:\s]|$)/ig, ' ')
+      .replaceAll('@阿智','')
+      .replace(/^阿智[：:\s]*/,'')
+      .replace(/@ai/ig,'')
+      .replace(/^ai[：:\s]*/i,'')
       .trim();
   }
   async function askAzhi(question){
@@ -1064,7 +1066,7 @@ Please wait for an admin notice.' : '聊天室暫時關閉
           await addDoc(chatRef, {name:'🤖 阿智', text:reply, likedBy:[], botMessage:true, createdAt:serverTimestamp()});
         }).catch(async (err)=>{
           console.error('Azhi error', err);
-          await addDoc(chatRef, {name:'🤖 阿智', text:'我是阿智，目前連線暫時不穩，請稍後再試。', likedBy:[], botMessage:true, system:false, createdAt:serverTimestamp()}).catch(()=>{});
+          await addDoc(chatRef, {name:'🤖 阿智', text:'我是阿智，目前連線暫時不穩，請稍後再試。', likedBy:[], botMessage:true, createdAt:serverTimestamp()}).catch(()=>{});
         });
       }
     });
@@ -1163,6 +1165,14 @@ Please wait for an admin notice.' : '聊天室暫時關閉
       save(messages);
       textInput.value='';
       render();
+      if(shouldAskAzhi(text)){
+        const question = extractAzhiQuestion(text) || text;
+        askAzhi(question).then(reply=>{
+          const updated=load();
+          updated.push({id:String(Date.now()+1), name:'🤖 阿智', text:reply, time:new Date().toISOString(), likedBy:[], botMessage:true});
+          save(updated); render();
+        }).catch(err=>{ console.error('Azhi error', err); });
+      }
     });
     box.addEventListener('click', function(e){
       const btn=e.target.closest('.likeBtn');
