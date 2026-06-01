@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>盧文錦師父授課精華｜影片目錄 v20.5</title>
+<title>盧文錦師父授課精華｜影片目錄 v20.6</title>
 <script>if(new URLSearchParams(location.search).get('chat')==='1'){document.documentElement.classList.add('chat-only-mode');}</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -330,8 +330,9 @@ font-family:Georgia,serif;
 .chatStatPill{border:1px solid rgba(217,181,109,.28);border-radius:999px;padding:7px 11px;background:rgba(255,255,255,.055);color:#f5e6bd;font-weight:800}
 .chatMsg.adminMsg{align-self:flex-start;background:linear-gradient(135deg,rgba(255,224,163,.26),rgba(217,181,109,.12));border-color:rgba(217,181,109,.55);box-shadow:0 8px 22px rgba(217,181,109,.10)}
 .chatMsg.adminMsg .chatMeta{color:#ffe0a3;text-shadow:0 0 10px rgba(217,181,109,.25)}
-.chatMsg.botMsg{align-self:flex-start;background:linear-gradient(135deg,rgba(119,183,255,.20),rgba(255,255,255,.06));border-color:rgba(119,183,255,.42);box-shadow:0 8px 22px rgba(119,183,255,.08)}
-.chatMsg.botMsg .chatMeta{color:#dcecff;text-shadow:0 0 10px rgba(119,183,255,.18)}
+.chatMsg.botMsg{align-self:flex-start;background:linear-gradient(135deg,rgba(119,183,255,.20),rgba(255,255,255,.06));border-color:rgba(119,183,255,.45);box-shadow:0 8px 22px rgba(119,183,255,.08)}
+.chatMsg.botMsg .chatMeta{color:#dcecff;text-shadow:0 0 10px rgba(119,183,255,.20)}
+#chatClear{display:none}
 .adminShield{display:inline-block;margin-right:4px;color:#ffe0a3;font-weight:900}
 
 @media(max-width:760px){
@@ -474,7 +475,7 @@ html.chat-only-mode #chatStandaloneBtn{display:none!important}
     </form>
     <div class="chatTools">
       <span>提示：一般訪客可傳送訊息與按讚；管理員登入後可修改公告、刪除訊息、管理黑名單，並可用年曆與 24 小時制設定聊天室開放時間。</span>
-      <button class="chatClear" id="chatClear" type="button" style="display:none">清除本機訊息</button>
+      <button class="chatClear" id="chatClear" type="button">清除本機訊息</button>
     </div>
   </div>
 </section>
@@ -686,32 +687,9 @@ const firebaseConfig = {
   let chatControl={disabled:false, closeAt:null, openAt:null};
   let chatClosed=false;
   const reservedNames=['管理員','admin','系統','版主','站長','阿智','ai','AI'];
+  const AZHI_WORKER_URL='https://wingchun.lomankam-master.workers.dev';
   const chatEn = () => window.chatUiLang === 'en';
   const chatLabel = (zh,en) => chatEn() ? en : zh;
-  const AZHI_WORKER_URL = 'https://wingchun.lomankam-master.workers.dev';
-  function shouldAskAzhi(text){
-    const value = String(text || '').trim();
-    const lower = value.toLowerCase();
-    return value.includes('@阿智') || value.startsWith('阿智') || lower.includes('@ai') || lower.startsWith('ai ') || lower.startsWith('ai:') || lower.startsWith('ai：');
-  }
-  function extractAzhiQuestion(text){
-    return String(text || '')
-      .replaceAll('@阿智','')
-      .replace(/^阿智[：:\s]*/,'')
-      .replace(/@ai/ig,'')
-      .replace(/^ai[：:\s]*/i,'')
-      .trim();
-  }
-  async function askAzhi(question){
-    const res = await fetch(AZHI_WORKER_URL, {
-      method: 'POST',
-      headers: {'Content-Type':'application/json'},
-      body: JSON.stringify({message: question || '請簡單介紹你自己'})
-    });
-    const data = await res.json().catch(()=>({}));
-    if(!res.ok) throw new Error(data && (data.error || data.detail) ? JSON.stringify(data) : 'Azhi request failed');
-    return (data.reply || '').trim() || '我是阿智，目前暫時無法回答，請稍後再試。';
-  }
   if(!box||!form) return;
 
   function getOrCreateId(storageKey){
@@ -750,6 +728,23 @@ const firebaseConfig = {
     if(!clean) return chatLabel('訪客','Guest');
     if(isReservedName(clean)) return null;
     return clean;
+  }
+  function extractAzhiQuestion(text){
+    const raw=String(text||'').trim();
+    if(!raw) return '';
+    if(raw.startsWith('@阿智')) return raw.replace(/^@阿智\s*[:：]?\s*/, '').trim();
+    if(raw.startsWith('阿智')) return raw.replace(/^阿智\s*[:：]?\s*/, '').trim();
+    return '';
+  }
+  async function askAzhi(question){
+    const res = await fetch(AZHI_WORKER_URL, {
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({message: question || '請簡單介紹你自己'})
+    });
+    const data = await res.json().catch(()=>({}));
+    if(!res.ok){ throw new Error(data && data.error ? data.error : 'Azhi request failed'); }
+    return String(data.reply || '').trim() || '我是阿智，目前暫時無法回答，請稍後再試。';
   }
   function renderOnlineAdminList(){
     if(!adminOnlineList) return;
@@ -1060,14 +1055,15 @@ Please wait for an admin notice.' : '聊天室暫時關閉
       await authReady;
       await addDoc(chatRef, {name: isAdmin ? '管理員' : name, text, likedBy:[], adminMessage: !!isAdmin, createdAt:serverTimestamp()});
       await updatePresence();
-      if(shouldAskAzhi(text)){
-        const question = extractAzhiQuestion(text) || text;
-        askAzhi(question).then(async (reply)=>{
-          await addDoc(chatRef, {name:'🤖 阿智', text:reply, likedBy:[], botMessage:true, createdAt:serverTimestamp()});
-        }).catch(async (err)=>{
+      const azhiQuestion = extractAzhiQuestion(text);
+      if(azhiQuestion){
+        try{
+          const reply = await askAzhi(azhiQuestion);
+          await addDoc(chatRef, {name:'阿智', text:reply, likedBy:[], botMessage:true, createdAt:serverTimestamp()});
+        }catch(err){
           console.error('Azhi error', err);
-          await addDoc(chatRef, {name:'🤖 阿智', text:'我是阿智，目前連線暫時不穩，請稍後再試。', likedBy:[], botMessage:true, createdAt:serverTimestamp()}).catch(()=>{});
-        });
+          await addDoc(chatRef, {name:'阿智', text:'我是阿智，目前暫時無法回答，請稍後再試。', likedBy:[], botMessage:true, createdAt:serverTimestamp()});
+        }
       }
     });
 
@@ -1165,14 +1161,6 @@ Please wait for an admin notice.' : '聊天室暫時關閉
       save(messages);
       textInput.value='';
       render();
-      if(shouldAskAzhi(text)){
-        const question = extractAzhiQuestion(text) || text;
-        askAzhi(question).then(reply=>{
-          const updated=load();
-          updated.push({id:String(Date.now()+1), name:'🤖 阿智', text:reply, time:new Date().toISOString(), likedBy:[], botMessage:true});
-          save(updated); render();
-        }).catch(err=>{ console.error('Azhi error', err); });
-      }
     });
     box.addEventListener('click', function(e){
       const btn=e.target.closest('.likeBtn');
