@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>盧文錦師父授課精華｜影片目錄 v18.1</title>
+<title>盧文錦師父授課精華｜影片目錄 v20</title>
 <script>if(new URLSearchParams(location.search).get('chat')==='1'){document.documentElement.classList.add('chat-only-mode');}</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -206,7 +206,7 @@ font-family:Georgia,serif;
 }
 
 
-/* ===== Bottom Chat Room / 留言聊天室 ===== */
+/* ===== Bottom Chat Room / 線上聊天室 ===== */
 .chatSection{
   margin:34px 0 18px;
   border:1px solid rgba(217,181,109,.26);
@@ -341,7 +341,7 @@ font-family:Georgia,serif;
 }
 
 
-/* ===== Chat standalone page button / 留言區單獨頁 ===== */
+/* ===== Chat standalone page button / 線上聊天室單獨頁 ===== */
 .chatHeaderActions{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
 .chatStandaloneBtn{
   cursor:pointer;
@@ -418,21 +418,21 @@ html.chat-only-mode #chatStandaloneBtn{display:none!important}
   <div class="empty" id="empty">找不到符合條件的影片，請換一個關鍵字或分類。</div>
 
 
-<section class="chatSection" id="chatroom" aria-label="留言聊天室">
+<section class="chatSection" id="chatroom" aria-label="線上聊天室">
   <div class="chatHead">
     <div>
-      <h2>💬 留言交流區</h2>
-      <p>歡迎分享觀課心得與學習交流。</p>
+      <h2>💬 線上聊天室</h2>
+      <p>歡迎大家一起聊天交流、分享心得與討論問題。</p>
     </div>
     <div class="chatHeaderActions">
-      <button class="chatStandaloneBtn" id="chatStandaloneBtn" type="button">💬 獨立聊天室</button>
+      <button class="chatStandaloneBtn" id="chatStandaloneBtn" type="button">💬 開啟聊天室</button>
     </div>
   </div>
   <div class="chatBox">
-    <div class="chatStats"><span class="chatStatPill">💬 累積留言：<span id="messageCount">0</span></span><span class="chatStatPill">🟢 即時在線：<span id="onlineCountMini">1</span></span></div>
+    <div class="chatStats"><span class="chatStatPill">💬 累積訊息：<span id="messageCount">0</span></span><span class="chatStatPill">👥 在線：<span id="onlineCountMini">1</span></span></div>
     <div class="chatStatusRow">
       <div class="chatStatusGroup">
-        <div class="onlineBadge"><span class="onlineDot"></span>目前在線：<span id="onlineCount">1</span> 人</div>
+        <div class="onlineBadge"><span class="onlineDot"></span>👥 在線：<span id="onlineCount">1</span> 人</div>
       </div>
       <div class="adminLoginBox"><button class="chatClear" id="adminLoginBtn" type="button">管理員登入</button><span class="adminStatus" id="adminStatus">一般訪客模式</span></div>
       <div class="pinnedNotice"><b>📌 管理員公告：</b><span id="pinnedNoticeText">歡迎留下觀課心得與詠春交流問題，請保持尊重與友善。</span></div>
@@ -441,8 +441,8 @@ html.chat-only-mode #chatStandaloneBtn{display:none!important}
       <div class="adminPanelTitle">🛠 管理員功能</div>
       <textarea class="adminAnnouncementInput" id="adminAnnouncementInput" maxlength="300" placeholder="輸入新的公告內容……"></textarea>
       <div class="adminPanelActions"><button class="adminBtn" id="saveAnnouncementBtn" type="button">儲存公告</button></div>
-      <div class="adminPanelTitle" style="margin-top:12px">⏰ 留言開放時間管理</div>
-      <div class="small" id="chatControlAdminStatus">目前留言狀態：讀取中……</div>
+      <div class="adminPanelTitle" style="margin-top:12px">⏰ 聊天室開放時間管理</div>
+      <div class="small" id="chatControlAdminStatus">目前聊天室狀態：讀取中……</div>
       <div class="adminScheduleGrid">
         <label>關閉日期<input class="adminDateInput" id="chatCloseDateInput" type="date"></label>
         <label>關閉時間<input class="adminDateInput" id="chatCloseTimeInput" type="time" step="60"></label>
@@ -454,25 +454,25 @@ html.chat-only-mode #chatStandaloneBtn{display:none!important}
         <button class="adminBtn" id="close24hBtn" type="button">關閉 24 小時</button>
         <button class="adminBtn" id="close7dBtn" type="button">關閉 7 天</button>
         <button class="adminBtn" id="saveChatScheduleBtn" type="button">儲存排程</button>
-        <button class="adminBtn" id="closeChatNowBtn" type="button">立即關閉留言</button>
-        <button class="adminBtn" id="openChatNowBtn" type="button">立即開放留言</button>
+        <button class="adminBtn" id="closeChatNowBtn" type="button">立即關閉聊天室</button>
+        <button class="adminBtn" id="openChatNowBtn" type="button">立即開放聊天室</button>
       </div>
       <div class="adminPanelTitle" style="margin-top:12px">👥 在線訪客管理</div>
       <div class="adminOnlineList" id="adminOnlineList"><span class="small">管理員登入後可查看目前在線訪客，並選擇「踢出」或「加入黑名單」。</span></div>
       <div class="adminPanelTitle" style="margin-top:12px">🚫 黑名單管理</div>
       <div class="adminBannedList" id="adminBannedList"><span class="small">管理員登入後可查看黑名單並解除限制。</span></div>
     </div>
-    <div class="kickedNotice" id="kickedNotice" hidden>你已被管理員限制發言，暫時無法留言或按讚。</div>
-    <div class="commentClosedNotice" id="commentClosedNotice" hidden>🔴 留言功能目前暫停開放。</div>
+    <div class="kickedNotice" id="kickedNotice" hidden>你已被管理員限制發言，暫時無法傳送訊息或按讚。</div>
+    <div class="commentClosedNotice" id="commentClosedNotice" hidden>🚫 聊天室暫時關閉。</div>
     <div class="chatMessages" id="chatMessages"></div>
     <form class="chatForm" id="chatForm">
-      <input class="chatInput" id="chatName" maxlength="18" placeholder="你的名字" autocomplete="name">
-      <textarea class="chatText" id="chatText" maxlength="300" placeholder="輸入留言……"></textarea>
-      <button class="chatSend" type="submit">送出</button>
+      <input class="chatInput" id="chatName" maxlength="18" placeholder="你的暱稱" autocomplete="name">
+      <textarea class="chatText" id="chatText" maxlength="300" placeholder="輸入訊息……"></textarea>
+      <button class="chatSend" type="submit">📤 送出</button>
     </form>
     <div class="chatTools">
-      <span>提示：一般訪客可留言與按讚；管理員登入後可修改公告、刪除留言、管理黑名單，並可用年曆與 24 小時制設定留言開放時間。</span>
-      <button class="chatClear" id="chatClear" type="button">清除本機留言</button>
+      <span>提示：一般訪客可傳送訊息與按讚；管理員登入後可修改公告、刪除訊息、管理黑名單，並可用年曆與 24 小時制設定聊天室開放時間。</span>
+      <button class="chatClear" id="chatClear" type="button">清除本機訊息</button>
     </div>
   </div>
 </section>
@@ -566,7 +566,7 @@ document.addEventListener('click', async function(e){
   4. Firestore Database 建立資料庫
      - 聊天集合：chatMessages
      - 在線集合：onlineUsers
-  5. 本版功能：雲端留言、在線人數、留言時間、訪客名稱、按讚、置頂公告、名稱保護、管理員踢人、黑名單管理、留言開關排程
+  5. 本版功能：雲端訊息、在線人數、訊息時間、訪客名稱、按讚、置頂公告、名稱保護、管理員踢人、黑名單管理、聊天室開關排程
      ※ 禁止洗版功能尚未加入，可日後再加。
 */
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
@@ -737,10 +737,10 @@ const firebaseConfig = {
     const closeAt=toMillis(chatControl.closeAt);
     const openAt=toMillis(chatControl.openAt);
     if(chatClosed){
-      return openAt ? `留言功能目前暫停開放\n預計開放時間：${timeLabel(openAt)}` : '留言功能目前暫停開放\n請等待管理員公告。';
+      return openAt ? `聊天室暫時關閉\n預計開放時間：${timeLabel(openAt)}` : '聊天室暫時關閉\n請等待管理員公告。';
     }
     if(chatControl.disabled && closeAt && Date.now() < closeAt){
-      return `留言目前開放，將於 ${timeLabel(closeAt)} 關閉。`;
+      return `聊天室目前開放，將於 ${timeLabel(closeAt)} 關閉。`;
     }
     return '留言目前開放。';
   }
@@ -760,7 +760,7 @@ const firebaseConfig = {
     isKicked = !!(isBanned || isTempKicked);
     if(kickedNotice){
       kickedNotice.hidden = !isKicked;
-      kickedNotice.textContent = isBanned ? '你已被管理員列入黑名單，暫時無法留言或按讚。' : '你已被管理員踢出本次聊天室，重新整理後可再嘗試加入。';
+      kickedNotice.textContent = isBanned ? '你已被管理員列入黑名單，暫時無法傳送訊息或按讚。' : '你已被管理員踢出本次聊天室，重新整理後可再嘗試加入。';
     }
     const shouldDisable = isKicked || (chatClosed && !isAdmin);
     if(form) form.classList.toggle('adminMode', isAdmin);
@@ -773,7 +773,7 @@ const firebaseConfig = {
     const sendBtn=form ? form.querySelector('.chatSend') : null;
     if(sendBtn) sendBtn.disabled = shouldDisable;
     if(isKicked){
-      renderMessages([{id:'kicked', name:'系統', text:(isBanned ? '你已被管理員列入黑名單，暫時無法留言或按讚。' : '你已被管理員踢出本次聊天室，重新整理後可再嘗試加入。'), time:new Date().toISOString(), system:true, likedBy:[]}]);
+      renderMessages([{id:'kicked', name:'系統', text:(isBanned ? '你已被管理員列入黑名單，暫時無法傳送訊息或按讚。' : '你已被管理員踢出本次聊天室，重新整理後可再嘗試加入。'), time:new Date().toISOString(), system:true, likedBy:[]}]);
     }
   }
   function renderMessages(messages){
@@ -895,11 +895,11 @@ const firebaseConfig = {
       await saveChatControl(closeAt, openAt, `留言已關閉 ${hours>=24 ? (hours/24)+' 天' : hours+' 小時'}。`);
     }
     saveChatScheduleBtn && saveChatScheduleBtn.addEventListener('click', async ()=>{
-      if(!isAdmin) return alert('只有管理員可以設定留言開放時間。');
+      if(!isAdmin) return alert('只有管理員可以設定聊天室開放時間。');
       const {closeAt, openAt}=getScheduleValues();
       if(!closeAt && !openAt) return alert('請至少設定關閉日期/時間或開放日期/時間。');
       if(closeAt && openAt && openAt.getTime() <= closeAt.getTime()) return alert('重新開放時間必須晚於關閉開始時間。');
-      await saveChatControl(closeAt, openAt, '留言開關排程已儲存。');
+      await saveChatControl(closeAt, openAt, '聊天室開關排程已儲存。');
     });
     closeChatNowBtn && closeChatNowBtn.addEventListener('click', async ()=>{
       if(!isAdmin) return alert('只有管理員可以關閉留言。');
@@ -961,7 +961,7 @@ const firebaseConfig = {
 
     form.addEventListener('submit', async function(e){
       e.preventDefault();
-      if(isKicked) return alert('你已被管理員限制發言，暫時無法留言。');
+      if(isKicked) return alert('你已被管理員限制發言，暫時無法傳送訊息。');
       if(chatClosed && !isAdmin) return alert(chatControlText());
       const name = isAdmin ? '管理員' : validateName(nameInput.value||'訪客');
       const text=(textInput.value||'').trim().slice(0,300);
@@ -987,7 +987,7 @@ const firebaseConfig = {
         return;
       }
       if(deleteBtn && deleteBtn.dataset.id){
-        if(!isAdmin) return alert('只有管理員可以刪除留言。');
+        if(!isAdmin) return alert('只有管理員可以刪除訊息。');
         if(!confirm('確定刪除這則留言嗎？')) return;
         deleteBtn.disabled=true;
         try{ await deleteDoc(doc(db, collectionName, deleteBtn.dataset.id)); }
@@ -1095,11 +1095,11 @@ const firebaseConfig = {
   const params=new URLSearchParams(window.location.search);
   const chatOnly=params.get('chat')==='1';
   if(chatOnly){
-    document.title='留言交流區｜盧文錦師父授課精華';
+    document.title='線上聊天室｜盧文錦師父授課精華';
     btn.hidden = true;
   }else{
-    btn.textContent='💬 獨立聊天室';
-    btn.setAttribute('aria-label','在新分頁開啟獨立聊天室');
+    btn.textContent='💬 開啟聊天室';
+    btn.setAttribute('aria-label','在新分頁開啟線上聊天室');
     btn.addEventListener('click', function(){
       const url=new URL(window.location.href);
       url.searchParams.set('chat','1');
