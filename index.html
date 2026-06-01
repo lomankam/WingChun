@@ -509,6 +509,55 @@ function extractTitleParts(el){
 
 const categoryEn = {'全部':'All','核心觀念':'Core Concepts','套路解析':'Forms','防身應用':'Self-Defense','實戰黐手':'Chi Sau'};
 function labelByLang(zh,en){ return currentLang === 'en' ? en : zh; }
+function updateChatLangDisplay(){
+  const en = currentLang === 'en';
+  window.chatUiLang = en ? 'en' : 'zh';
+  const chatroom=document.getElementById('chatroom');
+  if(chatroom) chatroom.setAttribute('aria-label', en ? 'Online Chat Room' : '線上聊天室');
+  const chatTitle=document.querySelector('#chatroom .chatHead h2');
+  if(chatTitle) chatTitle.textContent = en ? '💬 Online Chat Room' : '💬 線上聊天室';
+  const chatDesc=document.querySelector('#chatroom .chatHead p');
+  if(chatDesc) chatDesc.textContent = en ? 'Chat live with others, share reflections, and discuss Wing Chun practice.' : '歡迎大家一起聊天交流、分享心得與討論問題。';
+  const standalone=document.getElementById('chatStandaloneBtn');
+  if(standalone && !standalone.hidden){
+    standalone.textContent = en ? '💬 Open Chat' : '💬 開啟聊天室';
+    standalone.setAttribute('aria-label', en ? 'Open the online chat room in a new tab' : '在新分頁開啟線上聊天室');
+  }
+  const msgCount=document.getElementById('messageCount');
+  const miniOnline=document.getElementById('onlineCountMini');
+  const stats=document.querySelector('#chatroom .chatStats');
+  if(stats && msgCount && miniOnline){
+    stats.querySelectorAll('.chatStatPill')[0].childNodes[0].nodeValue = en ? '💬 Total messages: ' : '💬 累積訊息：';
+    stats.querySelectorAll('.chatStatPill')[1].childNodes[0].nodeValue = en ? '👥 Online: ' : '👥 在線：';
+  }
+  const onlineBadge=document.querySelector('#chatroom .onlineBadge');
+  if(onlineBadge){
+    const onlineCount=document.getElementById('onlineCount');
+    onlineBadge.childNodes.forEach(n=>{ if(n.nodeType===3) n.nodeValue=''; });
+    if(onlineBadge.childNodes[1]) onlineBadge.childNodes[1].nodeValue = en ? '👥 Online: ' : '👥 在線：';
+    const tail=onlineBadge.lastChild;
+    if(tail && tail.nodeType===3) tail.nodeValue = en ? '' : ' 人';
+  }
+  const noticeLabel=document.querySelector('#chatroom .pinnedNotice b');
+  if(noticeLabel) noticeLabel.textContent = en ? '📌 Admin Notice: ' : '📌 管理員公告：';
+  const noticeText=document.getElementById('pinnedNoticeText');
+  if(noticeText && (!noticeText.dataset.customized || noticeText.dataset.customized==='default')){
+    noticeText.textContent = en ? 'Share your reflections and Wing Chun questions. Please stay respectful and friendly.' : '歡迎留下觀課心得與詠春交流問題，請保持尊重與友善。';
+  }
+  const nameInput=document.getElementById('chatName');
+  if(nameInput) nameInput.placeholder = en ? 'Your nickname' : '你的暱稱';
+  const textInput=document.getElementById('chatText');
+  if(textInput) textInput.placeholder = en ? 'Type a message…' : '輸入訊息……';
+  const sendBtn=document.querySelector('#chatForm .chatSend');
+  if(sendBtn) sendBtn.textContent = en ? '📤 Send' : '📤 送出';
+  const toolsText=document.querySelector('#chatroom .chatTools span');
+  if(toolsText && !document.getElementById('adminPanel')?.hidden){
+    // 管理員介面維持繁體中文，不在此覆蓋
+  }else if(toolsText){
+    toolsText.textContent = en ? 'Tip: Visitors can send messages and like posts. Please keep the chat respectful and friendly.' : '提示：一般訪客可傳送訊息與按讚；管理員登入後可修改公告、刪除訊息、管理黑名單，並可用年曆與 24 小時制設定聊天室開放時間。';
+  }
+  window.dispatchEvent(new CustomEvent('chat-lang-change', {detail:{lang: window.chatUiLang}}));
+}
 function applyLang(){
   document.querySelectorAll('.title').forEach(el=>{
     extractTitleParts(el);
@@ -524,6 +573,7 @@ function applyLang(){
   document.querySelectorAll('.shareBtn').forEach(el=>{ el.textContent = labelByLang('分享','Share'); });
   document.querySelectorAll('.num[data-episode]').forEach(el=>{ const n=el.dataset.episode; el.textContent = currentLang === 'en' ? `Episode ${n}` : `第 ${n} 集`; });
   document.querySelectorAll('.tag[data-cat-key]').forEach(el=>{ const c=el.dataset.catKey; el.textContent = currentLang === 'en' ? (categoryEn[c] || c) : c; });
+  updateChatLangDisplay();
 }
 
 function setLang(mode){
@@ -634,6 +684,8 @@ const firebaseConfig = {
   let chatControl={disabled:false, closeAt:null, openAt:null};
   let chatClosed=false;
   const reservedNames=['管理員','admin','系統','版主','站長'];
+  const chatEn = () => window.chatUiLang === 'en';
+  const chatLabel = (zh,en) => chatEn() ? en : zh;
   if(!box||!form) return;
 
   function getOrCreateId(storageKey){
@@ -647,11 +699,11 @@ const firebaseConfig = {
   const visitorId=getOrCreateId('lo-man-kam-visitor-id');
   const sessionId=(crypto.randomUUID ? crypto.randomUUID() : String(Date.now())+'-'+Math.random().toString(16).slice(2));
   nameInput.value = localStorage.getItem('lo-man-kam-chat-name') || '';
-  nameInput.addEventListener('change',()=>{ if(isAdmin){ nameInput.value='管理員'; return; } const checked=validateName(nameInput.value); if(!checked){ alert('這個名稱不可使用，請換一個暱稱。'); nameInput.value=''; localStorage.removeItem('lo-man-kam-chat-name'); } else { nameInput.value=checked; localStorage.setItem('lo-man-kam-chat-name', checked); } });
+  nameInput.addEventListener('change',()=>{ if(isAdmin){ nameInput.value='管理員'; return; } const checked=validateName(nameInput.value); if(!checked){ alert(chatLabel('這個名稱不可使用，請換一個暱稱。','This name cannot be used. Please choose another nickname.')); nameInput.value=''; localStorage.removeItem('lo-man-kam-chat-name'); } else { nameInput.value=checked; localStorage.setItem('lo-man-kam-chat-name', checked); } });
 
   const firebaseReady = !firebaseConfig.apiKey.includes('PASTE_') && !firebaseConfig.projectId.includes('PASTE_');
   const defaultMessages=[
-    {id:'system', name:'系統', text: firebaseReady ? '雲端聊天室已啟用，歡迎留下觀課心得。' : '尚未填入 Firebase 設定，目前暫用本機留言。', time:new Date().toISOString(), system:true, likedBy:[]}
+    {id:'system', name:'系統', text: firebaseReady ? '雲端聊天室已啟用，歡迎留下觀課心得。' : '尚未填入 Firebase 設定，目前暫用本機留言。', time:new Date().toISOString(), system:true, likedBy:[], defaultSystem:true}
   ];
 
   function escapeHTML(str){
@@ -660,7 +712,7 @@ const firebaseConfig = {
   function timeLabel(value){
     try{
       const d = value && value.toDate ? value.toDate() : new Date(value || Date.now());
-      return d.toLocaleString('zh-TW',{month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit'});
+      return d.toLocaleString(chatEn() ? 'en-US' : 'zh-TW',{month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit'});
     }catch(e){return '';}
   }
   function isReservedName(name){
@@ -669,7 +721,7 @@ const firebaseConfig = {
   }
   function validateName(name){
     const clean=String(name||'').trim().slice(0,18);
-    if(!clean) return '訪客';
+    if(!clean) return chatLabel('訪客','Guest');
     if(isReservedName(clean)) return null;
     return clean;
   }
@@ -733,16 +785,22 @@ const firebaseConfig = {
     if(openAt && now >= openAt) return false;
     return true;
   }
-  function chatControlText(){
+  function chatControlText(forceZh=false){
+    const useEn = !forceZh && chatEn();
     const closeAt=toMillis(chatControl.closeAt);
     const openAt=toMillis(chatControl.openAt);
     if(chatClosed){
-      return openAt ? `聊天室暫時關閉\n預計開放時間：${timeLabel(openAt)}` : '聊天室暫時關閉\n請等待管理員公告。';
+      if(openAt) return useEn ? `Chat is temporarily closed.
+Scheduled reopening: ${timeLabel(openAt)}` : `聊天室暫時關閉
+預計開放時間：${timeLabel(openAt)}`;
+      return useEn ? 'Chat is temporarily closed.
+Please wait for an admin notice.' : '聊天室暫時關閉
+請等待管理員公告。';
     }
     if(chatControl.disabled && closeAt && Date.now() < closeAt){
-      return `聊天室目前開放，將於 ${timeLabel(closeAt)} 關閉。`;
+      return useEn ? `Chat is open now and will close at ${timeLabel(closeAt)}.` : `聊天室目前開放，將於 ${timeLabel(closeAt)} 關閉。`;
     }
-    return '留言目前開放。';
+    return useEn ? 'Chat is open.' : '聊天室目前開放。';
   }
   function updateChatControlUI(){
     chatClosed = isChatClosedNow(chatControl);
@@ -760,7 +818,7 @@ const firebaseConfig = {
     isKicked = !!(isBanned || isTempKicked);
     if(kickedNotice){
       kickedNotice.hidden = !isKicked;
-      kickedNotice.textContent = isBanned ? '你已被管理員列入黑名單，暫時無法傳送訊息或按讚。' : '你已被管理員踢出本次聊天室，重新整理後可再嘗試加入。';
+      kickedNotice.textContent = isBanned ? chatLabel('你已被管理員列入黑名單，暫時無法傳送訊息或按讚。','You have been blocked by the admin and cannot send messages or like posts for now.') : chatLabel('你已被管理員踢出本次聊天室，重新整理後可再嘗試加入。','You have been removed from this chat session. Refresh the page to try joining again.');
     }
     const shouldDisable = isKicked || (chatClosed && !isAdmin);
     if(form) form.classList.toggle('adminMode', isAdmin);
@@ -773,7 +831,7 @@ const firebaseConfig = {
     const sendBtn=form ? form.querySelector('.chatSend') : null;
     if(sendBtn) sendBtn.disabled = shouldDisable;
     if(isKicked){
-      renderMessages([{id:'kicked', name:'系統', text:(isBanned ? '你已被管理員列入黑名單，暫時無法傳送訊息或按讚。' : '你已被管理員踢出本次聊天室，重新整理後可再嘗試加入。'), time:new Date().toISOString(), system:true, likedBy:[]}]);
+      renderMessages([{id:'kicked', name:'系統', text:(isBanned ? chatLabel('你已被管理員列入黑名單，暫時無法傳送訊息或按讚。','You have been blocked by the admin and cannot send messages or like posts for now.') : chatLabel('你已被管理員踢出本次聊天室，重新整理後可再嘗試加入。','You have been removed from this chat session. Refresh the page to try joining again.')), time:new Date().toISOString(), system:true, likedBy:[]}]);
     }
   }
   function renderMessages(messages){
@@ -787,9 +845,12 @@ const firebaseConfig = {
       const deleteBtn=(!m.system && isAdmin) ? `<button class="deleteBtn" data-id="${escapeHTML(m.id||'')}">🗑 刪除</button>` : '';
       const likeHTML=m.system ? '' : `<div class="chatActions">${likeBtn}${deleteBtn}</div>`;
       const adminClass=m.adminMessage ? 'adminMsg' : (m.system ? '' : 'me');
-      const adminBadge=m.adminMessage ? '<span class="adminShield">🛡 管理員</span>' : '';
-      const displayName=m.adminMessage ? '' : escapeHTML(m.name||'訪客');
-      return `<div class="chatMsg ${adminClass}"><span class="chatMeta">${adminBadge}${displayName}<span class="chatTime">${timeLabel(m.createdAt || m.time)}</span></span>${escapeHTML(m.text||'')}${likeHTML}</div>`;
+      const adminBadge=m.adminMessage ? `<span class="adminShield">${chatLabel('🛡 管理員','🛡 Admin')}</span>` : '';
+      const rawName = m.system ? chatLabel('系統','System') : (m.name || chatLabel('訪客','Guest'));
+      const displayName=m.adminMessage ? '' : escapeHTML(rawName);
+      let msgText = m.text || '';
+      if(m.defaultSystem){ msgText = firebaseReady ? chatLabel('雲端聊天室已啟用，歡迎留下觀課心得。','Cloud chat is enabled. Feel free to share your reflections.') : chatLabel('尚未填入 Firebase 設定，目前暫用本機留言。','Firebase is not configured yet. Local messages are being used for now.'); }
+      return `<div class="chatMsg ${adminClass}"><span class="chatMeta">${adminBadge}${displayName}<span class="chatTime">${timeLabel(m.createdAt || m.time)}</span></span>${escapeHTML(msgText)}${likeHTML}</div>`;
     }).join('');
     box.scrollTop=box.scrollHeight;
   }
@@ -801,7 +862,7 @@ const firebaseConfig = {
     const googleProvider = new GoogleAuthProvider();
     const authReady = signInAnonymously(auth).catch((error)=>{
       console.error('anonymous auth failed', error);
-      renderMessages([{id:'auth-error', name:'系統', text:'Firebase 匿名登入失敗，請確認 Authentication 已啟用 Anonymous。', time:new Date().toISOString(), system:true, likedBy:[]}]);
+      renderMessages([{id:'auth-error', name:'系統', text:chatLabel('Firebase 匿名登入失敗，請確認 Authentication 已啟用 Anonymous。','Firebase anonymous sign-in failed. Please make sure Anonymous Authentication is enabled.'), time:new Date().toISOString(), system:true, likedBy:[]}]);
       throw error;
     });
     const chatRef = collection(db, collectionName);
@@ -812,7 +873,7 @@ const firebaseConfig = {
     const bannedUsersRef = collection(db, 'bannedUsers');
     const myBanRef = doc(db, 'bannedUsers', visitorId);
     const chatQuery = query(chatRef, orderBy('createdAt','asc'), limit(80));
-    if(toolsText) toolsText.textContent = '雲端聊天室已啟用：所有訪客都能同步看到留言、在線人數、留言狀態與按讚。';
+    if(toolsText) toolsText.textContent = chatLabel('雲端聊天室已啟用：所有訪客都能同步看到訊息、在線人數、聊天室狀態與按讚。','Cloud chat is enabled: visitors can see messages, online count, chat status, and likes in sync.');
     if(clearBtn){ clearBtn.textContent = '清空聊天室'; clearBtn.style.display='none'; }
 
     function refreshAdminUI(user){
@@ -867,8 +928,9 @@ const firebaseConfig = {
     });
 
     onSnapshot(announcementRef, (snap)=>{
-      const text = snap.exists() && snap.data().text ? snap.data().text : '歡迎留下觀課心得與詠春交流問題，請保持尊重與友善。';
-      if(announcementText) announcementText.textContent = text;
+      const hasCustom = snap.exists() && snap.data().text;
+      const text = hasCustom ? snap.data().text : chatLabel('歡迎留下觀課心得與詠春交流問題，請保持尊重與友善。','Share your reflections and Wing Chun questions. Please stay respectful and friendly.');
+      if(announcementText){ announcementText.dataset.customized = hasCustom ? 'custom' : 'default'; announcementText.textContent = text; }
       if(announcementInput && !announcementInput.value) announcementInput.value = text;
     });
 
@@ -956,16 +1018,16 @@ const firebaseConfig = {
       renderMessages(messages);
     }, (error)=>{
       console.error(error);
-      renderMessages([{id:'error', name:'系統', text:'Firebase 連線失敗，請檢查設定或 Firestore 規則。', time:new Date().toISOString(), system:true, likedBy:[]}]);
+      renderMessages([{id:'error', name:'系統', text:chatLabel('Firebase 連線失敗，請檢查設定或 Firestore 規則。','Firebase connection failed. Please check the settings or Firestore rules.'), time:new Date().toISOString(), system:true, likedBy:[]}]);
     });
 
     form.addEventListener('submit', async function(e){
       e.preventDefault();
-      if(isKicked) return alert('你已被管理員限制發言，暫時無法傳送訊息。');
+      if(isKicked) return alert(chatLabel('你已被管理員限制發言，暫時無法傳送訊息。','You have been restricted by the admin and cannot send messages for now.'));
       if(chatClosed && !isAdmin) return alert(chatControlText());
       const name = isAdmin ? '管理員' : validateName(nameInput.value||'訪客');
       const text=(textInput.value||'').trim().slice(0,300);
-      if(!name){ alert('這個名稱不可使用，請換一個暱稱。'); nameInput.focus(); return; }
+      if(!name){ alert(chatLabel('這個名稱不可使用，請換一個暱稱。','This name cannot be used. Please choose another nickname.')); nameInput.focus(); return; }
       if(!text) return;
       if(!isAdmin) localStorage.setItem('lo-man-kam-chat-name', name);
       textInput.value='';
@@ -978,7 +1040,7 @@ const firebaseConfig = {
       const likeBtn=e.target.closest('.likeBtn');
       const deleteBtn=e.target.closest('.deleteBtn');
       if(likeBtn && likeBtn.dataset.id){
-        if(isKicked) return alert('你已被管理員請出聊天室，暫時無法按讚。');
+        if(isKicked) return alert(chatLabel('你已被管理員請出聊天室，暫時無法按讚。','You have been removed by the admin and cannot like posts for now.'));
         if(chatClosed && !isAdmin) return alert(chatControlText());
         likeBtn.disabled=true;
         try{ await authReady; await updateDoc(doc(db, collectionName, likeBtn.dataset.id), {likedBy: arrayUnion(visitorId)}); }
@@ -1060,7 +1122,7 @@ const firebaseConfig = {
       e.preventDefault();
       const name = isAdmin ? '管理員' : validateName(nameInput.value||'訪客');
       const text=(textInput.value||'').trim().slice(0,300);
-      if(!name){ alert('這個名稱不可使用，請換一個暱稱。'); nameInput.focus(); return; }
+      if(!name){ alert(chatLabel('這個名稱不可使用，請換一個暱稱。','This name cannot be used. Please choose another nickname.')); nameInput.focus(); return; }
       if(!text) return;
       if(!isAdmin) localStorage.setItem('lo-man-kam-chat-name', name);
       const messages=load();
@@ -1082,6 +1144,13 @@ const firebaseConfig = {
     render();
   }
 
+  window.addEventListener('chat-lang-change', ()=>{
+    updateChatControlUI();
+    updateRestrictionNotice();
+    renderMessages(latestMessages);
+    if(toolsText && !isAdmin) toolsText.textContent = chatLabel('雲端聊天室已啟用：所有訪客都能同步看到訊息、在線人數、聊天室狀態與按讚。','Cloud chat is enabled: visitors can see messages, online count, chat status, and likes in sync.');
+  });
+
   textInput.addEventListener('keydown', function(e){
     if(e.key==='Enter' && !e.shiftKey){e.preventDefault();form.requestSubmit();}
   });
@@ -1094,18 +1163,23 @@ const firebaseConfig = {
   if(!btn) return;
   const params=new URLSearchParams(window.location.search);
   const chatOnly=params.get('chat')==='1';
+  function updateStandaloneTitle(){
+    const en = window.chatUiLang === 'en';
+    if(chatOnly) document.title = en ? 'Online Chat Room｜Master Lo Man Kam Teaching Highlights' : '線上聊天室｜盧文錦師父授課精華';
+    else if(btn){ btn.textContent = en ? '💬 Open Chat' : '💬 開啟聊天室'; btn.setAttribute('aria-label', en ? 'Open the online chat room in a new tab' : '在新分頁開啟線上聊天室'); }
+  }
   if(chatOnly){
-    document.title='線上聊天室｜盧文錦師父授課精華';
+    updateStandaloneTitle();
     btn.hidden = true;
   }else{
-    btn.textContent='💬 開啟聊天室';
-    btn.setAttribute('aria-label','在新分頁開啟線上聊天室');
+    updateStandaloneTitle();
     btn.addEventListener('click', function(){
       const url=new URL(window.location.href);
       url.searchParams.set('chat','1');
       window.open(url.toString(), '_blank', 'noopener');
     });
   }
+  window.addEventListener('chat-lang-change', updateStandaloneTitle);
 })();
 </script>
 
