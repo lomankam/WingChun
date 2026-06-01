@@ -683,7 +683,7 @@ const firebaseConfig = {
   let latestBannedDocs=[];
   let chatControl={disabled:false, closeAt:null, openAt:null};
   let chatClosed=false;
-  const reservedNames=['管理員','admin','系統','版主','站長'];
+  const reservedNames=['管理員','admin','系統','版主','站長','阿智','ai'];
   const chatEn = () => window.chatUiLang === 'en';
   const chatLabel = (zh,en) => chatEn() ? en : zh;
   if(!box||!form) return;
@@ -844,10 +844,10 @@ Please wait for an admin notice.' : '聊天室暫時關閉
       const likeBtn=m.system ? '' : `<button class="likeBtn ${liked?'liked':''}" data-id="${escapeHTML(m.id||'')}">👍 ${likeCount}</button>`;
       const deleteBtn=(!m.system && isAdmin) ? `<button class="deleteBtn" data-id="${escapeHTML(m.id||'')}">🗑 刪除</button>` : '';
       const likeHTML=m.system ? '' : `<div class="chatActions">${likeBtn}${deleteBtn}</div>`;
-      const adminClass=m.adminMessage ? 'adminMsg' : (m.system ? '' : 'me');
-      const adminBadge=m.adminMessage ? `<span class="adminShield">${chatLabel('🛡 管理員','🛡 Admin')}</span>` : '';
+      const adminClass=m.azhiMessage ? 'adminMsg' : (m.adminMessage ? 'adminMsg' : (m.system ? '' : 'me'));
+      const adminBadge=m.azhiMessage ? `<span class="adminShield">🤖 阿智</span>` : (m.adminMessage ? `<span class="adminShield">${chatLabel('🛡 管理員','🛡 Admin')}</span>` : '');
       const rawName = m.system ? chatLabel('系統','System') : (m.name || chatLabel('訪客','Guest'));
-      const displayName=m.adminMessage ? '' : escapeHTML(rawName);
+      const displayName=(m.adminMessage || m.azhiMessage) ? '' : escapeHTML(rawName);
       let msgText = m.text || '';
       if(m.defaultSystem){ msgText = firebaseReady ? chatLabel('雲端聊天室已啟用，歡迎留下觀課心得。','Cloud chat is enabled. Feel free to share your reflections.') : chatLabel('尚未填入 Firebase 設定，目前暫用本機留言。','Firebase is not configured yet. Local messages are being used for now.'); }
       return `<div class="chatMsg ${adminClass}"><span class="chatMeta">${adminBadge}${displayName}<span class="chatTime">${timeLabel(m.createdAt || m.time)}</span></span>${escapeHTML(msgText)}${likeHTML}</div>`;
@@ -875,6 +875,33 @@ Please wait for an admin notice.' : '聊天室暫時關閉
     const chatQuery = query(chatRef, orderBy('createdAt','asc'), limit(80));
     if(toolsText) toolsText.textContent = chatLabel('雲端聊天室已啟用：所有訪客都能同步看到訊息、在線人數、聊天室狀態與按讚。','Cloud chat is enabled: visitors can see messages, online count, chat status, and likes in sync.');
     if(clearBtn){ clearBtn.textContent = '清空聊天室'; clearBtn.style.display='none'; }
+
+    const AZHI_WORKER_URL = 'https://wingchun.lomankam-master.workers.dev';
+
+    function extractAzhiQuestion(text){
+      const raw=String(text||'').trim();
+      const match=raw.match(/^@?(阿智|AI)\s*[:：,，]?\s*(.*)$/i);
+      if(!match) return '';
+      return (match[2]||'').trim() || '請介紹一下自己';
+    }
+
+    async function askAzhiIfNeeded(text){
+      const question=extractAzhiQuestion(text);
+      if(!question) return;
+      try{
+        const res=await fetch(AZHI_WORKER_URL,{
+          method:'POST',
+          headers:{'Content-Type':'application/json'},
+          body:JSON.stringify({message:question})
+        });
+        const data=await res.json().catch(()=>({}));
+        const reply=(data && data.reply) ? String(data.reply).trim() : '我是阿智，目前暫時無法回答，請稍後再試。';
+        await addDoc(chatRef,{name:'阿智', text:reply, likedBy:[], azhiMessage:true, createdAt:serverTimestamp()});
+      }catch(err){
+        console.error('Azhi request failed', err);
+        await addDoc(chatRef,{name:'阿智', text:'我是阿智，目前暫時無法回答，請稍後再試。', likedBy:[], azhiMessage:true, createdAt:serverTimestamp()});
+      }
+    }
 
     function refreshAdminUI(user){
       isAdmin = !!(user && user.email && user.email.toLowerCase() === adminEmail);
@@ -1034,6 +1061,7 @@ Please wait for an admin notice.' : '聊天室暫時關閉
       await authReady;
       await addDoc(chatRef, {name: isAdmin ? '管理員' : name, text, likedBy:[], adminMessage: !!isAdmin, createdAt:serverTimestamp()});
       await updatePresence();
+      askAzhiIfNeeded(text);
     });
 
     box.addEventListener('click', async function(e){
