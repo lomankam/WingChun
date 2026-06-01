@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>盧文錦師父授課精華｜影片目錄 v20</title>
+<title>盧文錦師父授課精華｜影片目錄 v20.8</title>
 <script>if(new URLSearchParams(location.search).get('chat')==='1'){document.documentElement.classList.add('chat-only-mode');}</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -270,11 +270,27 @@ font-family:Georgia,serif;
 .chatTime{color:var(--muted);font-weight:500;margin-left:6px}
 .chatForm{
   display:grid;
-  grid-template-columns:180px 1fr auto;
+  grid-template-columns:280px 1fr auto;
   gap:10px;
   margin-top:12px;
 }
 .chatForm.adminMode{grid-template-columns:1fr auto}
+.chatForm.adminMode .chatNameWrap{display:none!important}
+.chatNameWrap{display:flex;align-items:stretch;gap:8px;min-width:0}
+.chatNameWrap .chatInput{min-width:0;flex:1}
+.callAiBtn{
+  cursor:pointer;
+  flex:0 0 auto;
+  border:1px solid rgba(119,183,255,.34);
+  border-radius:14px;
+  padding:0 12px;
+  font-weight:900;
+  color:#dcecff;
+  background:rgba(119,183,255,.13);
+  white-space:nowrap;
+}
+.callAiBtn:hover{background:linear-gradient(135deg,var(--gold2),var(--gold));color:#15110a;border-color:transparent}
+.callAiBtn:disabled{opacity:.45;cursor:not-allowed;filter:grayscale(1)}
 .chatInput,.chatText{
   width:100%;
   border:1px solid var(--line);
@@ -336,6 +352,7 @@ font-family:Georgia,serif;
   .adminScheduleGrid{grid-template-columns:1fr}
   .chatHead{align-items:flex-start;flex-direction:column}
   .chatForm{grid-template-columns:1fr}
+  .chatNameWrap{display:grid;grid-template-columns:1fr auto}
   .chatSend{padding:12px 18px}
   .chatMsg{max-width:94%}
 }
@@ -364,6 +381,14 @@ html.chat-only-mode .footer{display:none!important}
 html.chat-only-mode #chatStandaloneBtn{display:none!important}
 @media(max-width:760px){.chatHeaderActions{width:100%}.chatStandaloneBtn{width:100%}}
 
+.versionFooter{
+  margin-top:22px;
+  margin-bottom:8px;
+  text-align:center;
+  font-size:10px;
+  color:rgba(159,176,196,.42);
+  user-select:none;
+}
 </style>
 </head>
 <body>
@@ -466,7 +491,10 @@ html.chat-only-mode #chatStandaloneBtn{display:none!important}
     <div class="commentClosedNotice" id="commentClosedNotice" hidden>🚫 聊天室暫時關閉。</div>
     <div class="chatMessages" id="chatMessages"></div>
     <form class="chatForm" id="chatForm">
-      <input class="chatInput" id="chatName" maxlength="18" placeholder="你的暱稱" autocomplete="name">
+      <div class="chatNameWrap">
+        <input class="chatInput" id="chatName" maxlength="18" placeholder="你的暱稱" autocomplete="name">
+        <button class="callAiBtn" id="callAiBtn" type="button" title="Call AI">AI助理</button>
+      </div>
       <textarea class="chatText" id="chatText" maxlength="300" placeholder="輸入訊息……"></textarea>
       <button class="chatSend" type="submit">📤 送出</button>
     </form>
@@ -477,7 +505,7 @@ html.chat-only-mode #chatStandaloneBtn{display:none!important}
   </div>
 </section>
 
-  <div class="footer">資料來源：使用者提供之 PDF 目錄整理；縮圖與播放連結來自 YouTube。</div>
+  <div class="versionFooter">v20.8</div>
 </div>
 <script>
 const videos = [{"no": 1, "title": "鬥技不鬥力 順勢而行<div class=\"engTitle\">Skill Over Strength • Following the Flow</div>", "id": "SkXUAqbEqjQ", "url": "https://youtu.be/SkXUAqbEqjQ", "category": "核心觀念"}, {"no": 2, "title": "抱牌掌應用與發揮<div class=\"engTitle\">Applications and Variations of the Embracing Palm</div>", "id": "HQErDwZ2ZtQ", "url": "https://youtu.be/HQErDwZ2ZtQ", "category": "核心觀念"}, {"no": 3, "title": "制敵於先 克敵於無形<div class=\"engTitle\">Subdue the Opponent Before the Attack Begins</div>", "id": "Jomz2URebuk", "url": "https://youtu.be/Jomz2URebuk", "category": "核心觀念"}, {"no": 4, "title": "似無實有 活能生巧<div class=\"engTitle\">Seemingly Empty, Yet Full of Potential</div>", "id": "DErJB3xu-_c", "url": "https://youtu.be/DErJB3xu-_c", "category": "核心觀念"}, {"no": 5, "title": "詠春套路應用解析 1<div class=\"engTitle\">Wing Chun Forms & Applications Analysis (Part I)</div>", "id": "6UxlNfEyLl0", "url": "https://youtu.be/6UxlNfEyLl0", "category": "套路解析"}, {"no": 6, "title": "面對敵人 即時反射所學 1<div class=\"engTitle\">Instant Reflex Application Against an Opponent (Part I)</div>", "id": "2G2-sl74UDw", "url": "https://youtu.be/2G2-sl74UDw", "category": "核心觀念"}, {"no": 7, "title": "面對敵人 即時反射所學 2<div class=\"engTitle\">Instant Reflex Application Against an Opponent (Part II)</div>", "id": "dTGSNLqVQF8", "url": "https://youtu.be/dTGSNLqVQF8", "category": "核心觀念"}, {"no": 8, "title": "接觸反應 順勢而行 鎖喉反制與應用<div class=\"engTitle\">Contact Reaction & Flowing Response • Choke Defense Applications</div>", "id": "eZy51eJttYA", "url": "https://youtu.be/eZy51eJttYA", "category": "核心觀念"}, {"no": 9, "title": "詠春套路應用解析 2<div class=\"engTitle\">Wing Chun Forms & Applications Analysis (Part II)</div>", "id": "HqgkB4wSvT4", "url": "https://youtu.be/HqgkB4wSvT4", "category": "套路解析"}, {"no": 10, "title": "鎖喉反制與應用 2<div class=\"engTitle\">Choke Defense Applications (Part II)</div>", "id": "bddOlNxOpiw", "url": "https://youtu.be/bddOlNxOpiw", "category": "防身應用"}, {"no": 11, "title": "背後擒抱反制與應用原理<div class=\"engTitle\">Escaping and Countering a Rear Bear Hug</div>", "id": "uGdUZLBRTWQ", "url": "https://youtu.be/uGdUZLBRTWQ", "category": "防身應用"}, {"no": 12, "title": "詠春拳 套路「標指」詳解<div class=\"engTitle\">Biu Tze (標指) Form – Complete Breakdown</div>", "id": "T9QuukbJ3Y4", "url": "https://youtu.be/T9QuukbJ3Y4", "category": "套路解析"}, {"no": 13, "title": "詠春的核心思想<div class=\"engTitle\">The Core Philosophy of Wing Chun</div>", "id": "q9orSdwqPx4", "url": "https://youtu.be/q9orSdwqPx4", "category": "核心觀念"}, {"no": 14, "title": "黐手到實戰 詠春的真正核心<div class=\"engTitle\">From Chi Sau to Combat – The True Core of Wing Chun</div>", "id": "3OufV7nj4mQ", "url": "https://youtu.be/3OufV7nj4mQ", "category": "核心觀念"}, {"no": 15, "title": "順勢而行的近身擒手反制與應用<div class=\"engTitle\">Close-Range Grappling Counters Through Flowing Response</div>", "id": "OCSZYGRAs2A", "url": "https://youtu.be/OCSZYGRAs2A", "category": "核心觀念"}, {"no": 16, "title": "反應決定一切，克敵的制勝關鍵<div class=\"engTitle\">Reaction Determines Victory</div>", "id": "AXEjT_ln7pI", "url": "https://youtu.be/AXEjT_ln7pI", "category": "核心觀念"}, {"no": 17, "title": "詠春核心揭秘：沒有招式，只有反應!<div class=\"engTitle\">Wing Chun Revealed: No Techniques, Only Reactions</div>", "id": "NU7ayuVK5bI", "url": "https://youtu.be/NU7ayuVK5bI", "category": "核心觀念"}, {"no": 18, "title": "詠春拳套路的核心觀念<div class=\"engTitle\">Core Concepts Behind Wing Chun Forms</div>", "id": "UhOnN1hmz0I", "url": "https://youtu.be/UhOnN1hmz0I", "category": "套路解析"}, {"no": 19, "title": "詠春拳「尋橋」完整拆解<div class=\"engTitle\">Chum Kiu (尋橋) – Complete Analysis</div>", "id": "cpy3Qa2OTB4", "url": "https://youtu.be/cpy3Qa2OTB4", "category": "套路解析"}, {"no": 20, "title": "詠春「蹬手」完整解析，實戰應用與核心觀念<div class=\"engTitle\">Dang Sau (蹬手) – Complete Analysis & Combat Applications</div>", "id": "CRVhoqkjK8s", "url": "https://youtu.be/CRVhoqkjK8s", "category": "套路解析"}, {"no": 21, "title": "詠春高階觀念：「反應」比招式更重要<div class=\"engTitle\">Advanced Wing Chun Concept: Reaction Over Technique</div>", "id": "jehmZ5i_yiM", "url": "https://youtu.be/jehmZ5i_yiM", "category": "核心觀念"}, {"no": 22, "title": "持刀對峙的實戰觀念解析｜不是招式，而是瞬間反應!!<div class=\"engTitle\">Knife Confrontation Concepts – Instant Reaction Over Techniques</div>", "id": "OF51iX7gwmI", "url": "https://youtu.be/OF51iX7gwmI", "category": "核心觀念"}, {"no": 23, "title": "持械攻擊下的詠春防身觀念<div class=\"engTitle\">Wing Chun Self-Defense Concepts Against Armed Attacks</div>", "id": "uiiBtLuYkCw", "url": "https://youtu.be/uiiBtLuYkCw", "category": "核心觀念"}, {"no": 24, "title": "詠春拳防衛觀念解析｜沒有固定招式，只有正確反應<div class=\"engTitle\">Wing Chun Defensive Concepts – No Fixed Techniques, Only Correct Reactions</div>", "id": "fisb89DcHBQ", "url": "https://youtu.be/fisb89DcHBQ", "category": "核心觀念"}];
@@ -524,6 +552,15 @@ function applyLang(){
   document.querySelectorAll('.shareBtn').forEach(el=>{ el.textContent = labelByLang('分享','Share'); });
   document.querySelectorAll('.num[data-episode]').forEach(el=>{ const n=el.dataset.episode; el.textContent = currentLang === 'en' ? `Episode ${n}` : `第 ${n} 集`; });
   document.querySelectorAll('.tag[data-cat-key]').forEach(el=>{ const c=el.dataset.catKey; el.textContent = currentLang === 'en' ? (categoryEn[c] || c) : c; });
+  const callAiBtn=document.getElementById('callAiBtn');
+  if(callAiBtn){
+    callAiBtn.textContent = currentLang === 'en' ? 'Call AI' : 'AI助理';
+    callAiBtn.title = currentLang === 'en' ? 'Call AI assistant' : '呼叫 AI 助理';
+  }
+  const chatName=document.getElementById('chatName');
+  if(chatName) chatName.placeholder = currentLang === 'en' ? 'Your name' : '你的暱稱';
+  const chatText=document.getElementById('chatText');
+  if(chatText) chatText.placeholder = currentLang === 'en' ? 'Type a message…' : '輸入訊息……';
 }
 
 function setLang(mode){
@@ -593,10 +630,13 @@ const firebaseConfig = {
   const key='lo-man-kam-chat-v2';
   const collectionName='chatMessages';
   const onlineCollectionName='onlineUsers';
+  const AZHI_WORKER_URL='https://wingchun.lomankam-master.workers.dev';
+  const AZHI_NAME='🤖 阿智';
   const box=document.getElementById('chatMessages');
   const form=document.getElementById('chatForm');
   const nameInput=document.getElementById('chatName');
   const textInput=document.getElementById('chatText');
+  const callAiBtn=document.getElementById('callAiBtn');
   const clearBtn=document.getElementById('chatClear');
   const toolsText=document.querySelector('.chatTools span');
   const onlineCountEl=document.getElementById('onlineCount');
@@ -633,7 +673,7 @@ const firebaseConfig = {
   let latestBannedDocs=[];
   let chatControl={disabled:false, closeAt:null, openAt:null};
   let chatClosed=false;
-  const reservedNames=['管理員','admin','系統','版主','站長'];
+  const reservedNames=['管理員','admin','系統','版主','站長','阿智','AI','ai','Azhi','azhi'];
   if(!box||!form) return;
 
   function getOrCreateId(storageKey){
@@ -648,6 +688,14 @@ const firebaseConfig = {
   const sessionId=(crypto.randomUUID ? crypto.randomUUID() : String(Date.now())+'-'+Math.random().toString(16).slice(2));
   nameInput.value = localStorage.getItem('lo-man-kam-chat-name') || '';
   nameInput.addEventListener('change',()=>{ if(isAdmin){ nameInput.value='管理員'; return; } const checked=validateName(nameInput.value); if(!checked){ alert('這個名稱不可使用，請換一個暱稱。'); nameInput.value=''; localStorage.removeItem('lo-man-kam-chat-name'); } else { nameInput.value=checked; localStorage.setItem('lo-man-kam-chat-name', checked); } });
+
+  callAiBtn && callAiBtn.addEventListener('click', function(){
+    if(!textInput) return;
+    textInput.value = (currentLang === 'en') ? '@Azhi ' : '@阿智 ';
+    textInput.focus();
+    const len=textInput.value.length;
+    if(textInput.setSelectionRange) textInput.setSelectionRange(len,len);
+  });
 
   const firebaseReady = !firebaseConfig.apiKey.includes('PASTE_') && !firebaseConfig.projectId.includes('PASTE_');
   const defaultMessages=[
@@ -672,6 +720,34 @@ const firebaseConfig = {
     if(!clean) return '訪客';
     if(isReservedName(clean)) return null;
     return clean;
+  }
+
+  function isAzhiRequest(text){
+    const clean=String(text||'').trim();
+    return /^@?阿智[：:\s]/.test(clean) || clean === '@阿智' || clean === '阿智' || /^@?azhi[：:\s]/i.test(clean) || /^@?ai[：:\s]/i.test(clean);
+  }
+  function getAzhiQuestion(text){
+    return String(text||'').trim()
+      .replace(/^@?阿智[：:\s]*/,'')
+      .replace(/^@?azhi[：:\s]*/i,'')
+      .replace(/^@?ai[：:\s]*/i,'')
+      .trim() || '請介紹一下你自己。';
+  }
+  async function sendAzhiReply(userText, chatRefForWrite){
+    if(!isAzhiRequest(userText)) return;
+    try{
+      const res=await fetch(AZHI_WORKER_URL,{
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({message:getAzhiQuestion(userText)})
+      });
+      const data=await res.json().catch(()=>({}));
+      const reply=(data && data.reply ? String(data.reply) : '我是阿智，目前暫時無法回答，請稍後再試。').slice(0,900);
+      await addDoc(chatRefForWrite, {name:AZHI_NAME, text:reply, likedBy:[], adminMessage:false, azhiMessage:true, system:true, createdAt:serverTimestamp()});
+    }catch(err){
+      console.error('Azhi reply failed', err);
+      try{ await addDoc(chatRefForWrite, {name:AZHI_NAME, text:'我是阿智，目前連線暫時不穩，請稍後再問我一次。', likedBy:[], adminMessage:false, azhiMessage:true, system:true, createdAt:serverTimestamp()}); }catch(e){}
+    }
   }
   function renderOnlineAdminList(){
     if(!adminOnlineList) return;
@@ -772,6 +848,7 @@ const firebaseConfig = {
     if(textInput) textInput.disabled = shouldDisable;
     const sendBtn=form ? form.querySelector('.chatSend') : null;
     if(sendBtn) sendBtn.disabled = shouldDisable;
+    if(callAiBtn) callAiBtn.disabled = shouldDisable;
     if(isKicked){
       renderMessages([{id:'kicked', name:'系統', text:(isBanned ? '你已被管理員列入黑名單，暫時無法傳送訊息或按讚。' : '你已被管理員踢出本次聊天室，重新整理後可再嘗試加入。'), time:new Date().toISOString(), system:true, likedBy:[]}]);
     }
@@ -972,6 +1049,7 @@ const firebaseConfig = {
       await authReady;
       await addDoc(chatRef, {name: isAdmin ? '管理員' : name, text, likedBy:[], adminMessage: !!isAdmin, createdAt:serverTimestamp()});
       await updatePresence();
+      if(!isAdmin) sendAzhiReply(text, chatRef);
     });
 
     box.addEventListener('click', async function(e){
@@ -1065,6 +1143,9 @@ const firebaseConfig = {
       if(!isAdmin) localStorage.setItem('lo-man-kam-chat-name', name);
       const messages=load();
       messages.push({id:String(Date.now()), name,text,time:new Date().toISOString(),likedBy:[], adminMessage: !!isAdmin});
+      if(!isAdmin && isAzhiRequest(text)){
+        messages.push({id:String(Date.now()+1), name:AZHI_NAME, text:'我是阿智。此版本需要 Firebase 雲端聊天室啟用後，才能連線到 AI 回覆。', time:new Date().toISOString(), likedBy:[], adminMessage:false, azhiMessage:true, system:true});
+      }
       save(messages);
       textInput.value='';
       render();
