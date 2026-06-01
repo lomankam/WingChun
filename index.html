@@ -292,6 +292,35 @@ font-family:Georgia,serif;
 }
 .callAiBtn:hover{background:linear-gradient(135deg,var(--gold2),var(--gold));color:#15110a;border-color:transparent}
 .callAiBtn:disabled{opacity:.45;cursor:not-allowed;filter:grayscale(1)}
+.azhiThinking{
+  display:inline-flex;
+  align-items:center;
+  gap:2px;
+  margin-top:8px;
+  padding:5px 9px;
+  border-radius:999px;
+  color:rgba(255,224,163,.72);
+  background:rgba(217,181,109,.075);
+  border:1px solid rgba(217,181,109,.16);
+  font-size:12px;
+  font-weight:800;
+  letter-spacing:.03em;
+}
+.azhiThinking .dot{
+  display:inline-block;
+  width:4px;
+  height:4px;
+  margin-left:1px;
+  border-radius:50%;
+  background:rgba(255,224,163,.78);
+  animation:azhiThinkingBlink 1.05s infinite ease-in-out;
+}
+.azhiThinking .dot:nth-child(2){animation-delay:.16s}
+.azhiThinking .dot:nth-child(3){animation-delay:.32s}
+@keyframes azhiThinkingBlink{
+  0%,80%,100%{opacity:.25;transform:translateY(0)}
+  40%{opacity:1;transform:translateY(-2px)}
+}
 .chatInput,.chatText{
   width:100%;
   border:1px solid var(--line);
@@ -506,7 +535,7 @@ html.chat-only-mode #chatStandaloneBtn{display:none!important}
   </div>
 </section>
 
-  <div class="versionFooter">v20.10</div>
+  <div class="versionFooter">v20.11</div>
 </div>
 <script>
 const videos = [{"no": 1, "title": "鬥技不鬥力 順勢而行<div class=\"engTitle\">Skill Over Strength • Following the Flow</div>", "id": "SkXUAqbEqjQ", "url": "https://youtu.be/SkXUAqbEqjQ", "category": "核心觀念"}, {"no": 2, "title": "抱牌掌應用與發揮<div class=\"engTitle\">Applications and Variations of the Embracing Palm</div>", "id": "HQErDwZ2ZtQ", "url": "https://youtu.be/HQErDwZ2ZtQ", "category": "核心觀念"}, {"no": 3, "title": "制敵於先 克敵於無形<div class=\"engTitle\">Subdue the Opponent Before the Attack Begins</div>", "id": "Jomz2URebuk", "url": "https://youtu.be/Jomz2URebuk", "category": "核心觀念"}, {"no": 4, "title": "似無實有 活能生巧<div class=\"engTitle\">Seemingly Empty, Yet Full of Potential</div>", "id": "DErJB3xu-_c", "url": "https://youtu.be/DErJB3xu-_c", "category": "核心觀念"}, {"no": 5, "title": "詠春套路應用解析 1<div class=\"engTitle\">Wing Chun Forms & Applications Analysis (Part I)</div>", "id": "6UxlNfEyLl0", "url": "https://youtu.be/6UxlNfEyLl0", "category": "套路解析"}, {"no": 6, "title": "面對敵人 即時反射所學 1<div class=\"engTitle\">Instant Reflex Application Against an Opponent (Part I)</div>", "id": "2G2-sl74UDw", "url": "https://youtu.be/2G2-sl74UDw", "category": "核心觀念"}, {"no": 7, "title": "面對敵人 即時反射所學 2<div class=\"engTitle\">Instant Reflex Application Against an Opponent (Part II)</div>", "id": "dTGSNLqVQF8", "url": "https://youtu.be/dTGSNLqVQF8", "category": "核心觀念"}, {"no": 8, "title": "接觸反應 順勢而行 鎖喉反制與應用<div class=\"engTitle\">Contact Reaction & Flowing Response • Choke Defense Applications</div>", "id": "eZy51eJttYA", "url": "https://youtu.be/eZy51eJttYA", "category": "核心觀念"}, {"no": 9, "title": "詠春套路應用解析 2<div class=\"engTitle\">Wing Chun Forms & Applications Analysis (Part II)</div>", "id": "HqgkB4wSvT4", "url": "https://youtu.be/HqgkB4wSvT4", "category": "套路解析"}, {"no": 10, "title": "鎖喉反制與應用 2<div class=\"engTitle\">Choke Defense Applications (Part II)</div>", "id": "bddOlNxOpiw", "url": "https://youtu.be/bddOlNxOpiw", "category": "防身應用"}, {"no": 11, "title": "背後擒抱反制與應用原理<div class=\"engTitle\">Escaping and Countering a Rear Bear Hug</div>", "id": "uGdUZLBRTWQ", "url": "https://youtu.be/uGdUZLBRTWQ", "category": "防身應用"}, {"no": 12, "title": "詠春拳 套路「標指」詳解<div class=\"engTitle\">Biu Tze (標指) Form – Complete Breakdown</div>", "id": "T9QuukbJ3Y4", "url": "https://youtu.be/T9QuukbJ3Y4", "category": "套路解析"}, {"no": 13, "title": "詠春的核心思想<div class=\"engTitle\">The Core Philosophy of Wing Chun</div>", "id": "q9orSdwqPx4", "url": "https://youtu.be/q9orSdwqPx4", "category": "核心觀念"}, {"no": 14, "title": "黐手到實戰 詠春的真正核心<div class=\"engTitle\">From Chi Sau to Combat – The True Core of Wing Chun</div>", "id": "3OufV7nj4mQ", "url": "https://youtu.be/3OufV7nj4mQ", "category": "核心觀念"}, {"no": 15, "title": "順勢而行的近身擒手反制與應用<div class=\"engTitle\">Close-Range Grappling Counters Through Flowing Response</div>", "id": "OCSZYGRAs2A", "url": "https://youtu.be/OCSZYGRAs2A", "category": "核心觀念"}, {"no": 16, "title": "反應決定一切，克敵的制勝關鍵<div class=\"engTitle\">Reaction Determines Victory</div>", "id": "AXEjT_ln7pI", "url": "https://youtu.be/AXEjT_ln7pI", "category": "核心觀念"}, {"no": 17, "title": "詠春核心揭秘：沒有招式，只有反應!<div class=\"engTitle\">Wing Chun Revealed: No Techniques, Only Reactions</div>", "id": "NU7ayuVK5bI", "url": "https://youtu.be/NU7ayuVK5bI", "category": "核心觀念"}, {"no": 18, "title": "詠春拳套路的核心觀念<div class=\"engTitle\">Core Concepts Behind Wing Chun Forms</div>", "id": "UhOnN1hmz0I", "url": "https://youtu.be/UhOnN1hmz0I", "category": "套路解析"}, {"no": 19, "title": "詠春拳「尋橋」完整拆解<div class=\"engTitle\">Chum Kiu (尋橋) – Complete Analysis</div>", "id": "cpy3Qa2OTB4", "url": "https://youtu.be/cpy3Qa2OTB4", "category": "套路解析"}, {"no": 20, "title": "詠春「蹬手」完整解析，實戰應用與核心觀念<div class=\"engTitle\">Dang Sau (蹬手) – Complete Analysis & Combat Applications</div>", "id": "CRVhoqkjK8s", "url": "https://youtu.be/CRVhoqkjK8s", "category": "套路解析"}, {"no": 21, "title": "詠春高階觀念：「反應」比招式更重要<div class=\"engTitle\">Advanced Wing Chun Concept: Reaction Over Technique</div>", "id": "jehmZ5i_yiM", "url": "https://youtu.be/jehmZ5i_yiM", "category": "核心觀念"}, {"no": 22, "title": "持刀對峙的實戰觀念解析｜不是招式，而是瞬間反應!!<div class=\"engTitle\">Knife Confrontation Concepts – Instant Reaction Over Techniques</div>", "id": "OF51iX7gwmI", "url": "https://youtu.be/OF51iX7gwmI", "category": "核心觀念"}, {"no": 23, "title": "持械攻擊下的詠春防身觀念<div class=\"engTitle\">Wing Chun Self-Defense Concepts Against Armed Attacks</div>", "id": "uiiBtLuYkCw", "url": "https://youtu.be/uiiBtLuYkCw", "category": "核心觀念"}, {"no": 24, "title": "詠春拳防衛觀念解析｜沒有固定招式，只有正確反應<div class=\"engTitle\">Wing Chun Defensive Concepts – No Fixed Techniques, Only Correct Reactions</div>", "id": "fisb89DcHBQ", "url": "https://youtu.be/fisb89DcHBQ", "category": "核心觀念"}];
@@ -633,6 +662,7 @@ const firebaseConfig = {
   const onlineCollectionName='onlineUsers';
   const AZHI_WORKER_URL='https://wingchun.lomankam-master.workers.dev';
   const AZHI_NAME='🤖 阿智';
+  const azhiPendingMessageIds=new Set();
   const box=document.getElementById('chatMessages');
   const form=document.getElementById('chatForm');
   const nameInput=document.getElementById('chatName');
@@ -734,8 +764,12 @@ const firebaseConfig = {
       .replace(/^@?ai[：:\s]*/i,'')
       .trim() || '請介紹一下你自己。';
   }
-  async function sendAzhiReply(userText, chatRefForWrite){
+  async function sendAzhiReply(userText, chatRefForWrite, sourceMessageId){
     if(!isAzhiRequest(userText)) return;
+    if(sourceMessageId){
+      azhiPendingMessageIds.add(sourceMessageId);
+      renderMessages(latestMessages);
+    }
     try{
       const res=await fetch(AZHI_WORKER_URL,{
         method:'POST',
@@ -748,6 +782,11 @@ const firebaseConfig = {
     }catch(err){
       console.error('Azhi reply failed', err);
       try{ await addDoc(chatRefForWrite, {name:AZHI_NAME, text:'我是阿智，目前連線暫時不穩，請稍後再問我一次。', likedBy:[], adminMessage:false, azhiMessage:true, system:true, createdAt:serverTimestamp()}); }catch(e){}
+    }finally{
+      if(sourceMessageId){
+        azhiPendingMessageIds.delete(sourceMessageId);
+        renderMessages(latestMessages);
+      }
     }
   }
   function renderOnlineAdminList(){
@@ -854,6 +893,11 @@ const firebaseConfig = {
       renderMessages([{id:'kicked', name:'系統', text:(isBanned ? '你已被管理員列入黑名單，暫時無法傳送訊息或按讚。' : '你已被管理員踢出本次聊天室，重新整理後可再嘗試加入。'), time:new Date().toISOString(), system:true, likedBy:[]}]);
     }
   }
+  function azhiThinkingHTML(messageId){
+    if(!messageId || !azhiPendingMessageIds.has(messageId)) return '';
+    const label = (window.currentLang === 'en' || currentLang === 'en') ? 'Azhi is thinking' : '阿智思考中';
+    return `<div class="azhiThinking">${label}<span class="dot"></span><span class="dot"></span><span class="dot"></span></div>`;
+  }
   function renderMessages(messages){
     latestMessages = messages || [];
     const list = latestMessages.length ? latestMessages : defaultMessages;
@@ -867,7 +911,8 @@ const firebaseConfig = {
       const adminClass=m.adminMessage ? 'adminMsg' : (m.system ? '' : 'me');
       const adminBadge=m.adminMessage ? '<span class="adminShield">🛡 管理員</span>' : '';
       const displayName=m.adminMessage ? '' : escapeHTML(m.name||'訪客');
-      return `<div class="chatMsg ${adminClass}"><span class="chatMeta">${adminBadge}${displayName}<span class="chatTime">${timeLabel(m.createdAt || m.time)}</span></span>${escapeHTML(m.text||'')}${likeHTML}</div>`;
+      const thinkingHTML=azhiThinkingHTML(m.id);
+      return `<div class="chatMsg ${adminClass}"><span class="chatMeta">${adminBadge}${displayName}<span class="chatTime">${timeLabel(m.createdAt || m.time)}</span></span>${escapeHTML(m.text||'')}${thinkingHTML}${likeHTML}</div>`;
     }).join('');
     box.scrollTop=box.scrollHeight;
   }
@@ -1048,9 +1093,9 @@ const firebaseConfig = {
       if(!isAdmin) localStorage.setItem('lo-man-kam-chat-name', name);
       textInput.value='';
       await authReady;
-      await addDoc(chatRef, {name: isAdmin ? '管理員' : name, text, likedBy:[], adminMessage: !!isAdmin, createdAt:serverTimestamp()});
+      const userMessageRef = await addDoc(chatRef, {name: isAdmin ? '管理員' : name, text, likedBy:[], adminMessage: !!isAdmin, createdAt:serverTimestamp()});
       await updatePresence();
-      sendAzhiReply(text, chatRef);
+      sendAzhiReply(text, chatRef, userMessageRef.id);
     });
 
     box.addEventListener('click', async function(e){
@@ -1143,7 +1188,8 @@ const firebaseConfig = {
       if(!text) return;
       if(!isAdmin) localStorage.setItem('lo-man-kam-chat-name', name);
       const messages=load();
-      messages.push({id:String(Date.now()), name,text,time:new Date().toISOString(),likedBy:[], adminMessage: !!isAdmin});
+      const localUserMessageId=String(Date.now());
+      messages.push({id:localUserMessageId, name,text,time:new Date().toISOString(),likedBy:[], adminMessage: !!isAdmin});
       if(isAzhiRequest(text)){
         messages.push({id:String(Date.now()+1), name:AZHI_NAME, text:'我是阿智。此版本需要 Firebase 雲端聊天室啟用後，才能連線到 AI 回覆。', time:new Date().toISOString(), likedBy:[], adminMessage:false, azhiMessage:true, system:true});
       }
