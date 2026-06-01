@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>盧文錦師父授課精華｜影片目錄 v20</title>
+<title>盧文錦師父授課精華｜影片目錄 v20.4</title>
 <script>if(new URLSearchParams(location.search).get('chat')==='1'){document.documentElement.classList.add('chat-only-mode');}</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -330,6 +330,8 @@ font-family:Georgia,serif;
 .chatStatPill{border:1px solid rgba(217,181,109,.28);border-radius:999px;padding:7px 11px;background:rgba(255,255,255,.055);color:#f5e6bd;font-weight:800}
 .chatMsg.adminMsg{align-self:flex-start;background:linear-gradient(135deg,rgba(255,224,163,.26),rgba(217,181,109,.12));border-color:rgba(217,181,109,.55);box-shadow:0 8px 22px rgba(217,181,109,.10)}
 .chatMsg.adminMsg .chatMeta{color:#ffe0a3;text-shadow:0 0 10px rgba(217,181,109,.25)}
+.chatMsg.botMsg{align-self:flex-start;background:linear-gradient(135deg,rgba(119,183,255,.20),rgba(255,255,255,.06));border-color:rgba(119,183,255,.42);box-shadow:0 8px 22px rgba(119,183,255,.08)}
+.chatMsg.botMsg .chatMeta{color:#dcecff;text-shadow:0 0 10px rgba(119,183,255,.18)}
 .adminShield{display:inline-block;margin-right:4px;color:#ffe0a3;font-weight:900}
 
 @media(max-width:760px){
@@ -472,7 +474,7 @@ html.chat-only-mode #chatStandaloneBtn{display:none!important}
     </form>
     <div class="chatTools">
       <span>提示：一般訪客可傳送訊息與按讚；管理員登入後可修改公告、刪除訊息、管理黑名單，並可用年曆與 24 小時制設定聊天室開放時間。</span>
-      <button class="chatClear" id="chatClear" type="button">清除本機訊息</button>
+      <button class="chatClear" id="chatClear" type="button" style="display:none">清除本機訊息</button>
     </div>
   </div>
 </section>
@@ -683,9 +685,31 @@ const firebaseConfig = {
   let latestBannedDocs=[];
   let chatControl={disabled:false, closeAt:null, openAt:null};
   let chatClosed=false;
-  const reservedNames=['管理員','admin','系統','版主','站長','阿智','ai'];
+  const reservedNames=['管理員','admin','系統','版主','站長','阿智','ai','AI'];
   const chatEn = () => window.chatUiLang === 'en';
   const chatLabel = (zh,en) => chatEn() ? en : zh;
+  const AZHI_WORKER_URL = 'https://wingchun.lomankam-master.workers.dev';
+  function shouldAskAzhi(text){
+    const value = String(text || '').trim();
+    return value.includes('@阿智') || value.startsWith('阿智') || /(^|\s)@?AI([：:\s]|$)/i.test(value);
+  }
+  function extractAzhiQuestion(text){
+    return String(text || '')
+      .replace(/@阿智/g, '')
+      .replace(/^阿智[：:\s]*/g, '')
+      .replace(/(^|\s)@?AI([：:\s]|$)/ig, ' ')
+      .trim();
+  }
+  async function askAzhi(question){
+    const res = await fetch(AZHI_WORKER_URL, {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({message: question || '請簡單介紹你自己'})
+    });
+    const data = await res.json().catch(()=>({}));
+    if(!res.ok) throw new Error(data && (data.error || data.detail) ? JSON.stringify(data) : 'Azhi request failed');
+    return (data.reply || '').trim() || '我是阿智，目前暫時無法回答，請稍後再試。';
+  }
   if(!box||!form) return;
 
   function getOrCreateId(storageKey){
@@ -844,10 +868,10 @@ Please wait for an admin notice.' : '聊天室暫時關閉
       const likeBtn=m.system ? '' : `<button class="likeBtn ${liked?'liked':''}" data-id="${escapeHTML(m.id||'')}">👍 ${likeCount}</button>`;
       const deleteBtn=(!m.system && isAdmin) ? `<button class="deleteBtn" data-id="${escapeHTML(m.id||'')}">🗑 刪除</button>` : '';
       const likeHTML=m.system ? '' : `<div class="chatActions">${likeBtn}${deleteBtn}</div>`;
-      const adminClass=m.azhiMessage ? 'adminMsg' : (m.adminMessage ? 'adminMsg' : (m.system ? '' : 'me'));
-      const adminBadge=m.azhiMessage ? `<span class="adminShield">🤖 阿智</span>` : (m.adminMessage ? `<span class="adminShield">${chatLabel('🛡 管理員','🛡 Admin')}</span>` : '');
-      const rawName = m.system ? chatLabel('系統','System') : (m.name || chatLabel('訪客','Guest'));
-      const displayName=(m.adminMessage || m.azhiMessage) ? '' : escapeHTML(rawName);
+      const adminClass=m.adminMessage ? 'adminMsg' : (m.botMessage ? 'botMsg' : (m.system ? '' : 'me'));
+      const adminBadge=m.adminMessage ? `<span class="adminShield">${chatLabel('🛡 管理員','🛡 Admin')}</span>` : '';
+      const rawName = m.botMessage ? '🤖 阿智' : (m.system ? chatLabel('系統','System') : (m.name || chatLabel('訪客','Guest')));
+      const displayName=m.adminMessage ? '' : escapeHTML(rawName);
       let msgText = m.text || '';
       if(m.defaultSystem){ msgText = firebaseReady ? chatLabel('雲端聊天室已啟用，歡迎留下觀課心得。','Cloud chat is enabled. Feel free to share your reflections.') : chatLabel('尚未填入 Firebase 設定，目前暫用本機留言。','Firebase is not configured yet. Local messages are being used for now.'); }
       return `<div class="chatMsg ${adminClass}"><span class="chatMeta">${adminBadge}${displayName}<span class="chatTime">${timeLabel(m.createdAt || m.time)}</span></span>${escapeHTML(msgText)}${likeHTML}</div>`;
@@ -875,33 +899,6 @@ Please wait for an admin notice.' : '聊天室暫時關閉
     const chatQuery = query(chatRef, orderBy('createdAt','asc'), limit(80));
     if(toolsText) toolsText.textContent = chatLabel('雲端聊天室已啟用：所有訪客都能同步看到訊息、在線人數、聊天室狀態與按讚。','Cloud chat is enabled: visitors can see messages, online count, chat status, and likes in sync.');
     if(clearBtn){ clearBtn.textContent = '清空聊天室'; clearBtn.style.display='none'; }
-
-    const AZHI_WORKER_URL = 'https://wingchun.lomankam-master.workers.dev';
-
-    function extractAzhiQuestion(text){
-      const raw=String(text||'').trim();
-      const match=raw.match(/^@?(阿智|AI)\s*[:：,，]?\s*(.*)$/i);
-      if(!match) return '';
-      return (match[2]||'').trim() || '請介紹一下自己';
-    }
-
-    async function askAzhiIfNeeded(text){
-      const question=extractAzhiQuestion(text);
-      if(!question) return;
-      try{
-        const res=await fetch(AZHI_WORKER_URL,{
-          method:'POST',
-          headers:{'Content-Type':'application/json'},
-          body:JSON.stringify({message:question})
-        });
-        const data=await res.json().catch(()=>({}));
-        const reply=(data && data.reply) ? String(data.reply).trim() : '我是阿智，目前暫時無法回答，請稍後再試。';
-        await addDoc(chatRef,{name:'阿智', text:reply, likedBy:[], azhiMessage:true, createdAt:serverTimestamp()});
-      }catch(err){
-        console.error('Azhi request failed', err);
-        await addDoc(chatRef,{name:'阿智', text:'我是阿智，目前暫時無法回答，請稍後再試。', likedBy:[], azhiMessage:true, createdAt:serverTimestamp()});
-      }
-    }
 
     function refreshAdminUI(user){
       isAdmin = !!(user && user.email && user.email.toLowerCase() === adminEmail);
@@ -1061,7 +1058,15 @@ Please wait for an admin notice.' : '聊天室暫時關閉
       await authReady;
       await addDoc(chatRef, {name: isAdmin ? '管理員' : name, text, likedBy:[], adminMessage: !!isAdmin, createdAt:serverTimestamp()});
       await updatePresence();
-      askAzhiIfNeeded(text);
+      if(shouldAskAzhi(text)){
+        const question = extractAzhiQuestion(text) || text;
+        askAzhi(question).then(async (reply)=>{
+          await addDoc(chatRef, {name:'🤖 阿智', text:reply, likedBy:[], botMessage:true, createdAt:serverTimestamp()});
+        }).catch(async (err)=>{
+          console.error('Azhi error', err);
+          await addDoc(chatRef, {name:'🤖 阿智', text:'我是阿智，目前連線暫時不穩，請稍後再試。', likedBy:[], botMessage:true, system:false, createdAt:serverTimestamp()}).catch(()=>{});
+        });
+      }
     });
 
     box.addEventListener('click', async function(e){
