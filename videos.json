@@ -1,6 +1,6 @@
 {
-  "lastUpdated": "2026-06-06",
-  "source": "盧文錦師父授課精華 1~25",
+  "lastUpdated": "2026-06-13",
+  "source": "盧文錦 師父 授課精華(1~26).pdf",
   "videos": [
     {
       "episode": 1,
@@ -291,13 +291,25 @@
       "category": "核心觀念",
       "level": "進階",
       "keywords": [
-        "詠春核心原理",
+        "核心原理",
         "生理結構",
         "槓桿力學",
-        "實戰應用",
-        "核心觀念"
+        "實戰應用"
       ],
       "url": "https://youtu.be/5NWvyL5ux3w"
+    },
+    {
+      "episode": 26,
+      "title": "詠春腿法攻防原理與實戰應用（上集）",
+      "category": "腿法",
+      "level": "進階",
+      "keywords": [
+        "腿法",
+        "攻防原理",
+        "實戰應用",
+        "上集"
+      ],
+      "url": "https://youtu.be/dMTRC6nNJwA"
     }
   ]
 }
