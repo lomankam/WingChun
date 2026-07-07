@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>盧文錦師父授課精華｜Wing Chun Master Lo v21.4 正式版</title>
+<title>盧文錦師父授課精華｜Wing Chun Master Lo v21.5 正式版</title>
 <script>if(new URLSearchParams(location.search).get('chat')==='1'){document.documentElement.classList.add('chat-only-mode');}</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -1061,6 +1061,36 @@ button.link:active {
   }
 }
 
+
+
+/* ===== V21.5：移除課程分類按鈕、BOTH 放大、AI助理快速跳轉 ===== */
+#filters{display:none!important;}
+.courseLangButtons .langBtn .bothLabel{
+  display:block!important;
+  margin-top:1px!important;
+  font-family:'Cinzel','Cormorant Garamond',serif!important;
+  font-size:15px!important;
+  line-height:1!important;
+  letter-spacing:.08em!important;
+  font-weight:900!important;
+}
+.courseLangButtons .aiJumpBtn{
+  min-width:92px!important;
+  color:#dcecff!important;
+  border-color:rgba(119,183,255,.52)!important;
+  background:linear-gradient(180deg,rgba(119,183,255,.18),rgba(255,255,255,.03)),linear-gradient(135deg,rgba(16,24,38,.94),rgba(5,7,10,.82))!important;
+  box-shadow:0 10px 20px rgba(0,0,0,.36),0 0 16px rgba(119,183,255,.16),inset 0 0 0 1px rgba(255,255,255,.05)!important;
+}
+.courseLangButtons .aiJumpBtn:hover{
+  color:#120d05!important;
+  border-color:rgba(255,235,178,.98)!important;
+  background:linear-gradient(180deg,#fff6cb 0%,#f3c96f 42%,#c18a2e 68%,#ffe29a 100%)!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.82),inset 0 -10px 17px rgba(95,47,0,.22),0 10px 20px rgba(0,0,0,.42),0 0 20px rgba(217,173,85,.28)!important;
+}
+@media(max-width:760px){
+  .courseLangButtons .langBtn .bothLabel{font-size:13px!important;}
+  .courseLangButtons .aiJumpBtn{font-size:14px!important;}
+}
 </style>
 </head>
 <body>
@@ -1088,8 +1118,7 @@ button.link:active {
 
   <div class="content">
     <main>
-      <div class="sectionTitle courseHeader"><h2><span data-zh="所有課程" data-en="All Lessons">所有課程</span><small>All Lessons</small></h2><div class="courseLangButtons langButtons" aria-label="Language selector"><button class="langBtn active" type="button" data-langbtn="zh" aria-pressed="true" onclick="setLang('zh')">中文</button><button class="langBtn" type="button" data-langbtn="en" aria-pressed="false" onclick="setLang('en')">English</button><button class="langBtn" type="button" data-langbtn="both" aria-pressed="false" onclick="setLang('both')">雙語<small>Bilingual</small></button></div><span class="small" id="count"></span></div>
-      <div class="btns" id="filters"></div>
+      <div class="sectionTitle courseHeader"><h2><span data-zh="所有課程" data-en="All Lessons">所有課程</span><small>All Lessons</small></h2><div class="courseLangButtons langButtons" aria-label="Language selector"><button class="langBtn active" type="button" data-langbtn="zh" aria-pressed="true" onclick="setLang('zh')">中文</button><button class="langBtn" type="button" data-langbtn="en" aria-pressed="false" onclick="setLang('en')">English</button><button class="langBtn" type="button" data-langbtn="both" aria-pressed="false" onclick="setLang('both')">雙語<small class="bothLabel">BOTH</small></button><button class="langBtn aiJumpBtn" type="button" onclick="scrollToAI()">AI助理</button></div><span class="small" id="count"></span></div>
       <div class="grid" id="grid"></div>
       <div class="empty" id="empty" data-zh="找不到符合條件的影片，請換一個分類。" data-en="No lessons found. Try another category.">找不到符合條件的影片，請換一個分類。</div>
     </main>
@@ -1197,17 +1226,20 @@ function sortLatest(a,b){return (Number(b.episode)||0)-(Number(a.episode)||0)}
 async function loadVideos(){
   try{ const res=await fetch(`videos.json?v=${Date.now()}`,{cache:'no-store'}); if(!res.ok) throw new Error(res.status); const data=await res.json(); const raw=Array.isArray(data)?data:(data.videos||[]); videos=(raw.length?raw:fallbackVideos).map(normalize).sort(sortLatest); }
   catch(e){ console.warn('videos.json 載入失敗，使用備用資料',e); videos=fallbackVideos.map(normalize).sort(sortLatest); }
-  renderFilters(); renderLatest(); render(); updateLanguageUI();
+  renderLatest(); render(); updateLanguageUI();
 }
 function renderLatest(){ const v=videos[0]; if(!v) return; document.getElementById('latestThumb').href=v.url; document.getElementById('latestWatch').href=v.url; document.getElementById('latestImg').src=thumb(v); document.getElementById('latestEpisode').textContent=currentLang==='en'?`Episode ${v.episode}`:`第 ${v.episode} 集`; document.getElementById('latestCategory').textContent=currentLang==='en'?(catEn[v.category]||v.category):v.category; document.getElementById('latestTitle').innerHTML=titleFor(v,true); }
 function titleFor(v,large=false){ const zh=stripHtml(v.title); const en=stripHtml(v.titleEn||''); if(currentLang==='en') return en||zh; if(currentLang==='both') return `${zh}${en?`<span class="engTitle">${en}</span>`:''}`; return zh; }
-function renderFilters(){ const defaults=['全部','核心觀念','套路系統','黐手精構','腿法專題','防身應用','兵器運用','其他']; const cats=['全部',...new Set([...defaults.slice(1),...videos.map(v=>v.category).filter(Boolean)])]; document.getElementById('filters').innerHTML=cats.map(c=>`<button class="btn ${c===filteredCategory?'active':''}" type="button" onclick="filterCat('${c.replace(/'/g,"\'")}')">${currentLang==='en'?(catEn[c]||c):c}</button>`).join(''); }
-function filterCat(c){filteredCategory=c;renderFilters();render();}
-function render(){ const list=filteredCategory==='全部'?videos:videos.filter(v=>v.category===filteredCategory); const grid=document.getElementById('grid'); grid.innerHTML=list.map(v=>`<article class="card"><a class="thumb" href="${v.url}" target="_blank" rel="noopener"><img src="${thumb(v)}" alt="${stripHtml(v.title)}"><span class="num">${currentLang==='en'?v.episode:'第 '+v.episode+' 集'}</span><span class="play">▶</span></a><div class="body"><span class="tag">${currentLang==='en'?(catEn[v.category]||v.category):v.category}</span><h3 class="title">${titleFor(v)}</h3><div class="actions"><a class="link primary" href="${v.url}" target="_blank" rel="noopener">${currentLang==='en'?'Watch':'觀看'}</a><button class="link" type="button" onclick="shareVideo('${v.url}')">${currentLang==='en'?'Share':'分享'}</button></div></div></article>`).join(''); document.getElementById('count').textContent=currentLang==='en'?`${list.length} / ${videos.length} lessons`:`顯示 ${list.length} / ${videos.length} 集`; document.getElementById('empty').style.display=list.length?'none':'block'; }
+function renderFilters(){} function filterCat(c){} function render(){ const list=videos; const grid=document.getElementById('grid'); grid.innerHTML=list.map(v=>`<article class="card"><a class="thumb" href="${v.url}" target="_blank" rel="noopener"><img src="${thumb(v)}" alt="${stripHtml(v.title)}"><span class="num">${currentLang==='en'?v.episode:'第 '+v.episode+' 集'}</span><span class="play">▶</span></a><div class="body"><span class="tag">${currentLang==='en'?(catEn[v.category]||v.category):v.category}</span><h3 class="title">${titleFor(v)}</h3><div class="actions"><a class="link primary" href="${v.url}" target="_blank" rel="noopener">${currentLang==='en'?'Watch':'觀看'}</a><button class="link" type="button" onclick="shareVideo('${v.url}')">${currentLang==='en'?'Share':'分享'}</button></div></div></article>`).join(''); document.getElementById('count').textContent=currentLang==='en'?`${list.length} / ${videos.length} lessons`:`顯示 ${list.length} / ${videos.length} 集`; document.getElementById('empty').style.display=list.length?'none':'block'; }
+
+function scrollToAI(){
+  const target=document.getElementById('chatroom') || document.querySelector('.chatSection') || document.querySelector('.aiCard');
+  if(target){ target.scrollIntoView({behavior:'smooth', block:'start'}); }
+}
 function shareVideo(url){ navigator.clipboard?.writeText(url).then(()=>toast(currentLang==='en'?'Link copied':'已複製連結')).catch(()=>prompt(currentLang==='en'?'Copy this link:':'請複製這個連結：',url)); }
 function shareLatest(){ if(videos[0]) shareVideo(videos[0].url); }
 function toast(msg){ const t=document.getElementById('shareToast'); t.textContent=msg; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),1600); }
-function setLang(lang){ currentLang=lang; updateLanguageUI(); renderFilters(); renderLatest(); render(); }
+function setLang(lang){ currentLang=lang; updateLanguageUI(); renderLatest(); render(); }
 function updateLanguageUI(){
   document.documentElement.lang=currentLang==='en'?'en':'zh-Hant';
   document.documentElement.dataset.lang=currentLang;
