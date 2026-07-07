@@ -1,0 +1,66 @@
+{
+  "version": "1.0",
+  "lastUpdated": "2026-07-07",
+  "categories": {
+    "core_principles": {
+      "zh": "核心觀念",
+      "en": "Core Principles"
+    },
+    "hand_techniques": {
+      "zh": "手法應用",
+      "en": "Hand Techniques"
+    },
+    "combat_concepts": {
+      "zh": "實戰觀念",
+      "en": "Combat Concepts"
+    },
+    "form_applications": {
+      "zh": "套路應用",
+      "en": "Form Applications"
+    },
+    "reaction_training": {
+      "zh": "反應訓練",
+      "en": "Reaction Training"
+    },
+    "counter_applications": {
+      "zh": "反制應用",
+      "en": "Counter Applications"
+    },
+    "biu_tze": {
+      "zh": "標指",
+      "en": "Biu Tze"
+    },
+    "chi_sau_combat": {
+      "zh": "黐手與實戰",
+      "en": "Chi Sau & Combat"
+    },
+    "form_concepts": {
+      "zh": "套路觀念",
+      "en": "Form Concepts"
+    },
+    "chum_kiu": {
+      "zh": "尋橋",
+      "en": "Chum Kiu"
+    },
+    "advanced_principles": {
+      "zh": "高階觀念",
+      "en": "Advanced Principles"
+    },
+    "weapon_defense": {
+      "zh": "武器防身",
+      "en": "Weapon Defense"
+    },
+    "defensive_concepts": {
+      "zh": "防衛觀念",
+      "en": "Defensive Concepts"
+    },
+    "leg_techniques": {
+      "zh": "腿法",
+      "en": "Leg Techniques"
+    },
+    "others": {
+      "zh": "其他",
+      "en": "Others"
+    }
+  }
+}

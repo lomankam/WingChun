@@ -1,39 +1,18 @@
-# WingChun V22.3
+# WingChun V23.0 Foundation
 
-本版為 V22.3「CSS 模組化」版本。
+本版建立平台資料層（Data Layer），版面與功能保持 V22.3 穩定版邏輯。
 
-## 本次更新
+## 新增內容
 
-- 保留 V22.2.2 的所有功能與版面。
-- 將單一 `css/style.css` 拆成多個 CSS 模組。
-- `css/style.css` 改為入口檔，使用 `@import` 匯入各模組。
-- 版本號更新為 `v22.3`。
-- `index.html` 中 CSS / JS 快取參數更新為 `?v=22.3`。
+- `data/videos.json`：1～29 集課程資料，補齊官方英文標題、英文分類、英文關鍵字。
+- `data/terminology.json`：詠春術語官方資料庫。
+- `data/categories.json`：分類中英對照。
+- `data/languages.json`：網站固定文字中英資料。
+- `data/settings.json`：網站設定資料。
+- `data/changelog.json`：版本更新紀錄。
+- `docs/STYLE_GUIDE.md`：官方英文用語規範。
+- `docs/WingChun_Terminology_v1.0.md`：術語表。
 
-## CSS 結構
+## 注意
 
-```text
-css/
-├── style.css              # CSS 入口檔，匯入全部模組
-├── base.css               # 基礎版面、課程卡片、最新更新、側欄
-├── chat.css               # 聊天室基礎樣式
-├── theme-hero-tune.css    # 黑金主題與 Hero 調整
-├── hero-banner.css        # 主視覺 Banner
-├── brand-language.css     # Logo 與語言按鈕狀態
-├── hero-final.css         # 最終 Hero 主視覺與按鈕
-├── course-layout.css      # 所有課程區與語言按鈕位置
-├── buttons-cards.css      # 全站按鈕與卡片互動
-├── language-fixes.css     # 語言按鈕文字與 Hover 修正
-├── animations.css         # Logo 金光與動畫
-├── ai-shortcut.css        # AI 助理捷徑按鈕
-└── lesson-card-fix.css    # 集數移至標題區雙 Capsule 修正
-```
-
-## 測試重點
-
-1. 首頁主視覺是否正常。
-2. 語言按鈕是否正常切換。
-3. 課程卡片集數是否位於標題區上方，沒有遮住縮圖。
-4. 最新更新、AI 助理、聊天室是否正常。
-5. 手機版顯示是否正常。
-
+為了穩定，網站目前仍讀取根目錄 `videos.json`；`data/` 是 V23 平台化的資料基礎。下一版會逐步讓網站改讀 `data/`。

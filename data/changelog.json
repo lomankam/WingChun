@@ -1,0 +1,20 @@
+[
+  {
+    "version": "23.0",
+    "date": "2026-07-07",
+    "changes": [
+      "建立 data/ 資料層",
+      "新增 terminology.json、categories.json、languages.json、settings.json、changelog.json",
+      "補齊 1～29 集官方英文標題與英文關鍵字",
+      "建立 STYLE_GUIDE.md 與術語標準文件"
+    ]
+  },
+  {
+    "version": "22.3",
+    "date": "2026-07-07",
+    "changes": [
+      "CSS 模組化",
+      "功能保持不變"
+    ]
+  }
+]
