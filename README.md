@@ -1,16 +1,10 @@
-# WingChun V24.0 Website Start
+# WingChun V24.0 English Title Fix
 
-本版用途：正式將網站底部版本升級為 V24.0，並保留 V23.6 已通過測試的 API + videos.json 備援機制。
+修正內容：
+- 補齊第 1～29 集 `title_en` 英文標題。
+- 修正 API 讀取時，英文 / 雙語模式下第 1～19 集與第 28 集沒有英文標題的問題。
+- 保留 Website v24.0 / Worker v4.0 / Database WCMD v1.0 顯示。
 
-## 覆蓋檔案
-- index.html
-
-## 測試重點
-1. 首頁可正常開啟。
-2. 影片仍顯示 29 集。
-3. 語言切換正常。
-4. AI 助理按鈕與聊天室正常。
-5. 網頁最底端顯示：Website v24.0 ｜ Worker v4.0 ｜ Database WCMD v1.0
-
-## 注意
-此版尚未把網站資料來源完全切換到 data/wcmd.json；這一步會在 V24.2 之後進行。
+使用方式：
+1. 只覆蓋根目錄的 `index.html`。
+2. 上傳 GitHub 後測試中文、English、雙語三種模式。
