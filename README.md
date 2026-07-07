@@ -1,21 +1,16 @@
-# WingChun V24.1 WCMD Full Database
+# WingChun V24.0 Website Start
 
-這包是 WCMD 主資料庫完整化版本。
+本版用途：正式將網站底部版本升級為 V24.0，並保留 V23.6 已通過測試的 API + videos.json 備援機制。
 
-## 使用方式
+## 覆蓋檔案
+- index.html
 
-把 `data/` 與 `docs/` 複製到目前的 WingChun 專案根目錄。
+## 測試重點
+1. 首頁可正常開啟。
+2. 影片仍顯示 29 集。
+3. 語言切換正常。
+4. AI 助理按鈕與聊天室正常。
+5. 網頁最底端顯示：Website v24.0 ｜ Worker v4.0 ｜ Database WCMD v1.0
 
-目前不會影響網站運作，因為 index.html 尚未改成直接讀取 `data/wcmd.json`。
-
-## 本版重點
-
-- 建立完整 `data/wcmd.json`
-- 1～29 集皆已建入資料庫
-- 1～20 集分類標記為 confirmed
-- 21～29 集分類標記為 draft，待確認
-- 英文標題先標記為 draft，可後續校正
-
-## 下一版建議
-
-V24.2：Worker 讀取 WCMD，並合併 YouTube API 的縮圖與發布日期。
+## 注意
+此版尚未把網站資料來源完全切換到 data/wcmd.json；這一步會在 V24.2 之後進行。
