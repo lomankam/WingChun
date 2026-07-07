@@ -1,0 +1,99 @@
+/* WingChun V22.3 module: Course header layout and language button placement. */
+/* ===== V21.1 正式版：語言選擇移到「所有課程」右側，按鈕高度縮小 20% ===== */
+.courseHeader{
+  align-items:center!important;
+  justify-content:flex-start!important;
+  gap:16px!important;
+  flex-wrap:wrap!important;
+}
+.courseHeader h2{
+  flex:0 0 auto!important;
+  margin-right:2px!important;
+}
+.courseHeader #count{
+  margin-left:auto!important;
+}
+.courseLangButtons{
+  display:flex!important;
+  flex-wrap:nowrap!important;
+  gap:8px!important;
+  margin:0!important;
+  position:static!important;
+  transform:none!important;
+  width:auto!important;
+}
+.courseLangButtons .langBtn{
+  min-width:82px!important;
+  padding:5px 12px!important;
+  border-radius:11px!important;
+  border:1px solid rgba(255,224,163,.64)!important;
+  background:
+    linear-gradient(180deg,rgba(255,255,255,.08),rgba(255,255,255,.02)),
+    linear-gradient(135deg,rgba(24,20,13,.90),rgba(6,6,7,.90))!important;
+  color:#fff3d5!important;
+  font-size:15px!important;
+  line-height:1.02!important;
+  font-weight:900!important;
+  cursor:pointer!important;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.16),
+    inset 0 -6px 12px rgba(0,0,0,.34),
+    0 7px 14px rgba(0,0,0,.38),
+    0 0 0 1px rgba(0,0,0,.24)!important;
+  text-shadow:0 1px 0 rgba(0,0,0,.72)!important;
+  transition:.18s ease!important;
+}
+.courseLangButtons .langBtn small{
+  display:block!important;
+  margin-top:0!important;
+  color:#d8c391!important;
+  font-family:'Cormorant Garamond',serif!important;
+  font-size:11px!important;
+  line-height:1!important;
+  font-weight:700!important;
+  text-shadow:0 1px 0 rgba(0,0,0,.68)!important;
+}
+.courseLangButtons .langBtn:hover{
+  border-color:rgba(255,234,173,.95)!important;
+  transform:translateY(-1px)!important;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.24),
+    inset 0 -9px 18px rgba(0,0,0,.24),
+    0 10px 20px rgba(0,0,0,.42),
+    0 0 18px rgba(217,173,85,.22)!important;
+}
+.courseLangButtons .langBtn.active,
+.courseLangButtons .langBtn[aria-pressed="true"]{
+  color:#120d05!important;
+  border-color:rgba(255,235,178,.98)!important;
+  background:
+    linear-gradient(180deg,#fff6cb 0%,#f3c96f 42%,#c18a2e 68%,#ffe29a 100%)!important;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.82),
+    inset 0 -10px 17px rgba(103,62,6,.22),
+    0 8px 18px rgba(0,0,0,.42),
+    0 0 22px rgba(217,173,85,.38)!important;
+  transform:translateY(-1px)!important;
+  text-shadow:0 1px 0 rgba(255,246,203,.55)!important;
+}
+.courseLangButtons .langBtn.active small,
+.courseLangButtons .langBtn[aria-pressed="true"] small{
+  color:#261705!important;
+  text-shadow:0 1px 0 rgba(255,246,203,.45)!important;
+}
+.courseLangButtons .langBtn:active{
+  transform:translateY(1px) scale(.985)!important;
+  box-shadow:
+    inset 0 3px 10px rgba(0,0,0,.28),
+    0 4px 10px rgba(0,0,0,.36)!important;
+}
+@media(max-width:760px){
+  .courseHeader{gap:10px!important;align-items:flex-start!important;}
+  .courseHeader h2{width:100%!important;}
+  .courseHeader #count{width:100%!important;margin-left:0!important;order:3;}
+  .courseLangButtons{width:100%!important;gap:7px!important;order:2;}
+  .courseLangButtons .langBtn{flex:1 1 0!important;min-width:0!important;padding:5px 6px!important;font-size:14px!important;}
+  .courseLangButtons .langBtn small{font-size:10px!important;}
+}
+
+

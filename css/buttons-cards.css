@@ -1,0 +1,114 @@
+/* WingChun V22.3 module: Unified button interactions and course card visual style. */
+/* ===== V21.2：全站按鈕互動統一 + 語言按鈕字體放大、高度縮小 ===== */
+
+/* 讓各類按鈕都採用「所有課程」快速分類按鈕的互動模式 */
+.btn,
+.action,
+.link,
+.chatStandaloneBtn,
+.callAiBtn,
+.chatSend,
+.chatClear,
+.likeBtn,
+.adminBtn,
+.deleteBtn,
+.kickBtn,
+.banBtn,
+.unbanBtn,
+.toTop,
+button.link {
+  cursor:pointer!important;
+  transition:transform .18s ease, background .18s ease, color .18s ease, border-color .18s ease, box-shadow .18s ease, filter .18s ease!important;
+}
+
+.btn:hover,
+.action:hover,
+.link:hover,
+.chatStandaloneBtn:hover,
+.callAiBtn:hover,
+.chatSend:hover,
+.chatClear:hover,
+.likeBtn:hover,
+.adminBtn:hover,
+.deleteBtn:hover,
+.kickBtn:hover,
+.banBtn:hover,
+.unbanBtn:hover,
+.toTop:hover,
+button.link:hover {
+  background:linear-gradient(135deg,#ffe8a8,#d9ad55,#9a6a22)!important;
+  color:#15110a!important;
+  border-color:transparent!important;
+  transform:translateY(-2px)!important;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.46),
+    inset 0 -10px 18px rgba(95,56,6,.20),
+    0 10px 22px rgba(0,0,0,.38),
+    0 0 20px rgba(217,173,85,.25)!important;
+  filter:brightness(1.03)!important;
+}
+
+.btn:active,
+.action:active,
+.link:active,
+.chatStandaloneBtn:active,
+.callAiBtn:active,
+.chatSend:active,
+.chatClear:active,
+.likeBtn:active,
+.adminBtn:active,
+.deleteBtn:active,
+.kickBtn:active,
+.banBtn:active,
+.unbanBtn:active,
+.toTop:active,
+button.link:active {
+  transform:translateY(1px) scale(.985)!important;
+  box-shadow:
+    inset 0 3px 10px rgba(0,0,0,.28),
+    0 4px 10px rgba(0,0,0,.34)!important;
+}
+
+/* 保留已選取狀態的金色質感 */
+.btn.active,
+.likeBtn.liked,
+.courseLangButtons .langBtn.active,
+.courseLangButtons .langBtn[aria-pressed="true"] {
+  background:linear-gradient(135deg,#ffe8a8,#d9ad55,#9a6a22)!important;
+  color:#15110a!important;
+  border-color:transparent!important;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.48),
+    inset 0 -10px 18px rgba(95,56,6,.20),
+    0 8px 18px rgba(0,0,0,.34),
+    0 0 20px rgba(217,173,85,.24)!important;
+}
+
+/* 語言選擇按鈕：文字放大、整體高度再縮小約 20% */
+.courseLangButtons{
+  gap:9px!important;
+}
+.courseLangButtons .langBtn{
+  min-width:84px!important;
+  padding:2px 11px!important;
+  font-size:18px!important;
+  line-height:.96!important;
+  border-radius:10px!important;
+}
+.courseLangButtons .langBtn small{
+  margin-top:0!important;
+  font-size:10px!important;
+  line-height:.92!important;
+}
+@media(max-width:760px){
+  .courseLangButtons .langBtn{
+    padding:3px 5px!important;
+    font-size:17px!important;
+  }
+  .courseLangButtons .langBtn small{
+    font-size:9px!important;
+  }
+}
+
+
+

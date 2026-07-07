@@ -1,0 +1,114 @@
+/* WingChun V22.3 module: Logo shine, sparkle, and motion accessibility. */
+/* ===== v21.4：左上角 Logo 精品金光掃過 + 星芒閃光 ===== */
+.hero.finalImageHero{
+  overflow:hidden!important;
+}
+.logoShineOverlay{
+  position:absolute;
+  left:4.9%;
+  top:4.1%;
+  width:clamp(58px,7.1vw,104px);
+  height:clamp(58px,7.1vw,104px);
+  z-index:8;
+  pointer-events:auto;
+  cursor:pointer;
+  border-radius:18px;
+  overflow:hidden;
+  isolation:isolate;
+  opacity:.98;
+  transition:transform .26s ease, filter .26s ease;
+}
+.logoShineOverlay::before{
+  content:"";
+  position:absolute;
+  inset:-25% -55%;
+  background:linear-gradient(115deg,
+    transparent 0%,
+    transparent 38%,
+    rgba(255,255,255,.16) 44%,
+    rgba(255,238,178,.92) 49%,
+    rgba(217,173,85,.58) 53%,
+    transparent 61%,
+    transparent 100%);
+  transform:translateX(-135%) skewX(-18deg);
+  mix-blend-mode:screen;
+  opacity:0;
+  animation:logoGoldSweep 10s ease-in-out infinite;
+}
+.logoShineOverlay::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  border-radius:18px;
+  box-shadow:
+    inset 0 0 0 1px rgba(255,224,163,.12),
+    inset 0 0 22px rgba(255,224,163,.04),
+    0 0 0 rgba(255,224,163,0);
+  transition:box-shadow .26s ease;
+}
+.logoShineOverlay:hover{
+  transform:scale(1.02);
+  filter:drop-shadow(0 0 14px rgba(255,224,163,.35));
+}
+.logoShineOverlay:hover::after{
+  box-shadow:
+    inset 0 0 0 1px rgba(255,224,163,.22),
+    inset 0 0 26px rgba(255,224,163,.08),
+    0 0 26px rgba(217,173,85,.22);
+}
+.logoSpark{
+  position:absolute;
+  z-index:9;
+  right:7%;
+  top:10%;
+  width:19px;
+  height:19px;
+  opacity:0;
+  filter:drop-shadow(0 0 8px rgba(255,231,160,.95));
+  animation:logoSparkle 10s ease-in-out infinite;
+}
+.logoSpark::before,
+.logoSpark::after{
+  content:"";
+  position:absolute;
+  left:50%;
+  top:50%;
+  transform:translate(-50%,-50%);
+  background:linear-gradient(90deg,transparent,#fff8d7 24%,#f9ca58 50%,#fff8d7 76%,transparent);
+  border-radius:999px;
+}
+.logoSpark::before{width:100%;height:2px;}
+.logoSpark::after{width:2px;height:100%;}
+@keyframes logoGoldSweep{
+  0%,82%{opacity:0;transform:translateX(-135%) skewX(-18deg);}
+  84%{opacity:.95;}
+  89%{opacity:.68;transform:translateX(135%) skewX(-18deg);}
+  91%,100%{opacity:0;transform:translateX(135%) skewX(-18deg);}
+}
+@keyframes logoSparkle{
+  0%,88.3%{opacity:0;transform:scale(.45) rotate(0deg);}
+  89.2%{opacity:1;transform:scale(1.18) rotate(45deg);}
+  90.5%{opacity:.72;transform:scale(.86) rotate(90deg);}
+  92%,100%{opacity:0;transform:scale(.45) rotate(135deg);}
+}
+@media(max-width:760px){
+  .logoShineOverlay{
+    left:4.8%;
+    top:3.4%;
+    width:clamp(42px,8.4vw,66px);
+    height:clamp(42px,8.4vw,66px);
+    border-radius:12px;
+  }
+  .logoSpark{width:14px;height:14px;}
+}
+@media (prefers-reduced-motion: reduce){
+  .logoShineOverlay,
+  .logoShineOverlay::before,
+  .logoSpark{
+    animation:none!important;
+    transition:none!important;
+  }
+}
+
+
+

@@ -1,0 +1,110 @@
+/* WingChun V22.3 module: Dark gold theme tuning and bilingual hero fixes. */
+/* ===== v20.27B demo-like hero + bilingual hero fix ===== */
+:root{
+  --bg:#050403;--bg2:#0b0a08;--panel:#11100e;--panel2:#18140f;--text:#f7efe2;--muted:#bfb5a3;
+  --gold:#d9ad55;--gold2:#ffe7a7;--gold3:#8e5f1d;--line:rgba(255,220,150,.26);
+}
+body{
+  background:
+    radial-gradient(circle at 12% 3%,rgba(193,130,36,.20),transparent 32%),
+    radial-gradient(circle at 85% 4%,rgba(255,224,163,.12),transparent 30%),
+    linear-gradient(180deg,#050403,#090806 52%,#050403 100%)!important;
+}
+.wrap{max-width:1160px!important;padding-top:0!important;}
+.hero{
+  margin:0 -18px 24px!important;
+  border:0!important;
+  border-radius:0 0 28px 28px!important;
+  min-height:clamp(390px,48vh,540px)!important;
+  box-shadow:0 20px 60px rgba(0,0,0,.50)!important;
+  background:
+    radial-gradient(circle at 64% 26%,rgba(255,230,170,.28),transparent 23%),
+    radial-gradient(circle at 20% 42%,rgba(205,142,42,.25),transparent 25%),
+    linear-gradient(115deg,#050403 0%,#0e0b07 43%,#221b12 61%,#070604 100%)!important;
+}
+.hero:before{
+  background:
+    linear-gradient(90deg,rgba(0,0,0,.92) 0%,rgba(0,0,0,.68) 35%,rgba(0,0,0,.12) 61%,rgba(0,0,0,.72) 100%),
+    radial-gradient(circle at 10% 74%,rgba(201,132,34,.28),transparent 34%),
+    repeating-linear-gradient(135deg,rgba(255,224,163,.030) 0 1px,transparent 1px 9px)!important;
+}
+.hero:after{
+  content:'詠春'!important;
+  right:5%!important;top:8%!important;
+  font-family:'Noto Serif TC','Kaiti TC','STKaiti','DFKai-SB',serif!important;
+  color:rgba(255,224,163,.080)!important;
+  font-size:clamp(92px,13vw,172px)!important;
+  text-shadow:0 0 30px rgba(0,0,0,.6)!important;
+}
+.heroInner{
+  grid-template-columns:minmax(0,1.05fr) minmax(300px,43%)!important;
+  padding:28px clamp(22px,4vw,46px) 0!important;
+  gap:12px!important;
+}
+.brandLine{margin-bottom:13px!important;}
+.brandLogoHero{width:76px!important;height:76px!important;filter:drop-shadow(0 8px 18px rgba(0,0,0,.75)) drop-shadow(0 0 11px rgba(255,219,131,.28))!important;}
+.brandName{font-size:12px!important;color:#f5d990!important;letter-spacing:.23em!important;}
+.calligraphy{
+  font-family:'HanziPen TC','Kaiti TC','STKaiti','DFKai-SB','Noto Serif TC',serif!important;
+  font-size:clamp(60px,8.2vw,108px)!important;
+  letter-spacing:.11em!important;
+  line-height:1.05!important;
+  color:transparent!important;
+  background:linear-gradient(180deg,#fff6cf 0%,#f7d989 30%,#be812c 56%,#ffe8a6 78%,#8d5a18 100%)!important;
+  -webkit-background-clip:text!important;background-clip:text!important;
+  -webkit-text-stroke:.35px rgba(255,244,203,.38);
+  text-shadow:
+    0 2px 0 rgba(55,32,5,.95),
+    0 5px 0 rgba(22,15,4,.78),
+    0 18px 38px rgba(0,0,0,.78)!important;
+  filter:drop-shadow(0 0 14px rgba(238,184,80,.20))!important;
+}
+html[data-lang="en"] .calligraphy{
+  font-family:'Cinzel Decorative','Cinzel','Cormorant Garamond',serif!important;
+  font-size:clamp(42px,6.1vw,82px)!important;
+  letter-spacing:.09em!important;
+  line-height:1.08!important;
+  text-transform:uppercase;
+}
+html[data-lang="en"] .heroSubtitle{font-family:'Cormorant Garamond',serif!important;font-size:clamp(20px,2.2vw,28px)!important;letter-spacing:.07em!important;}
+html[data-lang="en"] .heroSlogan{font-size:clamp(20px,2vw,26px)!important;letter-spacing:.04em!important;}
+.heroSubtitle{color:#efe5d1!important;text-shadow:0 3px 12px rgba(0,0,0,.55)!important;}
+.heroSlogan{color:#f1dec0!important;text-shadow:0 4px 16px rgba(0,0,0,.7)!important;}
+.langButtons{margin-top:21px!important;}
+.langBtn{
+  min-width:138px!important;border-radius:12px!important;
+  background:rgba(8,7,5,.52)!important;border:1px solid rgba(255,224,163,.48)!important;
+  color:#fff1cf!important;box-shadow:0 11px 24px rgba(0,0,0,.34),inset 0 0 0 1px rgba(255,255,255,.04)!important;
+}
+.langBtn.active,.langBtn:hover{background:linear-gradient(135deg,#ffe9ab,#d9ad55,#94611a)!important;color:#120d04!important;}
+.heroPhotoWrap{align-self:end!important;min-height:390px!important;justify-content:center!important;}
+.heroGlow{
+  inset:3% -2% 0 -5%!important;
+  background:
+    radial-gradient(circle at 50% 35%,rgba(255,224,163,.42),rgba(217,173,85,.12) 31%,transparent 61%),
+    radial-gradient(circle at 70% 72%,rgba(0,0,0,.55),transparent 48%)!important;
+  filter:blur(5px)!important;
+}
+.heroPhoto{
+  max-height:clamp(360px,49vh,545px)!important;
+  transform:translateY(8px)!important;
+  filter:contrast(1.10) saturate(1.04) brightness(.98) drop-shadow(0 28px 42px rgba(0,0,0,.72)) drop-shadow(0 0 28px rgba(255,224,163,.10))!important;
+  -webkit-mask-image:radial-gradient(ellipse at center,#000 0 62%,rgba(0,0,0,.92) 72%,transparent 100%),linear-gradient(180deg,#000 0 86%,transparent 100%)!important;
+  mask-image:radial-gradient(ellipse at center,#000 0 62%,rgba(0,0,0,.92) 72%,transparent 100%),linear-gradient(180deg,#000 0 86%,transparent 100%)!important;
+}
+.sideQuote{right:4.2%!important;top:35%!important;color:#fff4d5!important;font-size:17px;text-shadow:0 4px 16px rgba(0,0,0,.95)!important;}
+.latest{margin-top:18px!important;background:linear-gradient(135deg,rgba(255,255,255,.072),rgba(10,9,7,.72))!important;border-color:rgba(255,224,163,.30)!important;}
+.latestInner{padding:12px!important;gap:18px!important;}
+.latestThumb{border-color:rgba(255,224,163,.32)!important;box-shadow:inset 0 0 0 1px rgba(255,255,255,.04)!important;}
+.layout{gap:20px!important;}
+.card,.aiCard,.miniChat{background:linear-gradient(180deg,rgba(255,255,255,.062),rgba(255,255,255,.022))!important;border-color:rgba(255,224,163,.24)!important;}
+.btn.active,.btn:hover,.latestWatch,.askBtn,.loadMore,.chatEntry{background:linear-gradient(135deg,#ffe8a8,#d9ad55,#9a6a22)!important;color:#120d04!important;}
+@media(max-width:900px){
+  .heroInner{grid-template-columns:1fr!important;padding-bottom:0!important;}
+  .heroPhotoWrap{min-height:270px!important;}
+  .heroPhoto{max-height:330px!important;}
+  .sideQuote{display:none!important;}
+}
+
+
+

@@ -1,0 +1,82 @@
+/* WingChun V22.3 module: V21.3 language label and hover fixes. */
+/* ===== V21.3：語言按鈕文字修正 + Hover 不消失 ===== */
+.courseLangButtons .langBtn,
+.courseLangButtons .langBtn:hover,
+.courseLangButtons .langBtn:focus,
+.courseLangButtons .langBtn:focus-visible{
+  opacity:1!important;
+  visibility:visible!important;
+  display:inline-flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  flex-direction:column!important;
+  background:
+    linear-gradient(180deg,rgba(255,255,255,.10),rgba(255,255,255,.025)),
+    linear-gradient(135deg,rgba(24,20,13,.96),rgba(6,6,7,.96))!important;
+  color:#fff3d5!important;
+  border-color:rgba(255,224,163,.66)!important;
+  transform:none!important;
+  filter:none!important;
+}
+.courseLangButtons .langBtn{
+  min-height:30px!important;
+  padding:3px 13px!important;
+  font-size:19px!important;
+  line-height:1!important;
+  letter-spacing:.04em!important;
+}
+.courseLangButtons .langBtn small{
+  display:block!important;
+  margin-top:1px!important;
+  font-size:10px!important;
+  line-height:1!important;
+  letter-spacing:.03em!important;
+  color:#d8c391!important;
+}
+.courseLangButtons .langBtn:hover,
+.courseLangButtons .langBtn:focus-visible{
+  transform:translateY(-2px)!important;
+  border-color:rgba(255,236,180,1)!important;
+  color:#fff8e4!important;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.28),
+    inset 0 -9px 18px rgba(0,0,0,.24),
+    0 10px 22px rgba(0,0,0,.42),
+    0 0 22px rgba(217,173,85,.34)!important;
+}
+.courseLangButtons .langBtn.active,
+.courseLangButtons .langBtn[aria-pressed="true"],
+.courseLangButtons .langBtn.active:hover,
+.courseLangButtons .langBtn[aria-pressed="true"]:hover{
+  opacity:1!important;
+  visibility:visible!important;
+  display:inline-flex!important;
+  color:#15100a!important;
+  border-color:rgba(255,235,178,.98)!important;
+  background:linear-gradient(180deg,#fff8d1 0%,#f5ce78 40%,#bd8428 68%,#ffe5a0 100%)!important;
+  transform:translateY(-1px)!important;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.82),
+    inset 0 -9px 16px rgba(103,62,6,.24),
+    0 8px 18px rgba(0,0,0,.42),
+    0 0 24px rgba(217,173,85,.40)!important;
+  text-shadow:0 1px 0 rgba(255,246,203,.55)!important;
+}
+.courseLangButtons .langBtn.active small,
+.courseLangButtons .langBtn[aria-pressed="true"] small{
+  color:#261705!important;
+  text-shadow:0 1px 0 rgba(255,246,203,.45)!important;
+}
+.courseLangButtons .langBtn:active{
+  transform:translateY(1px) scale(.985)!important;
+}
+@media(max-width:760px){
+  .courseLangButtons .langBtn{
+    min-height:28px!important;
+    padding:3px 7px!important;
+    font-size:17px!important;
+  }
+  .courseLangButtons .langBtn small{font-size:9px!important;}
+}
+
+
