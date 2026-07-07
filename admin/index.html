@@ -3,80 +3,190 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Wing Chun Admin｜V25.2</title>
+<title>Wing Chun Admin｜V25.3 One-click Publish</title>
 <style>
-:root{--bg:#101010;--panel:#1b1b1b;--text:#f6f1e6;--muted:#b9ad98;--gold:#d9b760;--line:#3e3525;--ok:#7bd88f;--bad:#ff8b8b}*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at top,#2d2316,#111 50%,#070707);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Noto Serif TC","Microsoft JhengHei",serif}.wrap{max-width:1040px;margin:0 auto;padding:28px 16px 70px}.card{background:rgba(25,25,25,.96);border:1px solid var(--line);border-radius:22px;padding:22px;margin:16px 0;box-shadow:0 16px 48px rgba(0,0,0,.32)}h1{margin:0 0 6px;color:var(--gold);font-size:30px}h2{margin:0 0 12px;color:#f4d382;font-size:20px}.muted{color:var(--muted);font-size:14px}.row{display:grid;grid-template-columns:1fr auto;gap:10px}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}@media(max-width:760px){.row,.grid{grid-template-columns:1fr}}input,textarea,select{width:100%;background:#090909;color:var(--text);border:1px solid #55482f;border-radius:12px;padding:12px 13px;font-size:16px}textarea{min-height:120px;resize:vertical}button{border:0;border-radius:12px;background:linear-gradient(180deg,#f2cf72,#b98927);color:#1b1205;font-weight:800;padding:12px 16px;font-size:15px;cursor:pointer}button.secondary{background:#30291c;color:#f1d893;border:1px solid #64522f}.field label{display:block;color:var(--muted);font-size:13px;margin:0 0 6px}.thumb{width:100%;max-width:380px;border-radius:14px;border:1px solid #4a3e2a}.status{white-space:pre-wrap;background:#080808;border:1px solid #423927;border-radius:12px;padding:12px;color:#d7ccb7;overflow:auto}.ok{color:var(--ok)}.bad{color:var(--bad)}.hidden{display:none}.footer{opacity:.55;text-align:center;margin-top:26px;font-size:12px}code{color:#f7d98a}.mini{font-size:13px;color:#d9caaa}
+:root{--bg:#0d0d0d;--panel:#181818;--panel2:#202020;--text:#f7f0e1;--muted:#b9ad98;--gold:#d9b760;--line:#463a24;--ok:#80e099;--bad:#ff8989}*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at top,#2d2113,#111 52%,#060606);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Noto Serif TC","Microsoft JhengHei",serif}.wrap{max-width:1100px;margin:0 auto;padding:28px 16px 70px}.card{background:rgba(24,24,24,.97);border:1px solid var(--line);border-radius:22px;padding:22px;margin:16px 0;box-shadow:0 16px 48px rgba(0,0,0,.32)}h1{margin:0 0 6px;color:var(--gold);font-size:30px}h2{margin:0 0 12px;color:#f4d382;font-size:20px}.muted{color:var(--muted);font-size:14px;line-height:1.65}.row{display:grid;grid-template-columns:1fr auto;gap:10px}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}@media(max-width:800px){.row,.grid,.grid3{grid-template-columns:1fr}}input,textarea,select{width:100%;background:#090909;color:var(--text);border:1px solid #55482f;border-radius:12px;padding:12px 13px;font-size:16px}textarea{min-height:90px;resize:vertical}button{border:0;border-radius:12px;background:linear-gradient(180deg,#f2cf72,#b98927);color:#1b1205;font-weight:800;padding:12px 16px;font-size:15px;cursor:pointer}button.secondary{background:#30291c;color:#f1d893;border:1px solid #64522f}button.danger{background:#5c2222;color:#ffdada;border:1px solid #914848}.field label{display:block;color:var(--muted);font-size:13px;margin:0 0 6px}.thumb{width:100%;max-width:420px;border-radius:14px;border:1px solid #4a3e2a}.status{white-space:pre-wrap;background:#080808;border:1px solid #423927;border-radius:12px;padding:12px;color:#d7ccb7;overflow:auto;line-height:1.55}.ok{color:var(--ok)}.bad{color:var(--bad)}.hidden{display:none}.footer{opacity:.55;text-align:center;margin-top:26px;font-size:12px}code{color:#f7d98a}.pill{display:inline-block;border:1px solid #5d4b2c;border-radius:999px;padding:5px 10px;margin:3px;color:#f2d795;background:#211b12}.actions{display:flex;gap:10px;flex-wrap:wrap}.previewTitle{font-size:20px;font-weight:800;color:#ffe09b;margin:8px 0}.previewSub{font-size:15px;color:#ddd0b8}.small{font-size:12px;color:#a99f8e}
 </style>
 </head>
 <body>
 <div class="wrap">
   <div class="card">
     <h1>🥋 Wing Chun Admin</h1>
-    <div class="muted">Website v25.2 ｜ Admin Final Usable ｜ 未列出影片匯入工具</div>
-    <p class="muted">貼 YouTube 連結後，會經由 Worker 取得標題、縮圖、日期，並產生可直接替換的 <code>wcmd.json</code> 與 <code>videoIds.json</code>。</p>
+    <div class="muted">Website v25.3 ｜ One-click Publish ｜ GitHub 自動發布版</div>
+    <p class="muted">貼上 YouTube 連結後，可抓取未列出影片資料，確認英文標題與分類後，直接寫入 GitHub 的 <code>data/videoIds.json</code> 與 <code>data/wcmd.json</code>。</p>
   </div>
+
   <div class="card" id="loginCard">
     <h2>管理登入</h2>
     <div class="row"><input id="password" type="password" placeholder="請輸入管理密碼"><button id="loginBtn">登入</button></div>
-    <p class="muted">預設密碼：<code>wingchun2026</code></p>
+    <p class="muted">若尚未設定 Cloudflare Secret <code>ADMIN_PASSWORD</code>，預設密碼為 <code>wingchun2026</code>。</p>
   </div>
+
   <div id="adminPanel" class="hidden">
     <div class="card">
-      <h2>新增影片</h2>
+      <h2>① 匯入 YouTube 影片</h2>
       <div class="row"><input id="youtubeUrl" placeholder="貼上 YouTube 連結，例如：https://youtu.be/xxxxxxxxxxx"><button id="importBtn">匯入影片</button></div>
-      <p class="muted">支援未列出影片。只要影片連結正確，Worker 可以抓到基本資料。</p>
+      <p class="muted">支援未列出影片；只要連結正確，Worker 可以抓到標題、縮圖、發布日期。</p>
     </div>
+
     <div class="card hidden" id="resultCard">
-      <h2>匯入結果</h2>
+      <h2>② 確認資料</h2>
       <div class="grid">
         <div><img id="thumb" class="thumb" alt="縮圖"></div>
         <div>
           <div class="field"><label>集數</label><input id="episode"></div>
-          <div class="field"><label>中文標題</label><input id="titleZh"></div>
-          <div class="field"><label>英文標題</label><input id="titleEn"></div>
+          <div class="field"><label>影片 ID</label><input id="videoId" readonly></div>
+          <div class="field"><label>YouTube URL</label><input id="videoUrl" readonly></div>
         </div>
       </div>
-      <div class="grid" style="margin-top:12px">
-        <div class="field"><label>影片 ID</label><input id="videoId" readonly></div>
-        <div class="field"><label>YouTube 連結</label><input id="videoUrl" readonly></div>
+      <div class="field" style="margin-top:12px"><label>中文標題</label><input id="titleZh"></div>
+      <div class="field"><label>英文標題</label><input id="titleEn" placeholder="例如：Practical Applications of ..."></div>
+      <div class="grid3">
+        <div class="field"><label>主分類</label><select id="categoryId"></select></div>
+        <div class="field"><label>難度</label><select id="difficulty"><option value="to_be_confirmed">待確認</option><option value="Beginner">Beginner</option><option value="Intermediate">Intermediate</option><option value="Advanced">Advanced</option></select></div>
         <div class="field"><label>發布日期</label><input id="publishedAt" readonly></div>
-        <div class="field"><label>分類</label><select id="category"><option>觀念理論</option><option>詠春套路</option><option>木人樁法</option><option>詠春棍法</option><option>詠春刀法</option><option>特定技巧</option><option>實戰防身</option></select></div>
       </div>
-      <div class="field" style="margin-top:12px"><label>Tags（用頓號或逗號分隔）</label><input id="tags"></div>
-      <div class="field" style="margin-top:12px"><label>摘要 / 備註</label><textarea id="summary"></textarea></div>
-      <div style="margin-top:14px">
-        <button id="downloadWcmdBtn">下載新版 wcmd.json</button>
-        <button class="secondary" id="downloadIdsBtn">下載新版 videoIds.json</button>
-        <button class="secondary" id="copyJsonBtn">複製單集 JSON</button>
+      <div class="grid">
+        <div class="field"><label>Tags（用頓號或逗號分隔）</label><textarea id="tags" placeholder="抱牌掌、黐手、接觸反應"></textarea></div>
+        <div class="field"><label>Skills（技巧；可留空）</label><textarea id="skills" placeholder="抱牌掌、穿心腳"></textarea></div>
       </div>
-      <p class="mini">下載後，把兩個檔案放回專案的 <code>data/</code> 資料夾並上傳 GitHub，網站就會更新。</p>
+      <div class="grid">
+        <div class="field"><label>中文摘要（可先留空）</label><textarea id="summaryZh"></textarea></div>
+        <div class="field"><label>英文摘要（可先留空）</label><textarea id="summaryEn"></textarea></div>
+      </div>
+      <div class="actions">
+        <button id="previewBtn" class="secondary">更新預覽</button>
+        <button id="publishBtn">確認發布到 GitHub</button>
+      </div>
     </div>
-    <div class="card"><h2>狀態</h2><div id="status" class="status">等待操作。</div></div>
+
+    <div class="card hidden" id="previewCard">
+      <h2>③ 網站卡片預覽</h2>
+      <div class="previewTitle" id="previewTitle"></div>
+      <div class="previewSub" id="previewEn"></div>
+      <div id="previewTags"></div>
+    </div>
+
+    <div class="card">
+      <h2>執行狀態</h2>
+      <div id="status" class="status">等待操作。</div>
+    </div>
   </div>
-  <div class="footer">Wing Chun Admin v25.2 ｜ Worker v6.0 ｜ WCMD v1.0</div>
+
+  <div class="footer">Wing Chun Admin ｜ V25.3 ｜ One-click GitHub Publisher</div>
 </div>
+
 <script>
-const WORKER_BASE="https://wingchun-sync.lomankam-master.workers.dev";
-const ADMIN_PASSWORD="wingchun2026";
-let wcmd=null, videoIds=[], currentVideo=null;
-const $=id=>document.getElementById(id);
-function status(msg,ok=true){$("status").innerHTML=(ok?"<span class='ok'>✅ </span>":"<span class='bad'>⚠️ </span>")+msg}
-function extractEpisode(t=""){const m=String(t).match(/授課精華\s*([0-9]+)/);return m?Number(m[1]):""}
-function englishGuess(title,ep){let core=String(title||"").replace(/盧文錦\s*師父\s*授課精華\s*[0-9]+\s*[－\-–—｜|:]*/g,"").trim();const map=[["抱牌掌","Bao Pai Palm"],["實戰解析","Practical Analysis"],["接觸反應","Contact Response"],["黐手訓練","Chi Sau Training"],["黐手","Chi Sau"],["順勢而行","Flowing with the Momentum"],["詠春拳","Wing Chun"],["詠春","Wing Chun"],["套路","Forms"],["尋橋","Chum Kiu"],["標指","Biu Tze"],["小念頭","Siu Nim Tau"],["腿法","Kicking Techniques"],["攻防原理","Offensive and Defensive Principles"],["實戰應用","Practical Applications"],["核心觀念","Core Concepts"],["核心思想","Core Philosophy"],["反應","Reaction"],["防身","Self-Defense"],["持刀","Knife Confrontation"],["持械","Weapon Attack"],["蹬手","Dang Sau"],["鎖喉","Chokehold"],["反制","Countermeasure"]];let en=core;for(const [zh,e] of map)en=en.split(zh).join(e);en=en.replace(/[，、]/g,", ").replace(/｜/g," | ").replace(/\s+/g," ").trim();return en&&en!==core?en:`Episode ${ep||""} — English title pending`}
-function guessCategory(t=""){if(/套路|小念頭|尋橋|標指/.test(t))return"詠春套路";if(/刀法|八斬刀/.test(t))return"詠春刀法";if(/棍法|六點半棍/.test(t))return"詠春棍法";if(/抱牌掌|蹬手|拍手|穿心腳|腿法|黐手/.test(t))return"特定技巧";if(/實戰|防身|持刀|持械|反制|鎖喉|擒抱/.test(t))return"實戰防身";return"觀念理論"}
-function guessTags(t=""){const tags=[];["抱牌掌","黐手","接觸反應","順勢而行","反應","套路","標指","尋橋","腿法","蹬手","鎖喉","持刀","持械","防身","實戰","核心觀念","槓桿力學"].forEach(x=>{if(t.includes(x))tags.push(x)});return[...new Set(tags)].join("、")}
-function categoryObj(zh){const map={"觀念理論":["principles","Concepts and Principles"],"詠春套路":["forms","Wing Chun Forms"],"木人樁法":["wooden_dummy","Wooden Dummy"],"詠春棍法":["pole","Wing Chun Pole"],"詠春刀法":["knives","Wing Chun Knives"],"特定技巧":["techniques","Specific Techniques"],"實戰防身":["combat","Combat and Self-Defense"]};const m=map[zh]||["uncategorized","Uncategorized"];return{id:m[0],zh,en:m[1],status:"draft"}}
-async function loadData(){try{const [a,b]=await Promise.all([fetch("../data/wcmd.json?v="+Date.now()),fetch("../data/videoIds.json?v="+Date.now())]);wcmd=await a.json();const ids=await b.json();videoIds=Array.isArray(ids)?ids:(ids.videoIds||[]);status(`已載入 WCMD：${wcmd.episodes?.length||0} 集\n已載入 videoIds：${videoIds.length} 筆`)}catch(e){status("無法讀取 data/wcmd.json 或 data/videoIds.json："+e.message,false)}}
-function fill(v){const ep=v.episode||extractEpisode(v.title);$("episode").value=ep||"";$("titleZh").value=v.title||"";$("titleEn").value=englishGuess(v.title,ep);$("videoId").value=v.videoId;$("videoUrl").value=v.url;$("publishedAt").value=v.publishedAt||"";$("category").value=guessCategory(v.title||"");$("tags").value=guessTags(v.title||"");$("summary").value=(v.description||"").slice(0,800);$("thumb").src=v.thumbnail||`https://i.ytimg.com/vi/${v.videoId}/hqdefault.jpg`;$("resultCard").classList.remove("hidden")}
-function buildEpisode(){const tags=$("tags").value.split(/[、,，]/).map(s=>s.trim()).filter(Boolean);return{episode:Number($("episode").value),title:{zh:$("titleZh").value.trim(),en:$("titleEn").value.trim()},category:categoryObj($("category").value),tags,concepts:[],skills:[],difficulty:"to_be_confirmed",summary:{zh:$("summary").value.trim(),en:""},youtube:{videoId:$("videoId").value.trim(),url:$("videoUrl").value.trim(),thumbnail:$("thumb").src,publishedAt:$("publishedAt").value.trim()},dataStatus:{youtubeBasic:"confirmed_from_youtube_api",classification:"draft",englishTitle:$("titleEn").value.includes("pending")?"pending":"draft"}}}
-function download(name,obj){const blob=new Blob([JSON.stringify(obj,null,2)],{type:"application/json;charset=utf-8"});const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download=name;a.click();URL.revokeObjectURL(a.href)}
-function updatedWcmd(){const ep=buildEpisode();const copy=structuredClone(wcmd||{schemaVersion:"1.0",platformVersion:"V25.2",episodes:[]});copy.platformVersion="V25.2";copy.generatedAt=new Date().toISOString();copy.episodes=(copy.episodes||[]).filter(x=>Number(x.episode)!==Number(ep.episode));copy.episodes.push(ep);copy.episodes.sort((a,b)=>a.episode-b.episode);return copy}
-function updatedIds(){const id=$("videoId").value.trim();return[...new Set([...(videoIds||[]),id].filter(Boolean))]}
-$("loginBtn").onclick=async()=>{if($("password").value!==ADMIN_PASSWORD){alert("密碼錯誤");return}$("loginCard").classList.add("hidden");$("adminPanel").classList.remove("hidden");await loadData()}
-$("importBtn").onclick=async()=>{const input=$("youtubeUrl").value.trim();if(!input){status("請貼上 YouTube 連結。",false);return}status("正在讀取 YouTube 資料...");try{const res=await fetch(`${WORKER_BASE}/api/import?url=${encodeURIComponent(input)}`);const data=await res.json();if(!data.success)throw new Error(data.error||"匯入失敗");currentVideo=data.video;fill(currentVideo);status(`匯入成功：${currentVideo.title}\n請檢查英文標題、分類與 Tags，然後下載新版資料。`)}catch(e){status("匯入失敗："+e.message,false)}}
-$("downloadWcmdBtn").onclick=()=>download("wcmd.json",updatedWcmd());
-$("downloadIdsBtn").onclick=()=>download("videoIds.json",updatedIds());
-$("copyJsonBtn").onclick=async()=>{await navigator.clipboard.writeText(JSON.stringify(buildEpisode(),null,2));status("已複製單集 JSON。")}
+const WORKER_BASE = "https://wingchun-sync.lomankam-master.workers.dev";
+const DEFAULT_PASSWORD = "wingchun2026";
+let adminPassword = "";
+let importedVideo = null;
+let wcmd = null;
+
+const $ = (id) => document.getElementById(id);
+function setStatus(msg, ok=true){ $("status").innerHTML = `<span class="${ok?'ok':'bad'}">${msg}</span>`; }
+function splitList(text){ return String(text||"").split(/[、,，\n]/).map(s=>s.trim()).filter(Boolean); }
+function extractEpisode(title=""){ const m = String(title).match(/授課精華\s*([0-9]+)/); return m ? Number(m[1]) : ""; }
+
+async function loadWCMD(){
+  try{
+    const res = await fetch("../data/wcmd.json?v=" + Date.now());
+    if(!res.ok) throw new Error("wcmd not found");
+    wcmd = await res.json();
+  }catch(e){
+    wcmd = { categories: { principles:{zh:"觀念理論",en:"Concepts & Principles"}, techniques:{zh:"特定技巧",en:"Specific Techniques"}, combat:{zh:"實戰防身",en:"Combat & Self-defense"} }, episodes:[] };
+  }
+  const sel = $("categoryId");
+  sel.innerHTML = "";
+  Object.entries(wcmd.categories || {}).sort((a,b)=>(a[1].order||99)-(b[1].order||99)).forEach(([id,c])=>{
+    const opt = document.createElement("option"); opt.value=id; opt.textContent=`${c.zh || id} / ${c.en || ""}`; sel.appendChild(opt);
+  });
+}
+
+function guessEnglishTitle(episode){
+  return `Episode ${episode || ""} — English title pending`;
+}
+
+function fillForm(video){
+  importedVideo = video;
+  const ep = video.episode || extractEpisode(video.title);
+  $("thumb").src = video.thumbnail || "";
+  $("episode").value = ep || "";
+  $("videoId").value = video.videoId || "";
+  $("videoUrl").value = video.url || "";
+  $("titleZh").value = video.title || "";
+  $("titleEn").value = guessEnglishTitle(ep);
+  $("publishedAt").value = video.publishedAt || "";
+  $("tags").value = "";
+  $("skills").value = "";
+  $("summaryZh").value = "";
+  $("summaryEn").value = "";
+  $("resultCard").classList.remove("hidden");
+  updatePreview();
+}
+
+function updatePreview(){
+  const tags = splitList($("tags").value);
+  $("previewTitle").textContent = $("titleZh").value || "";
+  $("previewEn").textContent = $("titleEn").value || "";
+  $("previewTags").innerHTML = tags.map(t=>`<span class="pill">${t}</span>`).join("");
+  $("previewCard").classList.remove("hidden");
+}
+
+function buildEntry(){
+  return {
+    episode: Number($("episode").value),
+    titleZh: $("titleZh").value.trim(),
+    titleEn: $("titleEn").value.trim(),
+    categoryId: $("categoryId").value,
+    difficulty: $("difficulty").value,
+    tags: splitList($("tags").value),
+    concepts: splitList($("tags").value),
+    skills: splitList($("skills").value),
+    summaryZh: $("summaryZh").value.trim(),
+    summaryEn: $("summaryEn").value.trim()
+  };
+}
+
+$("loginBtn").onclick = async () => {
+  adminPassword = $("password").value.trim();
+  if(!adminPassword){ alert("請輸入密碼"); return; }
+  $("loginCard").classList.add("hidden");
+  $("adminPanel").classList.remove("hidden");
+  await loadWCMD();
+  setStatus("已登入。請貼上 YouTube 連結匯入影片。");
+};
+
+$("importBtn").onclick = async () => {
+  const url = $("youtubeUrl").value.trim();
+  if(!url){ alert("請貼上 YouTube 連結"); return; }
+  setStatus("正在從 YouTube 讀取影片資料...");
+  try{
+    const res = await fetch(`${WORKER_BASE}/api/import?url=${encodeURIComponent(url)}`);
+    const data = await res.json();
+    if(!data.success) throw new Error(data.error || "Import failed");
+    fillForm(data.video);
+    setStatus("影片資料已匯入，請確認英文標題、分類與 Tags。", true);
+  }catch(e){ setStatus("匯入失敗：" + e.message, false); }
+};
+
+$("previewBtn").onclick = updatePreview;
+
+$("publishBtn").onclick = async () => {
+  if(!importedVideo){ alert("請先匯入影片"); return; }
+  if(!confirm("確定要發布到 GitHub 嗎？這會更新 data/videoIds.json 與 data/wcmd.json。")) return;
+  setStatus("正在發布到 GitHub，請稍候...");
+  try{
+    const res = await fetch(`${WORKER_BASE}/api/admin/publish`, {
+      method:"POST",
+      headers:{"Content-Type":"application/json"},
+      body: JSON.stringify({ password: adminPassword, video: importedVideo, entry: buildEntry() })
+    });
+    const data = await res.json();
+    if(!data.success) throw new Error(data.error || "Publish failed");
+    setStatus(`✅ 發布成功！\n${data.message}\n\n影片數：${data.videoIdsCount}\nWCMD Commit：${data.commits?.wcmd || "完成"}`);
+  }catch(e){ setStatus("發布失敗：" + e.message, false); }
+};
 </script>
 </body>
 </html>
