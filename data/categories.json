@@ -1,47 +1,37 @@
 {
-  "version": "1.0",
-  "categories": [
-    {
-      "id": "forms",
-      "zh": "詠春套路",
-      "en": "Wing Chun Forms",
-      "description": "小念頭、尋橋、標指等套路內容與其觀念、應用。"
-    },
-    {
-      "id": "wooden_dummy",
-      "zh": "木人樁法",
-      "en": "Wooden Dummy",
-      "description": "木人樁法與相關訓練。"
-    },
-    {
-      "id": "pole",
-      "zh": "詠春棍法",
-      "en": "Wing Chun Pole",
-      "description": "六點半棍等棍法系統。"
-    },
-    {
-      "id": "knives",
-      "zh": "詠春刀法",
-      "en": "Wing Chun Knives",
-      "description": "八斬刀等刀法系統。"
-    },
-    {
-      "id": "techniques",
-      "zh": "特定技巧",
-      "en": "Specific Techniques",
-      "description": "抱牌掌、蹬手、腿法等特定技巧解析。"
-    },
-    {
-      "id": "principles",
-      "zh": "觀念理論",
-      "en": "Principles & Theory",
-      "description": "師父授課中的核心觀念、反應原則與詠春思維。"
-    },
-    {
-      "id": "combat_self_defense",
-      "zh": "實戰防身",
-      "en": "Combat & Self-defense",
-      "description": "實戰情境、防身反制、持械攻擊等應用。"
-    }
-  ]
+  "forms": {
+    "zh": "詠春套路",
+    "en": "Wing Chun Forms",
+    "order": 1
+  },
+  "wooden_dummy": {
+    "zh": "木人樁法",
+    "en": "Wooden Dummy",
+    "order": 2
+  },
+  "long_pole": {
+    "zh": "詠春棍法",
+    "en": "Wing Chun Long Pole",
+    "order": 3
+  },
+  "butterfly_knives": {
+    "zh": "詠春刀法",
+    "en": "Wing Chun Butterfly Knives",
+    "order": 4
+  },
+  "techniques": {
+    "zh": "特定技巧",
+    "en": "Specific Techniques",
+    "order": 5
+  },
+  "principles": {
+    "zh": "觀念理論",
+    "en": "Concepts & Principles",
+    "order": 6
+  },
+  "combat": {
+    "zh": "實戰防身",
+    "en": "Combat & Self-defense",
+    "order": 7
+  }
 }

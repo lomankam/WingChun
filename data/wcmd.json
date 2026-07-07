@@ -1,1253 +1,1150 @@
 {
-  "meta": {
-    "version": "24.0.0",
-    "updated": "2026-07-07",
-    "name": "Wing Chun Master Database",
-    "description": "Master Lo Wing Chun course database. V24.0 integrates 29 episodes, official English titles, and confirmed primary categories. YouTube descriptions will be enriched in later versions."
+  "schemaVersion": "1.0",
+  "platformVersion": "V24.1",
+  "project": "Master Lo Wing Chun Knowledge Platform",
+  "generatedAt": "2026-07-07",
+  "sourceNote": "Video titles and URLs are based on the uploaded PDF list for episodes 1–29. Category status marks episodes 1–20 as confirmed from conversation review, episodes 21–29 as draft pending final confirmation.",
+  "categories": {
+    "forms": {
+      "zh": "詠春套路",
+      "en": "Wing Chun Forms",
+      "order": 1
+    },
+    "wooden_dummy": {
+      "zh": "木人樁法",
+      "en": "Wooden Dummy",
+      "order": 2
+    },
+    "long_pole": {
+      "zh": "詠春棍法",
+      "en": "Wing Chun Long Pole",
+      "order": 3
+    },
+    "butterfly_knives": {
+      "zh": "詠春刀法",
+      "en": "Wing Chun Butterfly Knives",
+      "order": 4
+    },
+    "techniques": {
+      "zh": "特定技巧",
+      "en": "Specific Techniques",
+      "order": 5
+    },
+    "principles": {
+      "zh": "觀念理論",
+      "en": "Concepts & Principles",
+      "order": 6
+    },
+    "combat": {
+      "zh": "實戰防身",
+      "en": "Combat & Self-defense",
+      "order": 7
+    }
   },
-  "courses": [
+  "episodes": [
     {
       "episode": 1,
-      "id": "EP001",
       "title": {
-        "zh": "鬥技不鬥力 順勢而行",
-        "en": "Technique Over Strength: Flow with the Momentum"
+        "zh": "盧文錦 師父 授課精華 1 -- 鬥技不鬥力 順勢而行",
+        "en": "Fighting with Skill, Not Strength: Flowing with the Momentum"
       },
-      "youtube": {
-        "url": "https://youtu.be/SkXUAqbEqjQ",
-        "videoId": "SkXUAqbEqjQ"
+      "category": {
+        "id": "principles",
+        "zh": "觀念理論",
+        "en": "Concepts & Principles",
+        "status": "confirmed"
       },
-      "classification": {
-        "primaryCategory": "觀念理論",
-        "primaryCategoryEn": "Principles & Theory",
-        "teachingType": "理念建立",
-        "level": "基礎"
-      },
-      "keywords": {
-        "zh": [
-          "鬥技不鬥力",
-          "順勢而行",
-          "詠春觀念"
-        ],
-        "en": []
-      },
-      "relatedCategories": [],
+      "tags": [
+        "鬥技不鬥力",
+        "順勢而行",
+        "核心觀念"
+      ],
+      "concepts": [
+        "鬥技不鬥力",
+        "順勢而行",
+        "核心觀念"
+      ],
+      "skills": [],
+      "difficulty": "to_be_confirmed",
       "summary": {
         "zh": "",
         "en": ""
       },
-      "learningObjectives": [],
-      "coreConcepts": [
-        "鬥技不鬥力",
-        "順勢而行",
-        "詠春觀念"
-      ],
-      "prerequisites": [],
-      "relatedCourses": [],
-      "source": "YouTube Data API + manually curated classification/title standards",
-      "status": "draft_v24_0"
+      "youtube": {
+        "videoId": "SkXUAqbEqjQ",
+        "url": "https://youtu.be/SkXUAqbEqjQ",
+        "thumbnail": "",
+        "publishedAt": ""
+      },
+      "dataStatus": {
+        "youtubeBasic": "confirmed_from_source_pdf",
+        "classification": "confirmed",
+        "englishTitle": "draft"
+      }
     },
     {
       "episode": 2,
-      "id": "EP002",
       "title": {
-        "zh": "抱牌掌應用與發揮",
-        "en": "Applications of Bao Pai Palm"
+        "zh": "盧文錦 師父 授課精華 2 -- 抱牌掌應用與發揮",
+        "en": "Application and Development of Bao Pai Palm"
       },
-      "youtube": {
-        "url": "https://youtu.be/HQErDwZ2ZtQ",
-        "videoId": "HQErDwZ2ZtQ"
+      "category": {
+        "id": "techniques",
+        "zh": "特定技巧",
+        "en": "Specific Techniques",
+        "status": "confirmed"
       },
-      "classification": {
-        "primaryCategory": "特定技巧",
-        "primaryCategoryEn": "Specific Techniques",
-        "teachingType": "技巧解析",
-        "level": "基礎"
-      },
-      "keywords": {
-        "zh": [
-          "抱牌掌",
-          "手法",
-          "應用"
-        ],
-        "en": []
-      },
-      "relatedCategories": [],
+      "tags": [
+        "抱牌掌",
+        "手法應用"
+      ],
+      "concepts": [],
+      "skills": [
+        "抱牌掌"
+      ],
+      "difficulty": "to_be_confirmed",
       "summary": {
         "zh": "",
         "en": ""
       },
-      "learningObjectives": [],
-      "coreConcepts": [
-        "抱牌掌",
-        "手法",
-        "應用"
-      ],
-      "prerequisites": [],
-      "relatedCourses": [],
-      "source": "YouTube Data API + manually curated classification/title standards",
-      "status": "draft_v24_0"
+      "youtube": {
+        "videoId": "HQErDwZ2ZtQ",
+        "url": "https://youtu.be/HQErDwZ2ZtQ",
+        "thumbnail": "",
+        "publishedAt": ""
+      },
+      "dataStatus": {
+        "youtubeBasic": "confirmed_from_source_pdf",
+        "classification": "confirmed",
+        "englishTitle": "draft"
+      }
     },
     {
       "episode": 3,
-      "id": "EP003",
       "title": {
-        "zh": "制敵於先 克敵於無形",
-        "en": "Gain the Initiative and Defeat the Opponent Before It Forms"
+        "zh": "盧文錦 師父 授課精華 3 -- 制敵於先 克敵於無形",
+        "en": "Control the Opponent Before They Move; Defeat Without Form"
       },
-      "youtube": {
-        "url": "https://youtu.be/Jomz2URebuk",
-        "videoId": "Jomz2URebuk"
+      "category": {
+        "id": "principles",
+        "zh": "觀念理論",
+        "en": "Concepts & Principles",
+        "status": "confirmed"
       },
-      "classification": {
-        "primaryCategory": "觀念理論",
-        "primaryCategoryEn": "Principles & Theory",
-        "teachingType": "理念建立",
-        "level": "基礎"
-      },
-      "keywords": {
-        "zh": [
-          "制敵於先",
-          "克敵於無形",
-          "實戰"
-        ],
-        "en": []
-      },
-      "relatedCategories": [],
+      "tags": [
+        "制敵於先",
+        "克敵於無形",
+        "作戰思維"
+      ],
+      "concepts": [
+        "制敵於先",
+        "克敵於無形"
+      ],
+      "skills": [],
+      "difficulty": "to_be_confirmed",
       "summary": {
         "zh": "",
         "en": ""
       },
-      "learningObjectives": [],
-      "coreConcepts": [
-        "制敵於先",
-        "克敵於無形",
-        "實戰"
-      ],
-      "prerequisites": [],
-      "relatedCourses": [],
-      "source": "YouTube Data API + manually curated classification/title standards",
-      "status": "draft_v24_0"
+      "youtube": {
+        "videoId": "Jomz2URebuk",
+        "url": "https://youtu.be/Jomz2URebuk",
+        "thumbnail": "",
+        "publishedAt": ""
+      },
+      "dataStatus": {
+        "youtubeBasic": "confirmed_from_source_pdf",
+        "classification": "confirmed",
+        "englishTitle": "draft"
+      }
     },
     {
       "episode": 4,
-      "id": "EP004",
       "title": {
-        "zh": "似無實有 活能生巧",
-        "en": "Seemingly Empty, Yet Truly Present: Flexibility Creates Skill"
+        "zh": "盧文錦 師父 授課精華 4 -- 似無實有 活能生巧",
+        "en": "Seemingly Empty Yet Substantial; Skill Emerges Through Adaptability"
       },
-      "youtube": {
-        "url": "https://youtu.be/DErJB3xu-_c",
-        "videoId": "DErJB3xu-_c"
+      "category": {
+        "id": "principles",
+        "zh": "觀念理論",
+        "en": "Concepts & Principles",
+        "status": "confirmed"
       },
-      "classification": {
-        "primaryCategory": "觀念理論",
-        "primaryCategoryEn": "Principles & Theory",
-        "teachingType": "理念建立",
-        "level": "基礎"
-      },
-      "keywords": {
-        "zh": [
-          "似無實有",
-          "活能生巧",
-          "詠春觀念"
-        ],
-        "en": []
-      },
-      "relatedCategories": [],
+      "tags": [
+        "似無實有",
+        "活能生巧",
+        "核心觀念"
+      ],
+      "concepts": [
+        "似無實有",
+        "活能生巧",
+        "核心觀念"
+      ],
+      "skills": [],
+      "difficulty": "to_be_confirmed",
       "summary": {
         "zh": "",
         "en": ""
       },
-      "learningObjectives": [],
-      "coreConcepts": [
-        "似無實有",
-        "活能生巧",
-        "詠春觀念"
-      ],
-      "prerequisites": [],
-      "relatedCourses": [],
-      "source": "YouTube Data API + manually curated classification/title standards",
-      "status": "draft_v24_0"
+      "youtube": {
+        "videoId": "DErJB3xu-_c",
+        "url": "https://youtu.be/DErJB3xu-_c",
+        "thumbnail": "",
+        "publishedAt": ""
+      },
+      "dataStatus": {
+        "youtubeBasic": "confirmed_from_source_pdf",
+        "classification": "confirmed",
+        "englishTitle": "draft"
+      }
     },
     {
       "episode": 5,
-      "id": "EP005",
       "title": {
-        "zh": "詠春套路應用解析 1",
-        "en": "Applications of Wing Chun Forms (Part 1)"
+        "zh": "盧文錦 師父 授課精華 5 -- 詠春套路應用解析 1",
+        "en": "Wing Chun Forms Application Analysis, Part 1"
       },
-      "youtube": {
-        "url": "https://youtu.be/6UxlNfEyLl0",
-        "videoId": "6UxlNfEyLl0"
+      "category": {
+        "id": "forms",
+        "zh": "詠春套路",
+        "en": "Wing Chun Forms",
+        "status": "confirmed"
       },
-      "classification": {
-        "primaryCategory": "詠春套路",
-        "primaryCategoryEn": "Wing Chun Forms",
-        "teachingType": "套路解析",
-        "level": "基礎"
-      },
-      "keywords": {
-        "zh": [
-          "套路",
-          "應用解析"
-        ],
-        "en": []
-      },
-      "relatedCategories": [],
+      "tags": [
+        "詠春套路",
+        "套路應用"
+      ],
+      "concepts": [],
+      "skills": [],
+      "difficulty": "to_be_confirmed",
       "summary": {
         "zh": "",
         "en": ""
       },
-      "learningObjectives": [],
-      "coreConcepts": [
-        "套路",
-        "應用解析"
-      ],
-      "prerequisites": [],
-      "relatedCourses": [],
-      "source": "YouTube Data API + manually curated classification/title standards",
-      "status": "draft_v24_0"
+      "youtube": {
+        "videoId": "6UxlNfEyLl0",
+        "url": "https://youtu.be/6UxlNfEyLl0",
+        "thumbnail": "",
+        "publishedAt": ""
+      },
+      "dataStatus": {
+        "youtubeBasic": "confirmed_from_source_pdf",
+        "classification": "confirmed",
+        "englishTitle": "draft"
+      }
     },
     {
       "episode": 6,
-      "id": "EP006",
       "title": {
-        "zh": "面對敵人 即時反射所學 1",
-        "en": "Instant Reaction Training Against an Opponent (Part 1)"
+        "zh": "盧文錦 師父 授課精華 6 -- 面對敵人 即時反射所學 1",
+        "en": "Facing an Opponent: Instantly Reflecting What You Have Learned, Part 1"
       },
-      "youtube": {
-        "url": "https://youtu.be/2G2-sl74UDw",
-        "videoId": "2G2-sl74UDw"
+      "category": {
+        "id": "combat",
+        "zh": "實戰防身",
+        "en": "Combat & Self-defense",
+        "status": "confirmed"
       },
-      "classification": {
-        "primaryCategory": "實戰防身",
-        "primaryCategoryEn": "Combat & Self-defense",
-        "teachingType": "實戰案例",
-        "level": "基礎"
-      },
-      "keywords": {
-        "zh": [
-          "即時反射",
-          "面對敵人",
-          "反應"
-        ],
-        "en": []
-      },
-      "relatedCategories": [],
+      "tags": [
+        "面對敵人",
+        "即時反射",
+        "實戰應用"
+      ],
+      "concepts": [],
+      "skills": [],
+      "difficulty": "to_be_confirmed",
       "summary": {
         "zh": "",
         "en": ""
       },
-      "learningObjectives": [],
-      "coreConcepts": [
-        "即時反射",
-        "面對敵人",
-        "反應"
-      ],
-      "prerequisites": [],
-      "relatedCourses": [],
-      "source": "YouTube Data API + manually curated classification/title standards",
-      "status": "draft_v24_0"
+      "youtube": {
+        "videoId": "2G2-sl74UDw",
+        "url": "https://youtu.be/2G2-sl74UDw",
+        "thumbnail": "",
+        "publishedAt": ""
+      },
+      "dataStatus": {
+        "youtubeBasic": "confirmed_from_source_pdf",
+        "classification": "confirmed",
+        "englishTitle": "draft"
+      }
     },
     {
       "episode": 7,
-      "id": "EP007",
       "title": {
-        "zh": "面對敵人 即時反射所學 2",
-        "en": "Instant Reaction Training Against an Opponent (Part 2)"
+        "zh": "盧文錦 師父 授課精華 7 -- 面對敵人 即時反射所學 2",
+        "en": "Facing an Opponent: Instantly Reflecting What You Have Learned, Part 2"
       },
-      "youtube": {
-        "url": "https://youtu.be/dTGSNLqVQF8",
-        "videoId": "dTGSNLqVQF8"
+      "category": {
+        "id": "combat",
+        "zh": "實戰防身",
+        "en": "Combat & Self-defense",
+        "status": "confirmed"
       },
-      "classification": {
-        "primaryCategory": "實戰防身",
-        "primaryCategoryEn": "Combat & Self-defense",
-        "teachingType": "實戰案例",
-        "level": "基礎"
-      },
-      "keywords": {
-        "zh": [
-          "即時反射",
-          "面對敵人",
-          "反應"
-        ],
-        "en": []
-      },
-      "relatedCategories": [],
+      "tags": [
+        "面對敵人",
+        "即時反射",
+        "實戰應用"
+      ],
+      "concepts": [],
+      "skills": [],
+      "difficulty": "to_be_confirmed",
       "summary": {
         "zh": "",
         "en": ""
       },
-      "learningObjectives": [],
-      "coreConcepts": [
-        "即時反射",
-        "面對敵人",
-        "反應"
-      ],
-      "prerequisites": [],
-      "relatedCourses": [],
-      "source": "YouTube Data API + manually curated classification/title standards",
-      "status": "draft_v24_0"
+      "youtube": {
+        "videoId": "dTGSNLqVQF8",
+        "url": "https://youtu.be/dTGSNLqVQF8",
+        "thumbnail": "",
+        "publishedAt": ""
+      },
+      "dataStatus": {
+        "youtubeBasic": "confirmed_from_source_pdf",
+        "classification": "confirmed",
+        "englishTitle": "draft"
+      }
     },
     {
       "episode": 8,
-      "id": "EP008",
       "title": {
-        "zh": "接觸反應 順勢而行 鎖喉反制與應用",
-        "en": "Contact Reaction: Flowing with the Momentum – Choke Defense and Applications"
+        "zh": "盧文錦 師父 授課精華 8 -- 接觸反應 順勢而行 鎖喉反制與應用",
+        "en": "Contact Response, Flowing with the Momentum, and Choke Counter Applications"
       },
-      "youtube": {
-        "url": "https://youtu.be/eZy51eJttYA",
-        "videoId": "eZy51eJttYA"
+      "category": {
+        "id": "combat",
+        "zh": "實戰防身",
+        "en": "Combat & Self-defense",
+        "status": "confirmed"
       },
-      "classification": {
-        "primaryCategory": "實戰防身",
-        "primaryCategoryEn": "Combat & Self-defense",
-        "teachingType": "實戰案例",
-        "level": "中級"
-      },
-      "keywords": {
-        "zh": [
-          "接觸反應",
-          "順勢而行",
-          "鎖喉",
-          "反制",
-          "反應"
-        ],
-        "en": []
-      },
-      "relatedCategories": [
-        "觀念理論"
+      "tags": [
+        "接觸反應",
+        "順勢而行",
+        "鎖喉反制"
       ],
+      "concepts": [
+        "接觸反應",
+        "順勢而行"
+      ],
+      "skills": [
+        "鎖喉反制"
+      ],
+      "difficulty": "to_be_confirmed",
       "summary": {
         "zh": "",
         "en": ""
       },
-      "learningObjectives": [],
-      "coreConcepts": [
-        "接觸反應",
-        "順勢而行",
-        "鎖喉",
-        "反制",
-        "反應"
-      ],
-      "prerequisites": [],
-      "relatedCourses": [],
-      "source": "YouTube Data API + manually curated classification/title standards",
-      "status": "draft_v24_0"
+      "youtube": {
+        "videoId": "eZy51eJttYA",
+        "url": "https://youtu.be/eZy51eJttYA",
+        "thumbnail": "",
+        "publishedAt": ""
+      },
+      "dataStatus": {
+        "youtubeBasic": "confirmed_from_source_pdf",
+        "classification": "confirmed",
+        "englishTitle": "draft"
+      }
     },
     {
       "episode": 9,
-      "id": "EP009",
       "title": {
-        "zh": "詠春套路應用解析 2",
-        "en": "Applications of Wing Chun Forms (Part 2)"
+        "zh": "盧文錦 師父 授課精華 9 -- 詠春套路應用解析 2",
+        "en": "Wing Chun Forms Application Analysis, Part 2"
       },
-      "youtube": {
-        "url": "https://youtu.be/HqgkB4wSvT4",
-        "videoId": "HqgkB4wSvT4"
+      "category": {
+        "id": "forms",
+        "zh": "詠春套路",
+        "en": "Wing Chun Forms",
+        "status": "confirmed"
       },
-      "classification": {
-        "primaryCategory": "詠春套路",
-        "primaryCategoryEn": "Wing Chun Forms",
-        "teachingType": "套路解析",
-        "level": "中級"
-      },
-      "keywords": {
-        "zh": [
-          "套路",
-          "應用解析"
-        ],
-        "en": []
-      },
-      "relatedCategories": [],
+      "tags": [
+        "詠春套路",
+        "套路應用"
+      ],
+      "concepts": [],
+      "skills": [],
+      "difficulty": "to_be_confirmed",
       "summary": {
         "zh": "",
         "en": ""
       },
-      "learningObjectives": [],
-      "coreConcepts": [
-        "套路",
-        "應用解析"
-      ],
-      "prerequisites": [],
-      "relatedCourses": [],
-      "source": "YouTube Data API + manually curated classification/title standards",
-      "status": "draft_v24_0"
+      "youtube": {
+        "videoId": "HqgkB4wSvT4",
+        "url": "https://youtu.be/HqgkB4wSvT4",
+        "thumbnail": "",
+        "publishedAt": ""
+      },
+      "dataStatus": {
+        "youtubeBasic": "confirmed_from_source_pdf",
+        "classification": "confirmed",
+        "englishTitle": "draft"
+      }
     },
     {
       "episode": 10,
-      "id": "EP010",
       "title": {
-        "zh": "鎖喉反制與應用 2",
-        "en": "Choke Defense and Applications (Part 2)"
+        "zh": "盧文錦 師父 授課精華 10 -- 鎖喉反制與應用 2",
+        "en": "Choke Counter Applications, Part 2"
       },
-      "youtube": {
-        "url": "https://youtu.be/bddOlNxOpiw",
-        "videoId": "bddOlNxOpiw"
+      "category": {
+        "id": "combat",
+        "zh": "實戰防身",
+        "en": "Combat & Self-defense",
+        "status": "confirmed"
       },
-      "classification": {
-        "primaryCategory": "實戰防身",
-        "primaryCategoryEn": "Combat & Self-defense",
-        "teachingType": "實戰案例",
-        "level": "中級"
-      },
-      "keywords": {
-        "zh": [
-          "鎖喉",
-          "反制",
-          "應用"
-        ],
-        "en": []
-      },
-      "relatedCategories": [],
+      "tags": [
+        "鎖喉反制",
+        "實戰應用"
+      ],
+      "concepts": [],
+      "skills": [
+        "鎖喉反制"
+      ],
+      "difficulty": "to_be_confirmed",
       "summary": {
         "zh": "",
         "en": ""
       },
-      "learningObjectives": [],
-      "coreConcepts": [
-        "鎖喉",
-        "反制",
-        "應用"
-      ],
-      "prerequisites": [],
-      "relatedCourses": [],
-      "source": "YouTube Data API + manually curated classification/title standards",
-      "status": "draft_v24_0"
+      "youtube": {
+        "videoId": "bddOlNxOpiw",
+        "url": "https://youtu.be/bddOlNxOpiw",
+        "thumbnail": "",
+        "publishedAt": ""
+      },
+      "dataStatus": {
+        "youtubeBasic": "confirmed_from_source_pdf",
+        "classification": "confirmed",
+        "englishTitle": "draft"
+      }
     },
     {
       "episode": 11,
-      "id": "EP011",
       "title": {
-        "zh": "背後擒抱反制與應用原理",
-        "en": "Defense Against Rear Bear Hugs: Principles and Applications"
+        "zh": "盧文錦 師父 授課精華 11 -- 背後擒抱反制與應用原理",
+        "en": "Rear Bear Hug Counter and Application Principles"
       },
-      "youtube": {
-        "url": "https://youtu.be/uGdUZLBRTWQ",
-        "videoId": "uGdUZLBRTWQ"
+      "category": {
+        "id": "combat",
+        "zh": "實戰防身",
+        "en": "Combat & Self-defense",
+        "status": "confirmed"
       },
-      "classification": {
-        "primaryCategory": "實戰防身",
-        "primaryCategoryEn": "Combat & Self-defense",
-        "teachingType": "實戰案例",
-        "level": "中級"
-      },
-      "keywords": {
-        "zh": [
-          "背後擒抱",
-          "反制",
-          "應用原理"
-        ],
-        "en": []
-      },
-      "relatedCategories": [],
-      "summary": {
-        "zh": "",
-        "en": ""
-      },
-      "learningObjectives": [],
-      "coreConcepts": [
+      "tags": [
         "背後擒抱",
         "反制",
         "應用原理"
       ],
-      "prerequisites": [],
-      "relatedCourses": [],
-      "source": "YouTube Data API + manually curated classification/title standards",
-      "status": "draft_v24_0"
+      "concepts": [],
+      "skills": [
+        "背後擒抱"
+      ],
+      "difficulty": "to_be_confirmed",
+      "summary": {
+        "zh": "",
+        "en": ""
+      },
+      "youtube": {
+        "videoId": "uGdUZLBRTWQ",
+        "url": "https://youtu.be/uGdUZLBRTWQ",
+        "thumbnail": "",
+        "publishedAt": ""
+      },
+      "dataStatus": {
+        "youtubeBasic": "confirmed_from_source_pdf",
+        "classification": "confirmed",
+        "englishTitle": "draft"
+      }
     },
     {
       "episode": 12,
-      "id": "EP012",
       "title": {
-        "zh": "詠春拳 套路「標指」詳解",
-        "en": "Wing Chun Biu Tze Explained"
+        "zh": "盧文錦 師父 授課精華 12 -- 詠春拳套路「標指」詳解",
+        "en": "Detailed Explanation of the Wing Chun Form Biu Tze"
       },
-      "youtube": {
-        "url": "https://youtu.be/T9QuukbJ3Y4",
-        "videoId": "T9QuukbJ3Y4"
+      "category": {
+        "id": "forms",
+        "zh": "詠春套路",
+        "en": "Wing Chun Forms",
+        "status": "confirmed"
       },
-      "classification": {
-        "primaryCategory": "詠春套路",
-        "primaryCategoryEn": "Wing Chun Forms",
-        "teachingType": "套路解析",
-        "level": "進階"
-      },
-      "keywords": {
-        "zh": [
-          "標指",
-          "套路",
-          "詳解"
-        ],
-        "en": []
-      },
-      "relatedCategories": [],
+      "tags": [
+        "標指",
+        "詠春套路"
+      ],
+      "concepts": [],
+      "skills": [
+        "標指"
+      ],
+      "difficulty": "to_be_confirmed",
       "summary": {
         "zh": "",
         "en": ""
       },
-      "learningObjectives": [],
-      "coreConcepts": [
-        "標指",
-        "套路",
-        "詳解"
-      ],
-      "prerequisites": [],
-      "relatedCourses": [],
-      "source": "YouTube Data API + manually curated classification/title standards",
-      "status": "draft_v24_0"
+      "youtube": {
+        "videoId": "T9QuukbJ3Y4",
+        "url": "https://youtu.be/T9QuukbJ3Y4",
+        "thumbnail": "",
+        "publishedAt": ""
+      },
+      "dataStatus": {
+        "youtubeBasic": "confirmed_from_source_pdf",
+        "classification": "confirmed",
+        "englishTitle": "draft"
+      }
     },
     {
       "episode": 13,
-      "id": "EP013",
       "title": {
-        "zh": "詠春的核心思想",
+        "zh": "盧文錦 師父 授課精華 13 -- 詠春的核心思想",
         "en": "The Core Philosophy of Wing Chun"
       },
-      "youtube": {
-        "url": "https://youtu.be/q9orSdwqPx4",
-        "videoId": "q9orSdwqPx4"
+      "category": {
+        "id": "principles",
+        "zh": "觀念理論",
+        "en": "Concepts & Principles",
+        "status": "confirmed"
       },
-      "classification": {
-        "primaryCategory": "觀念理論",
-        "primaryCategoryEn": "Principles & Theory",
-        "teachingType": "理念建立",
-        "level": "基礎"
-      },
-      "keywords": {
-        "zh": [
-          "詠春核心",
-          "核心思想"
-        ],
-        "en": []
-      },
-      "relatedCategories": [],
+      "tags": [
+        "核心思想",
+        "觀念理論"
+      ],
+      "concepts": [],
+      "skills": [],
+      "difficulty": "to_be_confirmed",
       "summary": {
         "zh": "",
         "en": ""
       },
-      "learningObjectives": [],
-      "coreConcepts": [
-        "詠春核心",
-        "核心思想"
-      ],
-      "prerequisites": [],
-      "relatedCourses": [],
-      "source": "YouTube Data API + manually curated classification/title standards",
-      "status": "draft_v24_0"
+      "youtube": {
+        "videoId": "q9orSdwqPx4",
+        "url": "https://youtu.be/q9orSdwqPx4",
+        "thumbnail": "",
+        "publishedAt": ""
+      },
+      "dataStatus": {
+        "youtubeBasic": "confirmed_from_source_pdf",
+        "classification": "confirmed",
+        "englishTitle": "draft"
+      }
     },
     {
       "episode": 14,
-      "id": "EP014",
       "title": {
-        "zh": "黐手到實戰 詠春的真正核心",
+        "zh": "盧文錦 師父 授課精華 14 -- 黐手到實戰 詠春的真正核心",
         "en": "From Chi Sau to Combat: The True Core of Wing Chun"
       },
-      "youtube": {
-        "url": "https://youtu.be/3OufV7nj4mQ",
-        "videoId": "3OufV7nj4mQ"
+      "category": {
+        "id": "principles",
+        "zh": "觀念理論",
+        "en": "Concepts & Principles",
+        "status": "confirmed"
       },
-      "classification": {
-        "primaryCategory": "觀念理論",
-        "primaryCategoryEn": "Principles & Theory",
-        "teachingType": "理念建立",
-        "level": "中級"
-      },
-      "keywords": {
-        "zh": [
-          "黐手",
-          "實戰",
-          "真正核心"
-        ],
-        "en": []
-      },
-      "relatedCategories": [
-        "實戰防身"
-      ],
-      "summary": {
-        "zh": "",
-        "en": ""
-      },
-      "learningObjectives": [],
-      "coreConcepts": [
+      "tags": [
         "黐手",
         "實戰",
         "真正核心"
       ],
-      "prerequisites": [],
-      "relatedCourses": [],
-      "source": "YouTube Data API + manually curated classification/title standards",
-      "status": "draft_v24_0"
-    },
-    {
-      "episode": 15,
-      "id": "EP015",
-      "title": {
-        "zh": "順勢而行的近身擒手反制與應用",
-        "en": "Close-Range Control and Counter Techniques by Flowing with the Momentum"
-      },
-      "youtube": {
-        "url": "https://youtu.be/OCSZYGRAs2A",
-        "videoId": "OCSZYGRAs2A"
-      },
-      "classification": {
-        "primaryCategory": "實戰防身",
-        "primaryCategoryEn": "Combat & Self-defense",
-        "teachingType": "實戰案例",
-        "level": "中級"
-      },
-      "keywords": {
-        "zh": [
-          "順勢而行",
-          "近身擒手",
-          "反制"
-        ],
-        "en": []
-      },
-      "relatedCategories": [
-        "觀念理論"
+      "concepts": [],
+      "skills": [
+        "黐手"
       ],
+      "difficulty": "to_be_confirmed",
       "summary": {
         "zh": "",
         "en": ""
       },
-      "learningObjectives": [],
-      "coreConcepts": [
+      "youtube": {
+        "videoId": "3OufV7nj4mQ",
+        "url": "https://youtu.be/3OufV7nj4mQ",
+        "thumbnail": "",
+        "publishedAt": ""
+      },
+      "dataStatus": {
+        "youtubeBasic": "confirmed_from_source_pdf",
+        "classification": "confirmed",
+        "englishTitle": "draft"
+      }
+    },
+    {
+      "episode": 15,
+      "title": {
+        "zh": "盧文錦 師父 授課精華 15 -- 順勢而行的近身擒手反制與應用",
+        "en": "Close-range Grabbing Counters and Applications Through Flowing with the Momentum"
+      },
+      "category": {
+        "id": "combat",
+        "zh": "實戰防身",
+        "en": "Combat & Self-defense",
+        "status": "confirmed"
+      },
+      "tags": [
         "順勢而行",
         "近身擒手",
         "反制"
       ],
-      "prerequisites": [],
-      "relatedCourses": [],
-      "source": "YouTube Data API + manually curated classification/title standards",
-      "status": "draft_v24_0"
+      "concepts": [
+        "順勢而行"
+      ],
+      "skills": [
+        "近身擒手"
+      ],
+      "difficulty": "to_be_confirmed",
+      "summary": {
+        "zh": "",
+        "en": ""
+      },
+      "youtube": {
+        "videoId": "OCSZYGRAs2A",
+        "url": "https://youtu.be/OCSZYGRAs2A",
+        "thumbnail": "",
+        "publishedAt": ""
+      },
+      "dataStatus": {
+        "youtubeBasic": "confirmed_from_source_pdf",
+        "classification": "confirmed",
+        "englishTitle": "draft"
+      }
     },
     {
       "episode": 16,
-      "id": "EP016",
       "title": {
-        "zh": "反應決定一切，克敵的制勝關鍵",
-        "en": "Reaction Determines Everything: The Key to Victory"
+        "zh": "盧文錦 師父 授課精華 16 -- 反應決定一切，克敵的制勝關鍵",
+        "en": "Reaction Determines Everything: The Key to Defeating an Opponent"
       },
-      "youtube": {
-        "url": "https://youtu.be/AXEjT_ln7pI",
-        "videoId": "AXEjT_ln7pI"
+      "category": {
+        "id": "principles",
+        "zh": "觀念理論",
+        "en": "Concepts & Principles",
+        "status": "confirmed"
       },
-      "classification": {
-        "primaryCategory": "觀念理論",
-        "primaryCategoryEn": "Principles & Theory",
-        "teachingType": "理念建立",
-        "level": "中級"
-      },
-      "keywords": {
-        "zh": [
-          "反應",
-          "制勝關鍵",
-          "克敵"
-        ],
-        "en": []
-      },
-      "relatedCategories": [],
+      "tags": [
+        "反應",
+        "克敵",
+        "制勝關鍵"
+      ],
+      "concepts": [
+        "反應"
+      ],
+      "skills": [],
+      "difficulty": "to_be_confirmed",
       "summary": {
         "zh": "",
         "en": ""
       },
-      "learningObjectives": [],
-      "coreConcepts": [
-        "反應",
-        "制勝關鍵",
-        "克敵"
-      ],
-      "prerequisites": [],
-      "relatedCourses": [],
-      "source": "YouTube Data API + manually curated classification/title standards",
-      "status": "draft_v24_0"
+      "youtube": {
+        "videoId": "AXEjT_ln7pI",
+        "url": "https://youtu.be/AXEjT_ln7pI",
+        "thumbnail": "",
+        "publishedAt": ""
+      },
+      "dataStatus": {
+        "youtubeBasic": "confirmed_from_source_pdf",
+        "classification": "confirmed",
+        "englishTitle": "draft"
+      }
     },
     {
       "episode": 17,
-      "id": "EP017",
       "title": {
-        "zh": "詠春核心揭秘：沒有招式，只有反應!",
-        "en": "The Secret of Wing Chun: No Fixed Techniques, Only Reaction"
+        "zh": "盧文錦 師父 授課精華 17 -- 詠春核心揭秘：沒有招式，只有反應!",
+        "en": "Wing Chun Core Revealed: No Fixed Techniques, Only Reaction"
       },
-      "youtube": {
-        "url": "https://youtu.be/NU7ayuVK5bI",
-        "videoId": "NU7ayuVK5bI"
+      "category": {
+        "id": "principles",
+        "zh": "觀念理論",
+        "en": "Concepts & Principles",
+        "status": "confirmed"
       },
-      "classification": {
-        "primaryCategory": "觀念理論",
-        "primaryCategoryEn": "Principles & Theory",
-        "teachingType": "理念建立",
-        "level": "中級"
-      },
-      "keywords": {
-        "zh": [
-          "沒有招式",
-          "反應",
-          "詠春核心"
-        ],
-        "en": []
-      },
-      "relatedCategories": [],
+      "tags": [
+        "沒有招式",
+        "只有反應",
+        "核心觀念"
+      ],
+      "concepts": [
+        "沒有招式",
+        "只有反應",
+        "核心觀念"
+      ],
+      "skills": [],
+      "difficulty": "to_be_confirmed",
       "summary": {
         "zh": "",
         "en": ""
       },
-      "learningObjectives": [],
-      "coreConcepts": [
-        "沒有招式",
-        "反應",
-        "詠春核心"
-      ],
-      "prerequisites": [],
-      "relatedCourses": [],
-      "source": "YouTube Data API + manually curated classification/title standards",
-      "status": "draft_v24_0"
+      "youtube": {
+        "videoId": "NU7ayuVK5bI",
+        "url": "https://youtu.be/NU7ayuVK5bI",
+        "thumbnail": "",
+        "publishedAt": ""
+      },
+      "dataStatus": {
+        "youtubeBasic": "confirmed_from_source_pdf",
+        "classification": "confirmed",
+        "englishTitle": "draft"
+      }
     },
     {
       "episode": 18,
-      "id": "EP018",
       "title": {
-        "zh": "詠春拳套路的核心觀念",
-        "en": "The Core Concepts of Wing Chun Forms"
+        "zh": "盧文錦 師父 授課精華 18 -- 詠春拳套路的核心觀念",
+        "en": "Core Concepts of Wing Chun Forms"
       },
-      "youtube": {
-        "url": "https://youtu.be/UhOnN1hmz0I",
-        "videoId": "UhOnN1hmz0I"
+      "category": {
+        "id": "principles",
+        "zh": "觀念理論",
+        "en": "Concepts & Principles",
+        "status": "confirmed"
       },
-      "classification": {
-        "primaryCategory": "觀念理論",
-        "primaryCategoryEn": "Principles & Theory",
-        "teachingType": "理念建立",
-        "level": "中級"
-      },
-      "keywords": {
-        "zh": [
-          "套路",
-          "核心觀念"
-        ],
-        "en": []
-      },
-      "relatedCategories": [],
+      "tags": [
+        "詠春套路",
+        "核心觀念"
+      ],
+      "concepts": [
+        "核心觀念"
+      ],
+      "skills": [],
+      "difficulty": "to_be_confirmed",
       "summary": {
         "zh": "",
         "en": ""
       },
-      "learningObjectives": [],
-      "coreConcepts": [
-        "套路",
-        "核心觀念"
-      ],
-      "prerequisites": [],
-      "relatedCourses": [],
-      "source": "YouTube Data API + manually curated classification/title standards",
-      "status": "draft_v24_0"
+      "youtube": {
+        "videoId": "UhOnN1hmz0I",
+        "url": "https://youtu.be/UhOnN1hmz0I",
+        "thumbnail": "",
+        "publishedAt": ""
+      },
+      "dataStatus": {
+        "youtubeBasic": "confirmed_from_source_pdf",
+        "classification": "confirmed",
+        "englishTitle": "draft"
+      }
     },
     {
       "episode": 19,
-      "id": "EP019",
       "title": {
-        "zh": "詠春拳「尋橋」完整拆解",
-        "en": "Wing Chun Chum Kiu – Complete Breakdown"
+        "zh": "盧文錦 師父 授課精華 19 -- 詠春拳「尋橋」完整拆解",
+        "en": "Complete Breakdown of Chum Kiu"
       },
-      "youtube": {
-        "url": "https://youtu.be/cpy3Qa2OTB4",
-        "videoId": "cpy3Qa2OTB4"
+      "category": {
+        "id": "forms",
+        "zh": "詠春套路",
+        "en": "Wing Chun Forms",
+        "status": "confirmed"
       },
-      "classification": {
-        "primaryCategory": "詠春套路",
-        "primaryCategoryEn": "Wing Chun Forms",
-        "teachingType": "套路解析",
-        "level": "中級"
-      },
-      "keywords": {
-        "zh": [
-          "尋橋",
-          "完整拆解"
-        ],
-        "en": []
-      },
-      "relatedCategories": [],
+      "tags": [
+        "尋橋",
+        "詠春套路"
+      ],
+      "concepts": [],
+      "skills": [
+        "尋橋"
+      ],
+      "difficulty": "to_be_confirmed",
       "summary": {
         "zh": "",
         "en": ""
       },
-      "learningObjectives": [],
-      "coreConcepts": [
-        "尋橋",
-        "完整拆解"
-      ],
-      "prerequisites": [],
-      "relatedCourses": [],
-      "source": "YouTube Data API + manually curated classification/title standards",
-      "status": "draft_v24_0"
+      "youtube": {
+        "videoId": "cpy3Qa2OTB4",
+        "url": "https://youtu.be/cpy3Qa2OTB4",
+        "thumbnail": "",
+        "publishedAt": ""
+      },
+      "dataStatus": {
+        "youtubeBasic": "confirmed_from_source_pdf",
+        "classification": "confirmed",
+        "englishTitle": "draft"
+      }
     },
     {
       "episode": 20,
-      "id": "EP020",
       "title": {
-        "zh": "詠春「蹬手」完整解析，實戰應用與核心觀念",
-        "en": "Wing Chun Dang Sau: Principles and Practical Applications"
+        "zh": "盧文錦 師父 授課精華 20 -- 詠春「蹬手」完整解析，實戰應用與核心觀念",
+        "en": "Complete Analysis of Ding Sau: Combat Applications and Core Concepts"
       },
-      "youtube": {
-        "url": "https://youtu.be/CRVhoqkjK8s",
-        "videoId": "CRVhoqkjK8s"
+      "category": {
+        "id": "techniques",
+        "zh": "特定技巧",
+        "en": "Specific Techniques",
+        "status": "confirmed"
       },
-      "classification": {
-        "primaryCategory": "特定技巧",
-        "primaryCategoryEn": "Specific Techniques",
-        "teachingType": "技巧解析",
-        "level": "中級"
-      },
-      "keywords": {
-        "zh": [
-          "蹬手",
-          "實戰應用",
-          "核心觀念"
-        ],
-        "en": []
-      },
-      "relatedCategories": [
-        "實戰防身"
-      ],
-      "summary": {
-        "zh": "",
-        "en": ""
-      },
-      "learningObjectives": [],
-      "coreConcepts": [
+      "tags": [
         "蹬手",
         "實戰應用",
         "核心觀念"
       ],
-      "prerequisites": [],
-      "relatedCourses": [],
-      "source": "YouTube Data API + manually curated classification/title standards",
-      "status": "draft_v24_0"
-    },
-    {
-      "episode": 21,
-      "id": "EP021",
-      "title": {
-        "zh": "詠春高階觀念：「反應」比招式更重要",
-        "en": "Advanced Wing Chun Concept: Reaction Is More Important Than Techniques"
-      },
-      "youtube": {
-        "url": "https://youtu.be/jehmZ5i_yiM",
-        "videoId": "jehmZ5i_yiM"
-      },
-      "classification": {
-        "primaryCategory": "觀念理論",
-        "primaryCategoryEn": "Principles & Theory",
-        "teachingType": "理念建立",
-        "level": "進階"
-      },
-      "keywords": {
-        "zh": [
-          "高階觀念",
-          "反應",
-          "招式"
-        ],
-        "en": []
-      },
-      "relatedCategories": [],
+      "concepts": [
+        "核心觀念"
+      ],
+      "skills": [
+        "蹬手"
+      ],
+      "difficulty": "to_be_confirmed",
       "summary": {
         "zh": "",
         "en": ""
       },
-      "learningObjectives": [],
-      "coreConcepts": [
+      "youtube": {
+        "videoId": "CRVhoqkjK8s",
+        "url": "https://youtu.be/CRVhoqkjK8s",
+        "thumbnail": "",
+        "publishedAt": ""
+      },
+      "dataStatus": {
+        "youtubeBasic": "confirmed_from_source_pdf",
+        "classification": "confirmed",
+        "englishTitle": "draft"
+      }
+    },
+    {
+      "episode": 21,
+      "title": {
+        "zh": "盧文錦 師父 授課精華 21 -- 詠春高階觀念：「反應」比招式更重要",
+        "en": "Advanced Wing Chun Concept: Reaction Matters More Than Techniques"
+      },
+      "category": {
+        "id": "principles",
+        "zh": "觀念理論",
+        "en": "Concepts & Principles",
+        "status": "draft"
+      },
+      "tags": [
         "高階觀念",
         "反應",
         "招式"
       ],
-      "prerequisites": [],
-      "relatedCourses": [],
-      "source": "YouTube Data API + manually curated classification/title standards",
-      "status": "draft_v24_0"
+      "concepts": [
+        "反應"
+      ],
+      "skills": [],
+      "difficulty": "to_be_confirmed",
+      "summary": {
+        "zh": "",
+        "en": ""
+      },
+      "youtube": {
+        "videoId": "jehmZ5i_yiM",
+        "url": "https://youtu.be/jehmZ5i_yiM",
+        "thumbnail": "",
+        "publishedAt": ""
+      },
+      "dataStatus": {
+        "youtubeBasic": "confirmed_from_source_pdf",
+        "classification": "draft",
+        "englishTitle": "draft"
+      }
     },
     {
       "episode": 22,
-      "id": "EP022",
       "title": {
-        "zh": "持刀對峙的實戰觀念解析 | 不是招式，而是瞬間反應!!",
-        "en": "Knife Confrontation: Practical Combat Concepts – Reaction Over Techniques"
+        "zh": "盧文錦 師父 授課精華 22 -- 持刀對峙的實戰觀念解析 | 不是招式，而是瞬間反應!!",
+        "en": "Combat Concepts for Knife Confrontation: Not Fixed Techniques, but Instant Reaction"
       },
-      "youtube": {
-        "url": "https://youtu.be/OF51iX7gwmI",
-        "videoId": "OF51iX7gwmI"
+      "category": {
+        "id": "combat",
+        "zh": "實戰防身",
+        "en": "Combat & Self-defense",
+        "status": "draft"
       },
-      "classification": {
-        "primaryCategory": "實戰防身",
-        "primaryCategoryEn": "Combat & Self-defense",
-        "teachingType": "實戰案例",
-        "level": "進階"
-      },
-      "keywords": {
-        "zh": [
-          "持刀對峙",
-          "實戰觀念",
-          "瞬間反應",
-          "反應",
-          "持刀"
-        ],
-        "en": []
-      },
-      "relatedCategories": [
-        "觀念理論"
+      "tags": [
+        "持刀對峙",
+        "實戰觀念",
+        "瞬間反應"
       ],
+      "concepts": [
+        "瞬間反應"
+      ],
+      "skills": [],
+      "difficulty": "to_be_confirmed",
       "summary": {
         "zh": "",
         "en": ""
       },
-      "learningObjectives": [],
-      "coreConcepts": [
-        "持刀對峙",
-        "實戰觀念",
-        "瞬間反應",
-        "反應",
-        "持刀"
-      ],
-      "prerequisites": [],
-      "relatedCourses": [],
-      "source": "YouTube Data API + manually curated classification/title standards",
-      "status": "draft_v24_0"
+      "youtube": {
+        "videoId": "OF51iX7gwmI",
+        "url": "https://youtu.be/OF51iX7gwmI",
+        "thumbnail": "",
+        "publishedAt": ""
+      },
+      "dataStatus": {
+        "youtubeBasic": "confirmed_from_source_pdf",
+        "classification": "draft",
+        "englishTitle": "draft"
+      }
     },
     {
       "episode": 23,
-      "id": "EP023",
       "title": {
-        "zh": "持械攻擊下的詠春防身觀念",
-        "en": "Wing Chun Self-Defense Concepts Against Armed Attacks"
+        "zh": "盧文錦 師父 授課精華 23 -- 持械攻擊下的詠春防身觀念",
+        "en": "Wing Chun Self-defense Concepts Against Weapon Attacks"
       },
-      "youtube": {
-        "url": "https://youtu.be/uiiBtLuYkCw",
-        "videoId": "uiiBtLuYkCw"
+      "category": {
+        "id": "combat",
+        "zh": "實戰防身",
+        "en": "Combat & Self-defense",
+        "status": "draft"
       },
-      "classification": {
-        "primaryCategory": "實戰防身",
-        "primaryCategoryEn": "Combat & Self-defense",
-        "teachingType": "實戰案例",
-        "level": "進階"
-      },
-      "keywords": {
-        "zh": [
-          "持械攻擊",
-          "防身觀念",
-          "持械",
-          "防身"
-        ],
-        "en": []
-      },
-      "relatedCategories": [
-        "觀念理論"
+      "tags": [
+        "持械攻擊",
+        "防身觀念"
       ],
+      "concepts": [],
+      "skills": [],
+      "difficulty": "to_be_confirmed",
       "summary": {
         "zh": "",
         "en": ""
       },
-      "learningObjectives": [],
-      "coreConcepts": [
-        "持械攻擊",
-        "防身觀念",
-        "持械",
-        "防身"
-      ],
-      "prerequisites": [],
-      "relatedCourses": [],
-      "source": "YouTube Data API + manually curated classification/title standards",
-      "status": "draft_v24_0"
+      "youtube": {
+        "videoId": "uiiBtLuYkCw",
+        "url": "https://youtu.be/uiiBtLuYkCw",
+        "thumbnail": "",
+        "publishedAt": ""
+      },
+      "dataStatus": {
+        "youtubeBasic": "confirmed_from_source_pdf",
+        "classification": "draft",
+        "englishTitle": "draft"
+      }
     },
     {
       "episode": 24,
-      "id": "EP024",
       "title": {
-        "zh": "詠春拳防衛觀念解析 | 沒有固定招式，只有正確反應",
-        "en": "Wing Chun Defensive Concepts: No Fixed Techniques, Only Correct Reactions"
+        "zh": "盧文錦 師父 授課精華 24 -- 詠春拳防衛觀念解析 | 沒有固定招式，只有正確反應",
+        "en": "Wing Chun Defensive Concepts: No Fixed Techniques, Only Correct Reaction"
       },
-      "youtube": {
-        "url": "https://youtu.be/fisb89DcHBQ",
-        "videoId": "fisb89DcHBQ"
+      "category": {
+        "id": "combat",
+        "zh": "實戰防身",
+        "en": "Combat & Self-defense",
+        "status": "draft"
       },
-      "classification": {
-        "primaryCategory": "實戰防身",
-        "primaryCategoryEn": "Combat & Self-defense",
-        "teachingType": "實戰案例",
-        "level": "進階"
-      },
-      "keywords": {
-        "zh": [
-          "防衛觀念",
-          "沒有固定招式",
-          "正確反應",
-          "反應"
-        ],
-        "en": []
-      },
-      "relatedCategories": [
-        "觀念理論"
+      "tags": [
+        "防衛觀念",
+        "正確反應",
+        "沒有固定招式"
       ],
+      "concepts": [
+        "正確反應"
+      ],
+      "skills": [],
+      "difficulty": "to_be_confirmed",
       "summary": {
         "zh": "",
         "en": ""
       },
-      "learningObjectives": [],
-      "coreConcepts": [
-        "防衛觀念",
-        "沒有固定招式",
-        "正確反應",
-        "反應"
-      ],
-      "prerequisites": [],
-      "relatedCourses": [],
-      "source": "YouTube Data API + manually curated classification/title standards",
-      "status": "draft_v24_0"
+      "youtube": {
+        "videoId": "fisb89DcHBQ",
+        "url": "https://youtu.be/fisb89DcHBQ",
+        "thumbnail": "",
+        "publishedAt": ""
+      },
+      "dataStatus": {
+        "youtubeBasic": "confirmed_from_source_pdf",
+        "classification": "draft",
+        "englishTitle": "draft"
+      }
     },
     {
       "episode": 25,
-      "id": "EP025",
       "title": {
-        "zh": "詠春拳核心原理揭秘：生理結構、槓桿力學與實戰應用",
-        "en": "The Core Principles of Wing Chun: Body Structure, Leverage, and Practical Applications"
+        "zh": "盧文錦 師父 授課精華 25 -- 詠春拳核心原理揭秘：生理結構、槓桿力學與實戰應用",
+        "en": "Wing Chun Core Principles Revealed: Body Structure, Leverage Mechanics, and Combat Application"
       },
-      "youtube": {
-        "url": "https://youtu.be/5NWvyL5ux3w",
-        "videoId": "5NWvyL5ux3w"
+      "category": {
+        "id": "principles",
+        "zh": "觀念理論",
+        "en": "Concepts & Principles",
+        "status": "draft"
       },
-      "classification": {
-        "primaryCategory": "觀念理論",
-        "primaryCategoryEn": "Principles & Theory",
-        "teachingType": "原理分析",
-        "level": "進階"
-      },
-      "keywords": {
-        "zh": [
-          "核心原理",
-          "生理結構",
-          "槓桿力學",
-          "實戰應用"
-        ],
-        "en": []
-      },
-      "relatedCategories": [
-        "實戰防身"
+      "tags": [
+        "生理結構",
+        "槓桿力學",
+        "實戰應用",
+        "核心原理"
       ],
+      "concepts": [
+        "生理結構",
+        "槓桿力學"
+      ],
+      "skills": [],
+      "difficulty": "to_be_confirmed",
       "summary": {
         "zh": "",
         "en": ""
       },
-      "learningObjectives": [],
-      "coreConcepts": [
-        "核心原理",
-        "生理結構",
-        "槓桿力學",
-        "實戰應用"
-      ],
-      "prerequisites": [],
-      "relatedCourses": [],
-      "source": "YouTube Data API + manually curated classification/title standards",
-      "status": "draft_v24_0"
+      "youtube": {
+        "videoId": "5NWvyL5ux3w",
+        "url": "https://youtu.be/5NWvyL5ux3w",
+        "thumbnail": "",
+        "publishedAt": ""
+      },
+      "dataStatus": {
+        "youtubeBasic": "confirmed_from_source_pdf",
+        "classification": "draft",
+        "englishTitle": "draft"
+      }
     },
     {
       "episode": 26,
-      "id": "EP026",
       "title": {
-        "zh": "詠春腿法攻防原理與實戰應用（上集）",
-        "en": "Wing Chun Leg Techniques: Principles, Attack & Defense Applications (Part 1)"
+        "zh": "盧文錦 師父 授課精華 26 -- 詠春腿法攻防原理與實戰應用(上集)",
+        "en": "Wing Chun Leg Techniques: Attack-defense Principles and Combat Applications, Part 1"
       },
-      "youtube": {
-        "url": "https://youtu.be/W28X9VyTYyE",
-        "videoId": "W28X9VyTYyE"
+      "category": {
+        "id": "techniques",
+        "zh": "特定技巧",
+        "en": "Specific Techniques",
+        "status": "draft"
       },
-      "classification": {
-        "primaryCategory": "特定技巧",
-        "primaryCategoryEn": "Specific Techniques",
-        "teachingType": "技巧解析",
-        "level": "進階"
-      },
-      "keywords": {
-        "zh": [
-          "腿法",
-          "攻防原理",
-          "實戰應用",
-          "上集"
-        ],
-        "en": []
-      },
-      "relatedCategories": [
-        "觀念理論",
-        "實戰防身"
-      ],
-      "summary": {
-        "zh": "",
-        "en": ""
-      },
-      "learningObjectives": [],
-      "coreConcepts": [
+      "tags": [
         "腿法",
         "攻防原理",
         "實戰應用",
         "上集"
       ],
-      "prerequisites": [],
-      "relatedCourses": [],
-      "source": "YouTube Data API + manually curated classification/title standards",
-      "status": "draft_v24_0"
+      "concepts": [],
+      "skills": [
+        "腿法"
+      ],
+      "difficulty": "to_be_confirmed",
+      "summary": {
+        "zh": "",
+        "en": ""
+      },
+      "youtube": {
+        "videoId": "W28X9VyTYyE",
+        "url": "https://youtu.be/W28X9VyTYyE",
+        "thumbnail": "",
+        "publishedAt": ""
+      },
+      "dataStatus": {
+        "youtubeBasic": "confirmed_from_source_pdf",
+        "classification": "draft",
+        "englishTitle": "draft"
+      }
     },
     {
       "episode": 27,
-      "id": "EP027",
       "title": {
-        "zh": "詠春腿法攻防原理與實戰應用(下集) | 原理、結構、平衡、步法與實戰運用觀念",
-        "en": "Wing Chun Leg Techniques: Principles, Structure, Balance, Footwork & Practical Applications (Part 2)"
+        "zh": "盧文錦 師父 授課精華 27 -- 詠春腿法攻防原理與實戰應用(下集)",
+        "en": "Wing Chun Leg Techniques: Attack-defense Principles and Combat Applications, Part 2"
       },
-      "youtube": {
-        "url": "https://youtu.be/gV-j1l4WEB0",
-        "videoId": "gV-j1l4WEB0"
+      "category": {
+        "id": "techniques",
+        "zh": "特定技巧",
+        "en": "Specific Techniques",
+        "status": "draft"
       },
-      "classification": {
-        "primaryCategory": "特定技巧",
-        "primaryCategoryEn": "Specific Techniques",
-        "teachingType": "技巧解析",
-        "level": "進階"
-      },
-      "keywords": {
-        "zh": [
-          "腿法",
-          "攻防原理",
-          "實戰應用",
-          "下集",
-          "原理",
-          "結構",
-          "平衡",
-          "步法",
-          "實戰運用觀念"
-        ],
-        "en": []
-      },
-      "relatedCategories": [
-        "觀念理論",
-        "實戰防身"
-      ],
-      "summary": {
-        "zh": "",
-        "en": ""
-      },
-      "learningObjectives": [],
-      "coreConcepts": [
+      "tags": [
         "腿法",
         "攻防原理",
         "實戰應用",
-        "下集",
-        "原理"
+        "下集"
       ],
-      "prerequisites": [],
-      "relatedCourses": [],
-      "source": "YouTube Data API + manually curated classification/title standards",
-      "status": "draft_v24_0"
-    },
-    {
-      "episode": 28,
-      "id": "EP028",
-      "title": {
-        "zh": "詠春抱牌掌攻防原理與實戰應用",
-        "en": "Wing Chun Bao Pai Palm: Principles and Practical Applications"
-      },
-      "youtube": {
-        "url": "https://youtu.be/Kqj2TIg_N24",
-        "videoId": "Kqj2TIg_N24"
-      },
-      "classification": {
-        "primaryCategory": "特定技巧",
-        "primaryCategoryEn": "Specific Techniques",
-        "teachingType": "技巧解析",
-        "level": "進階"
-      },
-      "keywords": {
-        "zh": [
-          "抱牌掌",
-          "攻防原理",
-          "實戰應用"
-        ],
-        "en": []
-      },
-      "relatedCategories": [
-        "觀念理論",
-        "實戰防身"
+      "concepts": [],
+      "skills": [
+        "腿法"
       ],
+      "difficulty": "to_be_confirmed",
       "summary": {
         "zh": "",
         "en": ""
       },
-      "learningObjectives": [],
-      "coreConcepts": [
+      "youtube": {
+        "videoId": "gV-j1l4WEB0",
+        "url": "https://youtu.be/gV-j1l4WEB0",
+        "thumbnail": "",
+        "publishedAt": ""
+      },
+      "dataStatus": {
+        "youtubeBasic": "confirmed_from_source_pdf",
+        "classification": "draft",
+        "englishTitle": "draft"
+      }
+    },
+    {
+      "episode": 28,
+      "title": {
+        "zh": "盧文錦 師父 授課精華 28 – 詠春抱牌掌攻防原理與實戰應用",
+        "en": "Wing Chun Bao Pai Palm: Attack-defense Principles and Combat Applications"
+      },
+      "category": {
+        "id": "techniques",
+        "zh": "特定技巧",
+        "en": "Specific Techniques",
+        "status": "draft"
+      },
+      "tags": [
         "抱牌掌",
         "攻防原理",
         "實戰應用"
       ],
-      "prerequisites": [],
-      "relatedCourses": [],
-      "source": "YouTube Data API + manually curated classification/title standards",
-      "status": "draft_v24_0"
-    },
-    {
-      "episode": 29,
-      "id": "EP029",
-      "title": {
-        "zh": "抱牌掌實戰解析｜接觸反應、黐手訓練與順勢而行",
-        "en": "Practical Analysis of Bao Pai Palm | Contact Reaction, Chi Sao Training, and Flowing with the Momentum"
-      },
-      "youtube": {
-        "url": "https://youtu.be/8m2_6mvsGkE",
-        "videoId": "8m2_6mvsGkE"
-      },
-      "classification": {
-        "primaryCategory": "特定技巧",
-        "primaryCategoryEn": "Specific Techniques",
-        "teachingType": "技巧解析",
-        "level": "進階"
-      },
-      "keywords": {
-        "zh": [
-          "抱牌掌",
-          "實戰解析",
-          "接觸反應",
-          "黐手訓練",
-          "順勢而行",
-          "黐手",
-          "反應"
-        ],
-        "en": [
-          "Bao Pai Palm",
-          "practical analysis",
-          "contact reaction",
-          "Chi Sao training",
-          "flowing with the momentum"
-        ]
-      },
-      "relatedCategories": [
-        "觀念理論",
-        "實戰防身"
+      "concepts": [],
+      "skills": [
+        "抱牌掌"
       ],
+      "difficulty": "to_be_confirmed",
       "summary": {
         "zh": "",
         "en": ""
       },
-      "learningObjectives": [],
-      "coreConcepts": [
+      "youtube": {
+        "videoId": "Kqj2TIg_N24",
+        "url": "https://youtu.be/Kqj2TIg_N24",
+        "thumbnail": "",
+        "publishedAt": ""
+      },
+      "dataStatus": {
+        "youtubeBasic": "confirmed_from_source_pdf",
+        "classification": "draft",
+        "englishTitle": "draft"
+      }
+    },
+    {
+      "episode": 29,
+      "title": {
+        "zh": "盧文錦 師父 授課精華 29－抱牌掌實戰解析｜接觸反應、黐手訓練與順勢而行",
+        "en": "Practical Analysis of Bao Pai Palm: Contact Response, Chi Sau Training, and Flowing with the Momentum"
+      },
+      "category": {
+        "id": "techniques",
+        "zh": "特定技巧",
+        "en": "Specific Techniques",
+        "status": "draft"
+      },
+      "tags": [
         "抱牌掌",
-        "實戰解析",
         "接觸反應",
-        "黐手訓練",
+        "黐手",
         "順勢而行"
       ],
-      "prerequisites": [],
-      "relatedCourses": [],
-      "source": "YouTube Data API + manually curated classification/title standards",
-      "status": "draft_v24_0"
+      "concepts": [
+        "接觸反應",
+        "順勢而行"
+      ],
+      "skills": [
+        "抱牌掌",
+        "黐手"
+      ],
+      "difficulty": "to_be_confirmed",
+      "summary": {
+        "zh": "",
+        "en": ""
+      },
+      "youtube": {
+        "videoId": "8m2_6mvsGkE",
+        "url": "https://youtu.be/8m2_6mvsGkE",
+        "thumbnail": "",
+        "publishedAt": ""
+      },
+      "dataStatus": {
+        "youtubeBasic": "confirmed_from_source_pdf",
+        "classification": "draft",
+        "englishTitle": "draft"
+      }
     }
   ]
 }
