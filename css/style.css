@@ -1,4 +1,4 @@
-/* WingChun V23.0 modular stylesheet. Keep import order unchanged. */
+/* WingChun V23.1 modular stylesheet. Keep import order unchanged. */
 @import url("./base.css");
 @import url("./chat.css");
 @import url("./theme-hero-tune.css");
@@ -6,6 +6,7 @@
 @import url("./brand-language.css");
 @import url("./hero-final.css");
 @import url("./course-layout.css");
+@import url("./search.css");
 @import url("./buttons-cards.css");
 @import url("./language-fixes.css");
 @import url("./animations.css");

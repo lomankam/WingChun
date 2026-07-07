@@ -1,0 +1,15 @@
+/* WingChun V23.1 Search Engine */
+.lessonSearchPanel{margin:0 0 16px;border:1px solid rgba(255,224,163,.20);border-radius:18px;padding:12px;background:linear-gradient(180deg,rgba(255,255,255,.055),rgba(255,255,255,.022));box-shadow:0 10px 26px rgba(0,0,0,.20)}
+.searchBox{display:flex;align-items:center;gap:8px;border:1px solid rgba(255,224,163,.28);border-radius:14px;background:rgba(0,0,0,.22);padding:8px 10px}
+.searchIcon{color:#f4d58a;font-size:20px;font-weight:900;line-height:1;opacity:.9}
+.lessonSearchInput{flex:1;min-width:0;border:0;outline:0;background:transparent;color:#fff3d5;font-size:15px;font-weight:700;padding:6px 4px;font-family:inherit}
+.lessonSearchInput::placeholder{color:rgba(217,225,234,.56);font-weight:600}
+.clearSearchBtn{width:30px;height:30px;border-radius:50%;border:1px solid rgba(255,224,163,.25);background:rgba(255,255,255,.06);color:#ffe4a6;font-size:20px;line-height:1;cursor:pointer;display:none}
+.clearSearchBtn.show{display:grid;place-items:center}
+.clearSearchBtn:hover{background:linear-gradient(135deg,#ffe8a8,#d9ad55);color:#15110a;border-color:transparent}
+.searchQuickTags{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.searchTag{cursor:pointer;border:1px solid rgba(255,224,163,.22);background:rgba(217,173,85,.08);color:#f4dfac;border-radius:999px;padding:6px 10px;font-size:12px;font-weight:900;transition:.18s transform,.18s background}
+.searchTag:hover{transform:translateY(-1px);background:linear-gradient(135deg,#ffe8a8,#d9ad55);color:#15110a;border-color:transparent}
+.searchHint{margin-top:9px;color:rgba(217,225,234,.72);font-size:13px;line-height:1.55}
+mark.searchMark{background:rgba(217,173,85,.28);color:#fff3d5;border-radius:4px;padding:0 2px}
+@media(max-width:720px){.lessonSearchPanel{padding:10px;border-radius:16px}.lessonSearchInput{font-size:14px}.searchQuickTags{gap:6px}.searchTag{padding:6px 9px}}

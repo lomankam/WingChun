@@ -1,18 +1,27 @@
-# WingChun V23.0 Foundation
+# WingChun Platform V23.1
 
-本版建立平台資料層（Data Layer），版面與功能保持 V22.3 穩定版邏輯。
+本版為 Search Engine Foundation。
 
-## 新增內容
+## 更新內容
 
-- `data/videos.json`：1～29 集課程資料，補齊官方英文標題、英文分類、英文關鍵字。
-- `data/terminology.json`：詠春術語官方資料庫。
-- `data/categories.json`：分類中英對照。
-- `data/languages.json`：網站固定文字中英資料。
-- `data/settings.json`：網站設定資料。
-- `data/changelog.json`：版本更新紀錄。
-- `docs/STYLE_GUIDE.md`：官方英文用語規範。
-- `docs/WingChun_Terminology_v1.0.md`：術語表。
+- 新增課程搜尋區塊。
+- 可搜尋中文標題、英文標題、集數、分類、level、keywords、keywords_en。
+- 讀取 `data/terminology.json`，支援詠春術語中英文與 aliases 搜尋。
+- 新增快速搜尋標籤：黐手、抱牌掌、順勢而行、反應、腿法、標指。
+- 搜尋結果即時更新，並顯示符合集數。
+- 影片縮圖加入 lazy loading 基礎優化。
 
-## 注意
+## 測試建議
 
-為了穩定，網站目前仍讀取根目錄 `videos.json`；`data/` 是 V23 平台化的資料基礎。下一版會逐步讓網站改讀 `data/`。
+請測試以下關鍵字：
+
+- 黐手
+- Chi Sau
+- 抱牌掌
+- Bao Pai Palm
+- 順勢而行
+- Flow with the Momentum
+- 第29集
+- Biu Tze
+
+確認中文、English、雙語模式都正常。

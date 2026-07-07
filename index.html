@@ -3,12 +3,12 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>盧文錦師父授課精華｜Wing Chun Master Lo v23.0 Foundation</title>
-<script src="js/chat-mode.js?v=23.0"></script>
+<title>盧文錦師父授課精華｜Wing Chun Master Lo v23.1 Search Engine</title>
+<script src="js/chat-mode.js?v=23.1"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Cinzel+Decorative:wght@700&family=Cormorant+Garamond:ital,wght@0,600;0,700;1,600&family=Noto+Serif+TC:wght@600;700;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/style.css?v=23.0">
+<link rel="stylesheet" href="css/style.css?v=23.1">
 </head>
 <body>
 <div class="wrap">
@@ -36,6 +36,15 @@
   <div class="content">
     <main>
       <div class="sectionTitle courseHeader"><h2><span data-zh="所有課程" data-en="All Lessons">所有課程</span><small>All Lessons</small></h2><div class="courseLangButtons langButtons" aria-label="Language selector"><button class="langBtn active" type="button" data-langbtn="zh" aria-pressed="true" onclick="setLang('zh')">中文</button><button class="langBtn" type="button" data-langbtn="en" aria-pressed="false" onclick="setLang('en')">English</button><button class="langBtn" type="button" data-langbtn="both" aria-pressed="false" onclick="setLang('both')">雙語<small class="bothLabel">BOTH</small></button><button class="langBtn aiJumpBtn" type="button" onclick="scrollToAI()">AI助理</button></div><span class="small" id="count"></span></div>
+      <section class="lessonSearchPanel" aria-label="課程搜尋">
+        <div class="searchBox">
+          <span class="searchIcon">⌕</span>
+          <input id="lessonSearch" class="lessonSearchInput" type="search" autocomplete="off" placeholder="搜尋課程、術語、關鍵字，例如：黐手、Chi Sau、順勢而行" data-placeholder-zh="搜尋課程、術語、關鍵字，例如：黐手、Chi Sau、順勢而行" data-placeholder-en="Search lessons, terms, and keywords, e.g. Chi Sau, Pak Sau, Flow with the Momentum">
+          <button id="clearSearchBtn" class="clearSearchBtn" type="button" aria-label="清除搜尋">×</button>
+        </div>
+        <div class="searchQuickTags" id="searchQuickTags" aria-label="快速搜尋"></div>
+        <div class="searchHint" id="searchHint">可搜尋中文、英文、集數、分類與詠春術語。</div>
+      </section>
       <div class="grid" id="grid"></div>
       <div class="empty" id="empty" data-zh="找不到符合條件的影片，請換一個分類。" data-en="No lessons found. Try another category.">找不到符合條件的影片，請換一個分類。</div>
     </main>
@@ -121,19 +130,19 @@
   </div>
 </section>
 
-  <div class="versionFooter">v23.0</div>
+  <div class="versionFooter">v23.1</div>
 </div>
 <button class="toTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑<br><small data-zh="回頂端" data-en="Top">回頂端</small></button>
 <div class="shareToast" id="shareToast">已複製連結</div>
 
-<script src="js/app.js?v=23.0"></script>
-<script type="module" src="js/chat.js?v=23.0"></script>
+<script src="js/app.js?v=23.1"></script>
+<script type="module" src="js/chat.js?v=23.1"></script>
 
 
-<script src="js/chat-standalone.js?v=23.0"></script>
+<script src="js/chat-standalone.js?v=23.1"></script>
 
 
 <script defer src="https://events.vercount.one/js"></script>
-<script src="js/online-sync.js?v=23.0"></script>
+<script src="js/online-sync.js?v=23.1"></script>
 </body>
 </html>
