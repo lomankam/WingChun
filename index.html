@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>盧文錦師父授課精華｜Wing Chun Master Lo v21.5 正式版</title>
+<title>盧文錦師父授課精華｜Wing Chun Master Lo v21.6 正式版</title>
 <script>if(new URLSearchParams(location.search).get('chat')==='1'){document.documentElement.classList.add('chat-only-mode');}</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -1092,6 +1092,20 @@ button.link:active {
   .courseLangButtons .aiJumpBtn{font-size:14px!important;}
 }
 </style>
+
+<style id="v21-6-card-meta-fix">
+/* ===== v21.6：集數移到標題區，不遮擋縮圖人物 ===== */
+.thumb .num{display:none!important;}
+.card .body{padding:11px 11px 12px!important;}
+.cardMeta{display:flex;align-items:center;justify-content:flex-start;gap:7px;flex-wrap:wrap;margin:0 0 8px;}
+.episodePill,.cardMeta .tag{display:inline-flex;align-items:center;justify-content:center;min-height:22px;border-radius:999px;padding:4px 9px;font-size:12px;line-height:1;font-weight:900;letter-spacing:.03em;white-space:nowrap;}
+.episodePill{border:1px solid rgba(255,224,163,.42);background:linear-gradient(135deg,rgba(255,232,168,.22),rgba(217,173,85,.10));color:#ffe7a7;box-shadow:inset 0 0 0 1px rgba(255,255,255,.035),0 6px 16px rgba(0,0,0,.18);}
+.episodePill:before{content:"";width:5px;height:5px;border-radius:50%;margin-right:6px;background:#ffe7a7;box-shadow:0 0 8px rgba(255,224,163,.70);}
+.cardMeta .tag{margin:0;border:1px solid rgba(119,183,255,.25);background:rgba(119,183,255,.14);color:#cfe7ff;}
+.card:hover .episodePill{border-color:rgba(255,232,168,.68);box-shadow:inset 0 0 0 1px rgba(255,255,255,.045),0 0 16px rgba(217,173,85,.20);}
+.versionFooter{margin-top:22px;text-align:center;font-size:10px;color:rgba(159,176,196,.36)!important;letter-spacing:.03em;}
+@media(max-width:720px){.cardMeta{gap:6px}.episodePill,.cardMeta .tag{font-size:11px;padding:4px 8px}.title{min-height:auto!important}}
+</style>
 </head>
 <body>
 <div class="wrap">
@@ -1204,10 +1218,10 @@ button.link:active {
   </div>
 </section>
 
-  <div class="versionFooter">v20.22</div>
+  <div class="versionFooter">v21.6</div>
 </div>
 
-  <div class="versionFooter">v21.2 official</div>
+  <div class="versionFooter">v21.6</div>
 </div>
 <button class="toTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑<br><small data-zh="回頂端" data-en="Top">回頂端</small></button>
 <div class="shareToast" id="shareToast">已複製連結</div>
@@ -1230,7 +1244,7 @@ async function loadVideos(){
 }
 function renderLatest(){ const v=videos[0]; if(!v) return; document.getElementById('latestThumb').href=v.url; document.getElementById('latestWatch').href=v.url; document.getElementById('latestImg').src=thumb(v); document.getElementById('latestEpisode').textContent=currentLang==='en'?`Episode ${v.episode}`:`第 ${v.episode} 集`; document.getElementById('latestCategory').textContent=currentLang==='en'?(catEn[v.category]||v.category):v.category; document.getElementById('latestTitle').innerHTML=titleFor(v,true); }
 function titleFor(v,large=false){ const zh=stripHtml(v.title); const en=stripHtml(v.titleEn||''); if(currentLang==='en') return en||zh; if(currentLang==='both') return `${zh}${en?`<span class="engTitle">${en}</span>`:''}`; return zh; }
-function renderFilters(){} function filterCat(c){} function render(){ const list=videos; const grid=document.getElementById('grid'); grid.innerHTML=list.map(v=>`<article class="card"><a class="thumb" href="${v.url}" target="_blank" rel="noopener"><img src="${thumb(v)}" alt="${stripHtml(v.title)}"><span class="num">${currentLang==='en'?v.episode:'第 '+v.episode+' 集'}</span><span class="play">▶</span></a><div class="body"><span class="tag">${currentLang==='en'?(catEn[v.category]||v.category):v.category}</span><h3 class="title">${titleFor(v)}</h3><div class="actions"><a class="link primary" href="${v.url}" target="_blank" rel="noopener">${currentLang==='en'?'Watch':'觀看'}</a><button class="link" type="button" onclick="shareVideo('${v.url}')">${currentLang==='en'?'Share':'分享'}</button></div></div></article>`).join(''); document.getElementById('count').textContent=currentLang==='en'?`${list.length} / ${videos.length} lessons`:`顯示 ${list.length} / ${videos.length} 集`; document.getElementById('empty').style.display=list.length?'none':'block'; }
+function renderFilters(){} function filterCat(c){} function render(){ const list=videos; const grid=document.getElementById('grid'); grid.innerHTML=list.map(v=>`<article class="card"><a class="thumb" href="${v.url}" target="_blank" rel="noopener"><img src="${thumb(v)}" alt="${stripHtml(v.title)}"><span class="play">▶</span></a><div class="body"><div class="cardMeta"><span class="episodePill">${currentLang==='en'?'EP '+v.episode:'第 '+v.episode+' 集'}</span><span class="tag">${currentLang==='en'?(catEn[v.category]||v.category):v.category}</span></div><h3 class="title">${titleFor(v)}</h3><div class="actions"><a class="link primary" href="${v.url}" target="_blank" rel="noopener">${currentLang==='en'?'Watch':'觀看'}</a><button class="link" type="button" onclick="shareVideo('${v.url}')">${currentLang==='en'?'Share':'分享'}</button></div></div></article>`).join(''); document.getElementById('count').textContent=currentLang==='en'?`${list.length} / ${videos.length} lessons`:`顯示 ${list.length} / ${videos.length} 集`; document.getElementById('empty').style.display=list.length?'none':'block'; }
 
 function scrollToAI(){
   const target=document.getElementById('chatroom') || document.querySelector('.chatSection') || document.querySelector('.aiCard');
