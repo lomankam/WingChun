@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>盧文錦師父授課精華｜Wing Chun Master Lo v24.1 WCMD Data Layer</title>
+<title>盧文錦師父授課精華｜Wing Chun Master Lo v24.2 Auto New Video</title>
 <script src="js/chat-mode.js?v=23.6"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -130,14 +130,14 @@
   </div>
 </section>
 
-  <div class="versionFooter">Website v24.1 ｜ Worker v4.0 ｜ Database WCMD v1.0</div>
+  <div class="versionFooter">Website v24.2 ｜ Worker v5.0 ｜ Database WCMD v1.0</div>
 </div>
 <button class="toTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑<br><small data-zh="回頂端" data-en="Top">回頂端</small></button>
 <div class="shareToast" id="shareToast">已複製連結</div>
 
 
 <script>
-/* V24.1 WCMD 優先資料層 + YouTube API + videos.json 備援
+/* V24.2 WCMD + YouTube API 自動新影片資料層 + videos.json 備援
    - 不修改既有 js/app.js
    - 攔截原本讀取 videos.json 的請求
    - 優先讀取 data/wcmd.json 作為課程主資料庫
@@ -214,7 +214,7 @@
       ...meta,
       episode,
       title: normalizeTitle(v.title || meta.title, episode),
-      title_en: meta.title_en || meta.titleEn || "",
+      title_en: v.englishTitle || v.title_en || v.titleEn || meta.title_en || meta.titleEn || normalizeTitle(v.title || meta.title, episode),
       category: meta.category || "",
       category_en: meta.category_en || meta.categoryEn || "",
       level: meta.level || "",
@@ -245,13 +245,25 @@
 
   function mergeWCMDWithApi(wcmdData, apiVideos) {
     const apiByEpisode = new Map((apiVideos || []).map(v => [Number(v.episode), v]));
-    const videos = (wcmdData.episodes || [])
+    const wcmdEpisodes = new Set((wcmdData.episodes || []).map(ep => Number(ep.episode)));
+
+    const wcmdVideos = (wcmdData.episodes || [])
       .map(ep => wcmdEpisodeToLegacy(ep, apiByEpisode.get(Number(ep.episode))))
-      .filter(v => v.episode)
+      .filter(v => v.episode);
+
+    // V24.2：若 YouTube API 出現 WCMD 尚未登錄的新集數，也先自動加入網站。
+    // 這樣新影片上傳後，總集數、中文標題、英文標題 fallback 都會自動更新。
+    const apiOnlyVideos = (apiVideos || [])
+      .filter(v => v.episode && !wcmdEpisodes.has(Number(v.episode)))
+      .map(v => apiVideoToLegacy(v))
+      .filter(v => v.episode);
+
+    const videos = [...wcmdVideos, ...apiOnlyVideos]
       .sort((a, b) => b.episode - a.episode);
+
     return {
       lastUpdated: new Date().toISOString().slice(0, 10),
-      source: apiVideos && apiVideos.length ? "wcmd-with-youtube-api" : "wcmd-local",
+      source: apiVideos && apiVideos.length ? "wcmd-with-youtube-api-auto-new" : "wcmd-local",
       schemaVersion: wcmdData.schemaVersion || "1.0",
       databaseVersion: wcmdData.platformVersion || "V24.1",
       videos
@@ -296,14 +308,14 @@
 })();
 </script>
 
-<script src="js/app.js?v=24.1"></script>
-<script type="module" src="js/chat.js?v=24.1"></script>
+<script src="js/app.js?v=24.2"></script>
+<script type="module" src="js/chat.js?v=24.2"></script>
 
 
-<script src="js/chat-standalone.js?v=24.1"></script>
+<script src="js/chat-standalone.js?v=24.2"></script>
 
 
 <script defer src="https://events.vercount.one/js"></script>
-<script src="js/online-sync.js?v=24.1"></script>
+<script src="js/online-sync.js?v=24.2"></script>
 </body>
 </html>
