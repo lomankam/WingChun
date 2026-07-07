@@ -1,66 +1,47 @@
 {
   "version": "1.0",
-  "lastUpdated": "2026-07-07",
-  "categories": {
-    "core_principles": {
-      "zh": "核心觀念",
-      "en": "Core Principles"
+  "categories": [
+    {
+      "id": "forms",
+      "zh": "詠春套路",
+      "en": "Wing Chun Forms",
+      "description": "小念頭、尋橋、標指等套路內容與其觀念、應用。"
     },
-    "hand_techniques": {
-      "zh": "手法應用",
-      "en": "Hand Techniques"
+    {
+      "id": "wooden_dummy",
+      "zh": "木人樁法",
+      "en": "Wooden Dummy",
+      "description": "木人樁法與相關訓練。"
     },
-    "combat_concepts": {
-      "zh": "實戰觀念",
-      "en": "Combat Concepts"
+    {
+      "id": "pole",
+      "zh": "詠春棍法",
+      "en": "Wing Chun Pole",
+      "description": "六點半棍等棍法系統。"
     },
-    "form_applications": {
-      "zh": "套路應用",
-      "en": "Form Applications"
+    {
+      "id": "knives",
+      "zh": "詠春刀法",
+      "en": "Wing Chun Knives",
+      "description": "八斬刀等刀法系統。"
     },
-    "reaction_training": {
-      "zh": "反應訓練",
-      "en": "Reaction Training"
+    {
+      "id": "techniques",
+      "zh": "特定技巧",
+      "en": "Specific Techniques",
+      "description": "抱牌掌、蹬手、腿法等特定技巧解析。"
     },
-    "counter_applications": {
-      "zh": "反制應用",
-      "en": "Counter Applications"
+    {
+      "id": "principles",
+      "zh": "觀念理論",
+      "en": "Principles & Theory",
+      "description": "師父授課中的核心觀念、反應原則與詠春思維。"
     },
-    "biu_tze": {
-      "zh": "標指",
-      "en": "Biu Tze"
-    },
-    "chi_sau_combat": {
-      "zh": "黐手與實戰",
-      "en": "Chi Sau & Combat"
-    },
-    "form_concepts": {
-      "zh": "套路觀念",
-      "en": "Form Concepts"
-    },
-    "chum_kiu": {
-      "zh": "尋橋",
-      "en": "Chum Kiu"
-    },
-    "advanced_principles": {
-      "zh": "高階觀念",
-      "en": "Advanced Principles"
-    },
-    "weapon_defense": {
-      "zh": "武器防身",
-      "en": "Weapon Defense"
-    },
-    "defensive_concepts": {
-      "zh": "防衛觀念",
-      "en": "Defensive Concepts"
-    },
-    "leg_techniques": {
-      "zh": "腿法",
-      "en": "Leg Techniques"
-    },
-    "others": {
-      "zh": "其他",
-      "en": "Others"
+    {
+      "id": "combat_self_defense",
+      "zh": "實戰防身",
+      "en": "Combat & Self-defense",
+      "description": "實戰情境、防身反制、持械攻擊等應用。"
     }
-  }
+  ]
 }
