@@ -1,153 +1,82 @@
 <!doctype html>
 <html lang="zh-Hant">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Wing Chun Admin｜新增影片管理 V25.0</title>
-  <style>
-    :root{--bg:#120d0a;--card:#1c1410;--card2:#241a14;--gold:#d7b56d;--text:#f5ead6;--muted:#b9a98d;--line:rgba(215,181,109,.25);--ok:#91d48f;--bad:#ff9c8a}*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at top,#2a1b12,#0f0b09 58%);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Noto Serif TC","Microsoft JhengHei",sans-serif}.wrap{max-width:980px;margin:0 auto;padding:28px 18px 60px}header{border:1px solid var(--line);border-radius:22px;padding:22px;background:linear-gradient(135deg,rgba(215,181,109,.12),rgba(0,0,0,.2));box-shadow:0 18px 60px rgba(0,0,0,.35)}h1{margin:0 0 8px;font-size:28px;letter-spacing:.04em;color:var(--gold)}p{line-height:1.7;color:var(--muted)}.grid{display:grid;grid-template-columns:1fr;gap:16px;margin-top:18px}.card{background:rgba(28,20,16,.92);border:1px solid var(--line);border-radius:20px;padding:18px}.row{display:flex;gap:10px;flex-wrap:wrap}label{display:block;margin:0 0 8px;color:var(--gold);font-weight:700}input,textarea,select{width:100%;border:1px solid var(--line);background:#0d0907;color:var(--text);border-radius:12px;padding:12px 14px;font-size:16px}textarea{min-height:86px;resize:vertical}button{border:0;border-radius:999px;padding:12px 18px;font-size:15px;font-weight:700;cursor:pointer;background:linear-gradient(135deg,#e7c67c,#a77c34);color:#140d07}button.secondary{background:#30231a;color:var(--gold);border:1px solid var(--line)}button:disabled{opacity:.45;cursor:not-allowed}.hint{font-size:14px;color:var(--muted)}.result{white-space:pre-wrap;background:#0d0907;border:1px solid var(--line);border-radius:16px;padding:14px;overflow:auto;max-height:360px}.badge{display:inline-flex;align-items:center;gap:6px;padding:5px 10px;border-radius:999px;border:1px solid var(--line);color:var(--gold);font-size:13px;margin:4px 6px 0 0}.ok{color:var(--ok)}.bad{color:var(--bad)}.preview{display:grid;grid-template-columns:180px 1fr;gap:14px;align-items:start}.preview img{width:100%;border-radius:14px;border:1px solid var(--line)}@media(max-width:700px){.preview{grid-template-columns:1fr}}
-  </style>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Wing Chun Admin｜V25.2</title>
+<style>
+:root{--bg:#101010;--panel:#1b1b1b;--text:#f6f1e6;--muted:#b9ad98;--gold:#d9b760;--line:#3e3525;--ok:#7bd88f;--bad:#ff8b8b}*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at top,#2d2316,#111 50%,#070707);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Noto Serif TC","Microsoft JhengHei",serif}.wrap{max-width:1040px;margin:0 auto;padding:28px 16px 70px}.card{background:rgba(25,25,25,.96);border:1px solid var(--line);border-radius:22px;padding:22px;margin:16px 0;box-shadow:0 16px 48px rgba(0,0,0,.32)}h1{margin:0 0 6px;color:var(--gold);font-size:30px}h2{margin:0 0 12px;color:#f4d382;font-size:20px}.muted{color:var(--muted);font-size:14px}.row{display:grid;grid-template-columns:1fr auto;gap:10px}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}@media(max-width:760px){.row,.grid{grid-template-columns:1fr}}input,textarea,select{width:100%;background:#090909;color:var(--text);border:1px solid #55482f;border-radius:12px;padding:12px 13px;font-size:16px}textarea{min-height:120px;resize:vertical}button{border:0;border-radius:12px;background:linear-gradient(180deg,#f2cf72,#b98927);color:#1b1205;font-weight:800;padding:12px 16px;font-size:15px;cursor:pointer}button.secondary{background:#30291c;color:#f1d893;border:1px solid #64522f}.field label{display:block;color:var(--muted);font-size:13px;margin:0 0 6px}.thumb{width:100%;max-width:380px;border-radius:14px;border:1px solid #4a3e2a}.status{white-space:pre-wrap;background:#080808;border:1px solid #423927;border-radius:12px;padding:12px;color:#d7ccb7;overflow:auto}.ok{color:var(--ok)}.bad{color:var(--bad)}.hidden{display:none}.footer{opacity:.55;text-align:center;margin-top:26px;font-size:12px}code{color:#f7d98a}.mini{font-size:13px;color:#d9caaa}
+</style>
 </head>
 <body>
-  <div class="wrap">
-    <header>
-      <h1>Wing Chun Admin｜V25.0</h1>
-      <p>第一版管理後台：貼上 YouTube 影片連結後，自動整理影片 ID、中文標題、縮圖、英文標題暫存格式，方便新增到 <strong>videoIds.json</strong> 與 <strong>wcmd.json</strong>。</p>
-      <span class="badge">未列出影片適用</span><span class="badge">不修改前台網站</span><span class="badge">本機產生資料</span>
-    </header>
-
-    <section class="grid">
-      <div class="card">
-        <label for="urlInput">YouTube 影片網址</label>
-        <input id="urlInput" placeholder="例如：https://youtu.be/xxxxxxxxxxx" />
-        <p class="hint">目前 V25.0 會先產生可貼入資料檔的內容；下一版再接 Worker 自動抓 YouTube 詳細資料。</p>
-        <div class="row">
-          <button id="importBtn">匯入影片</button>
-          <button class="secondary" id="clearBtn">清除</button>
-        </div>
-      </div>
-
-      <div class="card" id="previewCard" style="display:none">
-        <h2 style="margin-top:0;color:var(--gold)">匯入預覽</h2>
-        <div class="preview">
-          <img id="thumb" alt="影片縮圖" />
-          <div>
-            <p><strong>影片 ID：</strong><span id="videoIdText"></span></p>
-            <p><strong>集數：</strong><span id="episodeText"></span></p>
-            <label for="zhTitle">中文標題</label>
-            <input id="zhTitle" placeholder="貼上或確認 YouTube 中文標題" />
-            <label for="enTitle" style="margin-top:12px">英文標題</label>
-            <input id="enTitle" placeholder="Episode XX — English title pending" />
-            <label for="category" style="margin-top:12px">主分類</label>
-            <select id="category">
-              <option>觀念理論</option>
-              <option>詠春套路</option>
-              <option>木人樁法</option>
-              <option>詠春棍法</option>
-              <option>詠春刀法</option>
-              <option>特定技巧</option>
-              <option>實戰防身</option>
-            </select>
-            <label for="tags" style="margin-top:12px">Tags（用逗號分隔）</label>
-            <input id="tags" placeholder="例如：抱牌掌, 黐手, 順勢而行" />
-          </div>
-        </div>
-      </div>
-
-      <div class="card" id="outputCard" style="display:none">
-        <h2 style="margin-top:0;color:var(--gold)">要加入的資料</h2>
-        <p class="hint">先把 videoIds 片段加入 <code>data/videoIds.json</code>；再把 WCMD 片段加入 <code>data/wcmd.json</code>。V25.1 會改成按鈕自動送到 Worker。</p>
-        <div class="row">
-          <button id="generateBtn">重新產生</button>
-          <button class="secondary" id="copyBtn">複製 WCMD 片段</button>
-        </div>
-        <h3>videoIds.json 新增一行</h3>
-        <div class="result" id="videoIdOutput"></div>
-        <h3>wcmd.json 新增物件</h3>
-        <div class="result" id="wcmdOutput"></div>
-      </div>
-    </section>
+<div class="wrap">
+  <div class="card">
+    <h1>🥋 Wing Chun Admin</h1>
+    <div class="muted">Website v25.2 ｜ Admin Final Usable ｜ 未列出影片匯入工具</div>
+    <p class="muted">貼 YouTube 連結後，會經由 Worker 取得標題、縮圖、日期，並產生可直接替換的 <code>wcmd.json</code> 與 <code>videoIds.json</code>。</p>
   </div>
-
+  <div class="card" id="loginCard">
+    <h2>管理登入</h2>
+    <div class="row"><input id="password" type="password" placeholder="請輸入管理密碼"><button id="loginBtn">登入</button></div>
+    <p class="muted">預設密碼：<code>wingchun2026</code></p>
+  </div>
+  <div id="adminPanel" class="hidden">
+    <div class="card">
+      <h2>新增影片</h2>
+      <div class="row"><input id="youtubeUrl" placeholder="貼上 YouTube 連結，例如：https://youtu.be/xxxxxxxxxxx"><button id="importBtn">匯入影片</button></div>
+      <p class="muted">支援未列出影片。只要影片連結正確，Worker 可以抓到基本資料。</p>
+    </div>
+    <div class="card hidden" id="resultCard">
+      <h2>匯入結果</h2>
+      <div class="grid">
+        <div><img id="thumb" class="thumb" alt="縮圖"></div>
+        <div>
+          <div class="field"><label>集數</label><input id="episode"></div>
+          <div class="field"><label>中文標題</label><input id="titleZh"></div>
+          <div class="field"><label>英文標題</label><input id="titleEn"></div>
+        </div>
+      </div>
+      <div class="grid" style="margin-top:12px">
+        <div class="field"><label>影片 ID</label><input id="videoId" readonly></div>
+        <div class="field"><label>YouTube 連結</label><input id="videoUrl" readonly></div>
+        <div class="field"><label>發布日期</label><input id="publishedAt" readonly></div>
+        <div class="field"><label>分類</label><select id="category"><option>觀念理論</option><option>詠春套路</option><option>木人樁法</option><option>詠春棍法</option><option>詠春刀法</option><option>特定技巧</option><option>實戰防身</option></select></div>
+      </div>
+      <div class="field" style="margin-top:12px"><label>Tags（用頓號或逗號分隔）</label><input id="tags"></div>
+      <div class="field" style="margin-top:12px"><label>摘要 / 備註</label><textarea id="summary"></textarea></div>
+      <div style="margin-top:14px">
+        <button id="downloadWcmdBtn">下載新版 wcmd.json</button>
+        <button class="secondary" id="downloadIdsBtn">下載新版 videoIds.json</button>
+        <button class="secondary" id="copyJsonBtn">複製單集 JSON</button>
+      </div>
+      <p class="mini">下載後，把兩個檔案放回專案的 <code>data/</code> 資料夾並上傳 GitHub，網站就會更新。</p>
+    </div>
+    <div class="card"><h2>狀態</h2><div id="status" class="status">等待操作。</div></div>
+  </div>
+  <div class="footer">Wing Chun Admin v25.2 ｜ Worker v6.0 ｜ WCMD v1.0</div>
+</div>
 <script>
-const $ = (id) => document.getElementById(id);
-let current = null;
-
-function extractVideoId(input){
-  try{
-    const url = new URL(input.trim());
-    if(url.hostname.includes('youtu.be')) return url.pathname.replace('/', '').trim();
-    if(url.searchParams.get('v')) return url.searchParams.get('v').trim();
-    const parts = url.pathname.split('/').filter(Boolean);
-    const idx = parts.findIndex(p => ['shorts','embed','live'].includes(p));
-    if(idx >= 0 && parts[idx+1]) return parts[idx+1].trim();
-  }catch(e){}
-  const raw = input.trim();
-  return /^[A-Za-z0-9_-]{8,}$/.test(raw) ? raw : '';
-}
-
-function extractEpisodeFromTitle(title){
-  const m = String(title || '').match(/授課精華\s*([0-9]+)/);
-  return m ? Number(m[1]) : null;
-}
-
-function guessEpisode(){
-  const titleEp = extractEpisodeFromTitle($('zhTitle').value);
-  if(titleEp) return titleEp;
-  const manual = prompt('請輸入集數，例如 30');
-  return Number(manual || 0) || null;
-}
-
-function buildData(){
-  if(!current) return;
-  const episode = current.episode || guessEpisode();
-  current.episode = episode;
-  $('episodeText').textContent = episode || '尚未設定';
-  const titleZh = $('zhTitle').value.trim() || `盧文錦 師父 授課精華 ${episode || ''}`.trim();
-  const titleEn = $('enTitle').value.trim() || `Episode ${episode || ''} — English title pending`;
-  const tags = $('tags').value.split(',').map(x=>x.trim()).filter(Boolean);
-  const obj = {
-    episode,
-    title: { zh: titleZh, en: titleEn },
-    category: $('category').value,
-    tags,
-    concepts: [],
-    skills: [],
-    summary: { zh: '', en: '' },
-    youtube: {
-      videoId: current.videoId,
-      url: `https://youtu.be/${current.videoId}`,
-      thumbnail: `https://i.ytimg.com/vi/${current.videoId}/hqdefault.jpg`,
-      publishedAt: ''
-    },
-    status: 'draft'
-  };
-  $('videoIdOutput').textContent = `"${current.videoId}"`;
-  $('wcmdOutput').textContent = JSON.stringify(obj, null, 2);
-}
-
-$('importBtn').addEventListener('click', () => {
-  const videoId = extractVideoId($('urlInput').value);
-  if(!videoId){ alert('找不到影片 ID，請確認網址。'); return; }
-  current = { videoId, episode: null };
-  $('videoIdText').textContent = videoId;
-  $('episodeText').textContent = '請輸入中文標題後產生';
-  $('thumb').src = `https://i.ytimg.com/vi/${videoId}/hqdefault.jpg`;
-  $('zhTitle').value = '';
-  $('enTitle').value = '';
-  $('tags').value = '';
-  $('previewCard').style.display = '';
-  $('outputCard').style.display = '';
-  buildData();
-});
-
-$('generateBtn').addEventListener('click', buildData);
-$('copyBtn').addEventListener('click', async () => {
-  await navigator.clipboard.writeText($('wcmdOutput').textContent);
-  alert('已複製 WCMD 片段');
-});
-$('clearBtn').addEventListener('click', () => location.reload());
-['zhTitle','enTitle','category','tags'].forEach(id => $(id).addEventListener('input', buildData));
+const WORKER_BASE="https://wingchun-sync.lomankam-master.workers.dev";
+const ADMIN_PASSWORD="wingchun2026";
+let wcmd=null, videoIds=[], currentVideo=null;
+const $=id=>document.getElementById(id);
+function status(msg,ok=true){$("status").innerHTML=(ok?"<span class='ok'>✅ </span>":"<span class='bad'>⚠️ </span>")+msg}
+function extractEpisode(t=""){const m=String(t).match(/授課精華\s*([0-9]+)/);return m?Number(m[1]):""}
+function englishGuess(title,ep){let core=String(title||"").replace(/盧文錦\s*師父\s*授課精華\s*[0-9]+\s*[－\-–—｜|:]*/g,"").trim();const map=[["抱牌掌","Bao Pai Palm"],["實戰解析","Practical Analysis"],["接觸反應","Contact Response"],["黐手訓練","Chi Sau Training"],["黐手","Chi Sau"],["順勢而行","Flowing with the Momentum"],["詠春拳","Wing Chun"],["詠春","Wing Chun"],["套路","Forms"],["尋橋","Chum Kiu"],["標指","Biu Tze"],["小念頭","Siu Nim Tau"],["腿法","Kicking Techniques"],["攻防原理","Offensive and Defensive Principles"],["實戰應用","Practical Applications"],["核心觀念","Core Concepts"],["核心思想","Core Philosophy"],["反應","Reaction"],["防身","Self-Defense"],["持刀","Knife Confrontation"],["持械","Weapon Attack"],["蹬手","Dang Sau"],["鎖喉","Chokehold"],["反制","Countermeasure"]];let en=core;for(const [zh,e] of map)en=en.split(zh).join(e);en=en.replace(/[，、]/g,", ").replace(/｜/g," | ").replace(/\s+/g," ").trim();return en&&en!==core?en:`Episode ${ep||""} — English title pending`}
+function guessCategory(t=""){if(/套路|小念頭|尋橋|標指/.test(t))return"詠春套路";if(/刀法|八斬刀/.test(t))return"詠春刀法";if(/棍法|六點半棍/.test(t))return"詠春棍法";if(/抱牌掌|蹬手|拍手|穿心腳|腿法|黐手/.test(t))return"特定技巧";if(/實戰|防身|持刀|持械|反制|鎖喉|擒抱/.test(t))return"實戰防身";return"觀念理論"}
+function guessTags(t=""){const tags=[];["抱牌掌","黐手","接觸反應","順勢而行","反應","套路","標指","尋橋","腿法","蹬手","鎖喉","持刀","持械","防身","實戰","核心觀念","槓桿力學"].forEach(x=>{if(t.includes(x))tags.push(x)});return[...new Set(tags)].join("、")}
+function categoryObj(zh){const map={"觀念理論":["principles","Concepts and Principles"],"詠春套路":["forms","Wing Chun Forms"],"木人樁法":["wooden_dummy","Wooden Dummy"],"詠春棍法":["pole","Wing Chun Pole"],"詠春刀法":["knives","Wing Chun Knives"],"特定技巧":["techniques","Specific Techniques"],"實戰防身":["combat","Combat and Self-Defense"]};const m=map[zh]||["uncategorized","Uncategorized"];return{id:m[0],zh,en:m[1],status:"draft"}}
+async function loadData(){try{const [a,b]=await Promise.all([fetch("../data/wcmd.json?v="+Date.now()),fetch("../data/videoIds.json?v="+Date.now())]);wcmd=await a.json();const ids=await b.json();videoIds=Array.isArray(ids)?ids:(ids.videoIds||[]);status(`已載入 WCMD：${wcmd.episodes?.length||0} 集\n已載入 videoIds：${videoIds.length} 筆`)}catch(e){status("無法讀取 data/wcmd.json 或 data/videoIds.json："+e.message,false)}}
+function fill(v){const ep=v.episode||extractEpisode(v.title);$("episode").value=ep||"";$("titleZh").value=v.title||"";$("titleEn").value=englishGuess(v.title,ep);$("videoId").value=v.videoId;$("videoUrl").value=v.url;$("publishedAt").value=v.publishedAt||"";$("category").value=guessCategory(v.title||"");$("tags").value=guessTags(v.title||"");$("summary").value=(v.description||"").slice(0,800);$("thumb").src=v.thumbnail||`https://i.ytimg.com/vi/${v.videoId}/hqdefault.jpg`;$("resultCard").classList.remove("hidden")}
+function buildEpisode(){const tags=$("tags").value.split(/[、,，]/).map(s=>s.trim()).filter(Boolean);return{episode:Number($("episode").value),title:{zh:$("titleZh").value.trim(),en:$("titleEn").value.trim()},category:categoryObj($("category").value),tags,concepts:[],skills:[],difficulty:"to_be_confirmed",summary:{zh:$("summary").value.trim(),en:""},youtube:{videoId:$("videoId").value.trim(),url:$("videoUrl").value.trim(),thumbnail:$("thumb").src,publishedAt:$("publishedAt").value.trim()},dataStatus:{youtubeBasic:"confirmed_from_youtube_api",classification:"draft",englishTitle:$("titleEn").value.includes("pending")?"pending":"draft"}}}
+function download(name,obj){const blob=new Blob([JSON.stringify(obj,null,2)],{type:"application/json;charset=utf-8"});const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download=name;a.click();URL.revokeObjectURL(a.href)}
+function updatedWcmd(){const ep=buildEpisode();const copy=structuredClone(wcmd||{schemaVersion:"1.0",platformVersion:"V25.2",episodes:[]});copy.platformVersion="V25.2";copy.generatedAt=new Date().toISOString();copy.episodes=(copy.episodes||[]).filter(x=>Number(x.episode)!==Number(ep.episode));copy.episodes.push(ep);copy.episodes.sort((a,b)=>a.episode-b.episode);return copy}
+function updatedIds(){const id=$("videoId").value.trim();return[...new Set([...(videoIds||[]),id].filter(Boolean))]}
+$("loginBtn").onclick=async()=>{if($("password").value!==ADMIN_PASSWORD){alert("密碼錯誤");return}$("loginCard").classList.add("hidden");$("adminPanel").classList.remove("hidden");await loadData()}
+$("importBtn").onclick=async()=>{const input=$("youtubeUrl").value.trim();if(!input){status("請貼上 YouTube 連結。",false);return}status("正在讀取 YouTube 資料...");try{const res=await fetch(`${WORKER_BASE}/api/import?url=${encodeURIComponent(input)}`);const data=await res.json();if(!data.success)throw new Error(data.error||"匯入失敗");currentVideo=data.video;fill(currentVideo);status(`匯入成功：${currentVideo.title}\n請檢查英文標題、分類與 Tags，然後下載新版資料。`)}catch(e){status("匯入失敗："+e.message,false)}}
+$("downloadWcmdBtn").onclick=()=>download("wcmd.json",updatedWcmd());
+$("downloadIdsBtn").onclick=()=>download("videoIds.json",updatedIds());
+$("copyJsonBtn").onclick=async()=>{await navigator.clipboard.writeText(JSON.stringify(buildEpisode(),null,2));status("已複製單集 JSON。")}
 </script>
 </body>
 </html>
