@@ -1081,3 +1081,46 @@ button.link:active {
   .courseLangButtons .langBtn .bothLabel{font-size:13px!important;}
   .courseLangButtons .aiJumpBtn{font-size:14px!important;}
 }
+
+
+/* ===== v22.2.2 lesson card episode fix ===== */
+/* 強制移除舊版縮圖左上角集數，避免瀏覽器快取舊 JS/CSS 時仍遮到人物 */
+.thumb .num,
+.thumb .episode,
+.thumb .episodeBadge{
+  display:none!important;
+}
+.cardMeta{
+  display:flex;
+  align-items:center;
+  justify-content:flex-start;
+  gap:7px;
+  flex-wrap:wrap;
+  margin:0 0 8px;
+}
+.episodePill,
+.cardMeta .tag{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-height:28px;
+  border-radius:999px;
+  padding:5px 10px;
+  font-size:12px;
+  line-height:1;
+  font-weight:900;
+  letter-spacing:.03em;
+  white-space:nowrap;
+}
+.episodePill{
+  color:#15110a;
+  border:1px solid rgba(255,224,163,.56);
+  background:linear-gradient(135deg,#ffe8a8,#d9ad55,#9a6a22);
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.13),0 5px 12px rgba(0,0,0,.20);
+}
+.cardMeta .tag{
+  margin:0!important;
+  color:#cfe7ff;
+  border:1px solid rgba(119,183,255,.24);
+  background:rgba(119,183,255,.18);
+}
