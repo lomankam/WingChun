@@ -1,3 +1,11 @@
+
+## v24.4 — English Title Data Layer
+
+- 英文標題正式改由 `data/wcmd.json` 管理。
+- `index.html` 不再作為英文標題資料來源。
+- Worker v7.0 不再內建逐集英文標題，只提供 pending fallback。
+- 新影片尚未補英文標題時不會空白，會顯示 `Episode N — English title pending`。
+
 # CHANGELOG
 
 ## V24.2

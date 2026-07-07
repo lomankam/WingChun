@@ -36,39 +36,8 @@ const KNOWN_VIDEO_IDS = [
   "8m2_6mvsGkE"
 ];
 
-// 既有英文標題：新影片若尚未進 WCMD，會先用自動 fallback，避免英文/雙語模式空白。
-const ENGLISH_TITLES = {
-  "1": "Fighting with Skill, Not Strength: Flowing with the Momentum",
-  "2": "Application and Development of Bao Pai Palm",
-  "3": "Control the Opponent Before They Move; Defeat Without Form",
-  "4": "Seemingly Empty Yet Substantial; Skill Emerges Through Adaptability",
-  "5": "Wing Chun Forms Application Analysis, Part 1",
-  "6": "Facing an Opponent: Instantly Reflecting What You Have Learned, Part 1",
-  "7": "Facing an Opponent: Instantly Reflecting What You Have Learned, Part 2",
-  "8": "Contact Response, Flowing with the Momentum, and Choke Counter Applications",
-  "9": "Wing Chun Forms Application Analysis, Part 2",
-  "10": "Choke Counter Applications, Part 2",
-  "11": "Rear Bear Hug Counter and Application Principles",
-  "12": "Detailed Explanation of the Wing Chun Form Biu Tze",
-  "13": "The Core Philosophy of Wing Chun",
-  "14": "From Chi Sau to Combat: The True Core of Wing Chun",
-  "15": "Close-range Grabbing Counters and Applications Through Flowing with the Momentum",
-  "16": "Reaction Determines Everything: The Key to Defeating an Opponent",
-  "17": "Wing Chun Core Revealed: No Fixed Techniques, Only Reaction",
-  "18": "Core Concepts of Wing Chun Forms",
-  "19": "Complete Breakdown of Chum Kiu",
-  "20": "Complete Analysis of Ding Sau: Combat Applications and Core Concepts",
-  "21": "Advanced Wing Chun Concept: Reaction Matters More Than Techniques",
-  "22": "Combat Concepts for Knife Confrontation: Not Fixed Techniques, but Instant Reaction",
-  "23": "Wing Chun Self-defense Concepts Against Weapon Attacks",
-  "24": "Wing Chun Defensive Concepts: No Fixed Techniques, Only Correct Reaction",
-  "25": "Wing Chun Core Principles Revealed: Body Structure, Leverage Mechanics, and Combat Application",
-  "26": "Wing Chun Leg Techniques: Attack-defense Principles and Combat Applications, Part 1",
-  "27": "Wing Chun Leg Techniques: Attack-defense Principles and Combat Applications, Part 2",
-  "28": "Wing Chun Bao Pai Palm: Attack-defense Principles and Combat Applications",
-  "29": "Practical Analysis of Bao Pai Palm: Contact Response, Chi Sau Training, and Flowing with the Momentum"
-};
-
+// V24.4：英文標題改由網站端 data/wcmd.json 管理。
+// Worker 只負責 YouTube 基本資料與 pending fallback，不再維護逐集英文標題。
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Methods": "GET, OPTIONS",
@@ -95,10 +64,9 @@ function normalizeTitle(rawTitle = "", episode = null) {
 }
 
 function autoEnglishTitle(title, episode) {
-  if (episode && ENGLISH_TITLES[String(episode)]) return ENGLISH_TITLES[String(episode)];
-  const topic = normalizeTitle(title, episode);
-  // 新影片尚未人工確認英文標題時，先提供不空白的英文格式。
-  return episode ? `Episode ${episode} — ${topic}` : topic;
+  // 正式英文標題由 data/wcmd.json 的 title.en 管理。
+  // 這裡只在新影片尚未補進 WCMD 時，提供不空白的暫時文字。
+  return episode ? `Episode ${episode} — English title pending` : "English title pending";
 }
 
 function thumb(s) {
@@ -184,9 +152,9 @@ export default {
         return json({
           success: true,
           service: "wingchun-sync",
-          version: "6.0.0",
+          version: "7.0.0",
           status: "running",
-          mode: "unlisted-video-ids-json-supported",
+          mode: "unlisted-video-ids-json-supported; english-title-from-wcmd",
           channelId: CHANNEL_ID,
           note: "For unlisted videos, update data/videoIds.json and call /api/videos?ids=...",
         });
@@ -194,7 +162,7 @@ export default {
 
       if (url.pathname === "/api/videos") {
         const videos = await fetchVideos(env, url, false);
-        return json({ success: true, source: "youtube-api-video-ids-v6", count: videos.length, videos });
+        return json({ success: true, source: "youtube-api-video-ids-v7", count: videos.length, videos });
       }
 
       if (url.pathname === "/api/latest") {

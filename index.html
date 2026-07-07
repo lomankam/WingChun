@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>盧文錦師父授課精華｜Wing Chun Master Lo v24.2 Auto New Video</title>
+<title>盧文錦師父授課精華｜Wing Chun Master Lo v24.4 English Title Data Layer</title>
 <script src="js/chat-mode.js?v=23.6"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -130,18 +130,20 @@
   </div>
 </section>
 
-  <div class="versionFooter">Website v24.3 ｜ Worker v6.0 ｜ Database WCMD v1.0</div>
+  <div class="versionFooter">Website v24.4 ｜ Worker v7.0 ｜ Database WCMD v1.0</div>
 </div>
 <button class="toTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑<br><small data-zh="回頂端" data-en="Top">回頂端</small></button>
 <div class="shareToast" id="shareToast">已複製連結</div>
 
 
 <script>
-/* V24.3 WCMD + YouTube API + 不公開影片 ID 清單資料層 + videos.json 備援
+/* V24.4 WCMD 英文標題資料層 + YouTube API + 不公開影片 ID 清單 + videos.json 備援
    - 不修改既有 js/app.js
    - 攔截原本讀取 videos.json 的請求
    - 優先讀取 data/wcmd.json 作為課程主資料庫
    - 同步合併 Cloudflare Worker /api/videos 的縮圖、發布日期與最新 YouTube 資訊
+   - 英文標題統一以 data/wcmd.json 的 title.en 為準
+   - 新影片尚未補進 WCMD 時，英文模式先顯示 pending，不會空白
    - 若 WCMD 或 API 失敗，仍可回到原本 videos.json
 */
 (function () {
@@ -215,7 +217,7 @@
       ...meta,
       episode,
       title: normalizeTitle(v.title || meta.title, episode),
-      title_en: v.englishTitle || v.title_en || v.titleEn || meta.title_en || meta.titleEn || normalizeTitle(v.title || meta.title, episode),
+      title_en: meta.title_en || meta.titleEn || v.englishTitle || v.title_en || v.titleEn || `Episode ${episode} — English title pending`,
       category: meta.category || "",
       category_en: meta.category_en || meta.categoryEn || "",
       level: meta.level || "",
@@ -266,8 +268,8 @@
       .map(ep => wcmdEpisodeToLegacy(ep, apiByEpisode.get(Number(ep.episode))))
       .filter(v => v.episode);
 
-    // V24.2：若 YouTube API 出現 WCMD 尚未登錄的新集數，也先自動加入網站。
-    // 這樣新影片上傳後，總集數、中文標題、英文標題 fallback 都會自動更新。
+    // V24.4：若 YouTube API 出現 WCMD 尚未登錄的新集數，也先自動加入網站。
+    // 英文標題以 WCMD 為正式資料；尚未補入 WCMD 時顯示 pending，不會空白。
     const apiOnlyVideos = (apiVideos || [])
       .filter(v => v.episode && !wcmdEpisodes.has(Number(v.episode)))
       .map(v => apiVideoToLegacy(v))
