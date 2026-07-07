@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Wing Chun Admin｜新增影片管理 V25.0</title>
+  <style>
+    :root{--bg:#120d0a;--card:#1c1410;--card2:#241a14;--gold:#d7b56d;--text:#f5ead6;--muted:#b9a98d;--line:rgba(215,181,109,.25);--ok:#91d48f;--bad:#ff9c8a}*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at top,#2a1b12,#0f0b09 58%);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Noto Serif TC","Microsoft JhengHei",sans-serif}.wrap{max-width:980px;margin:0 auto;padding:28px 18px 60px}header{border:1px solid var(--line);border-radius:22px;padding:22px;background:linear-gradient(135deg,rgba(215,181,109,.12),rgba(0,0,0,.2));box-shadow:0 18px 60px rgba(0,0,0,.35)}h1{margin:0 0 8px;font-size:28px;letter-spacing:.04em;color:var(--gold)}p{line-height:1.7;color:var(--muted)}.grid{display:grid;grid-template-columns:1fr;gap:16px;margin-top:18px}.card{background:rgba(28,20,16,.92);border:1px solid var(--line);border-radius:20px;padding:18px}.row{display:flex;gap:10px;flex-wrap:wrap}label{display:block;margin:0 0 8px;color:var(--gold);font-weight:700}input,textarea,select{width:100%;border:1px solid var(--line);background:#0d0907;color:var(--text);border-radius:12px;padding:12px 14px;font-size:16px}textarea{min-height:86px;resize:vertical}button{border:0;border-radius:999px;padding:12px 18px;font-size:15px;font-weight:700;cursor:pointer;background:linear-gradient(135deg,#e7c67c,#a77c34);color:#140d07}button.secondary{background:#30231a;color:var(--gold);border:1px solid var(--line)}button:disabled{opacity:.45;cursor:not-allowed}.hint{font-size:14px;color:var(--muted)}.result{white-space:pre-wrap;background:#0d0907;border:1px solid var(--line);border-radius:16px;padding:14px;overflow:auto;max-height:360px}.badge{display:inline-flex;align-items:center;gap:6px;padding:5px 10px;border-radius:999px;border:1px solid var(--line);color:var(--gold);font-size:13px;margin:4px 6px 0 0}.ok{color:var(--ok)}.bad{color:var(--bad)}.preview{display:grid;grid-template-columns:180px 1fr;gap:14px;align-items:start}.preview img{width:100%;border-radius:14px;border:1px solid var(--line)}@media(max-width:700px){.preview{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <h1>Wing Chun Admin｜V25.0</h1>
+      <p>第一版管理後台：貼上 YouTube 影片連結後，自動整理影片 ID、中文標題、縮圖、英文標題暫存格式，方便新增到 <strong>videoIds.json</strong> 與 <strong>wcmd.json</strong>。</p>
+      <span class="badge">未列出影片適用</span><span class="badge">不修改前台網站</span><span class="badge">本機產生資料</span>
+    </header>
+
+    <section class="grid">
+      <div class="card">
+        <label for="urlInput">YouTube 影片網址</label>
+        <input id="urlInput" placeholder="例如：https://youtu.be/xxxxxxxxxxx" />
+        <p class="hint">目前 V25.0 會先產生可貼入資料檔的內容；下一版再接 Worker 自動抓 YouTube 詳細資料。</p>
+        <div class="row">
+          <button id="importBtn">匯入影片</button>
+          <button class="secondary" id="clearBtn">清除</button>
+        </div>
+      </div>
+
+      <div class="card" id="previewCard" style="display:none">
+        <h2 style="margin-top:0;color:var(--gold)">匯入預覽</h2>
+        <div class="preview">
+          <img id="thumb" alt="影片縮圖" />
+          <div>
+            <p><strong>影片 ID：</strong><span id="videoIdText"></span></p>
+            <p><strong>集數：</strong><span id="episodeText"></span></p>
+            <label for="zhTitle">中文標題</label>
+            <input id="zhTitle" placeholder="貼上或確認 YouTube 中文標題" />
+            <label for="enTitle" style="margin-top:12px">英文標題</label>
+            <input id="enTitle" placeholder="Episode XX — English title pending" />
+            <label for="category" style="margin-top:12px">主分類</label>
+            <select id="category">
+              <option>觀念理論</option>
+              <option>詠春套路</option>
+              <option>木人樁法</option>
+              <option>詠春棍法</option>
+              <option>詠春刀法</option>
+              <option>特定技巧</option>
+              <option>實戰防身</option>
+            </select>
+            <label for="tags" style="margin-top:12px">Tags（用逗號分隔）</label>
+            <input id="tags" placeholder="例如：抱牌掌, 黐手, 順勢而行" />
+          </div>
+        </div>
+      </div>
+
+      <div class="card" id="outputCard" style="display:none">
+        <h2 style="margin-top:0;color:var(--gold)">要加入的資料</h2>
+        <p class="hint">先把 videoIds 片段加入 <code>data/videoIds.json</code>；再把 WCMD 片段加入 <code>data/wcmd.json</code>。V25.1 會改成按鈕自動送到 Worker。</p>
+        <div class="row">
+          <button id="generateBtn">重新產生</button>
+          <button class="secondary" id="copyBtn">複製 WCMD 片段</button>
+        </div>
+        <h3>videoIds.json 新增一行</h3>
+        <div class="result" id="videoIdOutput"></div>
+        <h3>wcmd.json 新增物件</h3>
+        <div class="result" id="wcmdOutput"></div>
+      </div>
+    </section>
+  </div>
+
+<script>
+const $ = (id) => document.getElementById(id);
+let current = null;
+
+function extractVideoId(input){
+  try{
+    const url = new URL(input.trim());
+    if(url.hostname.includes('youtu.be')) return url.pathname.replace('/', '').trim();
+    if(url.searchParams.get('v')) return url.searchParams.get('v').trim();
+    const parts = url.pathname.split('/').filter(Boolean);
+    const idx = parts.findIndex(p => ['shorts','embed','live'].includes(p));
+    if(idx >= 0 && parts[idx+1]) return parts[idx+1].trim();
+  }catch(e){}
+  const raw = input.trim();
+  return /^[A-Za-z0-9_-]{8,}$/.test(raw) ? raw : '';
+}
+
+function extractEpisodeFromTitle(title){
+  const m = String(title || '').match(/授課精華\s*([0-9]+)/);
+  return m ? Number(m[1]) : null;
+}
+
+function guessEpisode(){
+  const titleEp = extractEpisodeFromTitle($('zhTitle').value);
+  if(titleEp) return titleEp;
+  const manual = prompt('請輸入集數，例如 30');
+  return Number(manual || 0) || null;
+}
+
+function buildData(){
+  if(!current) return;
+  const episode = current.episode || guessEpisode();
+  current.episode = episode;
+  $('episodeText').textContent = episode || '尚未設定';
+  const titleZh = $('zhTitle').value.trim() || `盧文錦 師父 授課精華 ${episode || ''}`.trim();
+  const titleEn = $('enTitle').value.trim() || `Episode ${episode || ''} — English title pending`;
+  const tags = $('tags').value.split(',').map(x=>x.trim()).filter(Boolean);
+  const obj = {
+    episode,
+    title: { zh: titleZh, en: titleEn },
+    category: $('category').value,
+    tags,
+    concepts: [],
+    skills: [],
+    summary: { zh: '', en: '' },
+    youtube: {
+      videoId: current.videoId,
+      url: `https://youtu.be/${current.videoId}`,
+      thumbnail: `https://i.ytimg.com/vi/${current.videoId}/hqdefault.jpg`,
+      publishedAt: ''
+    },
+    status: 'draft'
+  };
+  $('videoIdOutput').textContent = `"${current.videoId}"`;
+  $('wcmdOutput').textContent = JSON.stringify(obj, null, 2);
+}
+
+$('importBtn').addEventListener('click', () => {
+  const videoId = extractVideoId($('urlInput').value);
+  if(!videoId){ alert('找不到影片 ID，請確認網址。'); return; }
+  current = { videoId, episode: null };
+  $('videoIdText').textContent = videoId;
+  $('episodeText').textContent = '請輸入中文標題後產生';
+  $('thumb').src = `https://i.ytimg.com/vi/${videoId}/hqdefault.jpg`;
+  $('zhTitle').value = '';
+  $('enTitle').value = '';
+  $('tags').value = '';
+  $('previewCard').style.display = '';
+  $('outputCard').style.display = '';
+  buildData();
+});
+
+$('generateBtn').addEventListener('click', buildData);
+$('copyBtn').addEventListener('click', async () => {
+  await navigator.clipboard.writeText($('wcmdOutput').textContent);
+  alert('已複製 WCMD 片段');
+});
+$('clearBtn').addEventListener('click', () => location.reload());
+['zhTitle','enTitle','category','tags'].forEach(id => $(id).addEventListener('input', buildData));
+</script>
+</body>
+</html>
