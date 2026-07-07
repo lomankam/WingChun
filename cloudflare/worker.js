@@ -1,6 +1,9 @@
 const CHANNEL_ID = "UCe1GCW5PvXRayPykPNt4R6Q";
 
-// 既有 1～29 集：用已知 videoId 保證一定抓得到（包含未列出影片）。
+// V24.3 / Worker v6：支援「不公開 / 未列出」影片。
+// 1～29 集先保留在 Worker 作為備援。
+// 網站會優先讀取 data/videoIds.json，並把 ids 傳到 /api/videos?ids=...
+// 以後新增第 30 集，只要把新影片 ID 加進 data/videoIds.json，不需要修改 index.html 或 Worker。
 const KNOWN_VIDEO_IDS = [
   "SkXUAqbEqjQ",
   "HQErDwZ2ZtQ",
@@ -129,7 +132,12 @@ async function youtubeJson(url) {
 }
 
 function uniqueIds(ids) {
-  return [...new Set((ids || []).filter(Boolean))];
+  return [...new Set((ids || []).map(v => String(v || "").trim()).filter(Boolean))];
+}
+
+function idsFromRequest(url) {
+  const raw = url.searchParams.get("ids") || "";
+  return raw.split(",").map(v => v.trim()).filter(Boolean);
 }
 
 async function fetchVideoDetails(env, ids, includeDescription = false) {
@@ -137,33 +145,33 @@ async function fetchVideoDetails(env, ids, includeDescription = false) {
   const unique = uniqueIds(ids);
   for (let i = 0; i < unique.length; i += 50) {
     const batch = unique.slice(i, i + 50);
-    const url = `https://www.googleapis.com/youtube/v3/videos?part=snippet&id=${batch.join(",")}&key=${env.YOUTUBE_API_KEY}`;
-    const data = await youtubeJson(url);
+    const apiUrl = `https://www.googleapis.com/youtube/v3/videos?part=snippet&id=${batch.join(",")}&key=${env.YOUTUBE_API_KEY}`;
+    const data = await youtubeJson(apiUrl);
     all.push(...(data.items || []).map(item => simplifyVideo(item, includeDescription)));
   }
   return all;
 }
 
 async function fetchPublicChannelVideos(env) {
-  // V24.2：用 search 偵測新公開影片。若頻道影片是未列出，YouTube API 不會列出；既有集數仍靠 KNOWN_VIDEO_IDS。
-  const url = `https://www.googleapis.com/youtube/v3/search?part=snippet&channelId=${CHANNEL_ID}&order=date&maxResults=50&type=video&key=${env.YOUTUBE_API_KEY}`;
+  // 公開影片自動偵測；未列出影片不會出現在這裡。
+  const apiUrl = `https://www.googleapis.com/youtube/v3/search?part=snippet&channelId=${CHANNEL_ID}&order=date&maxResults=50&type=video&key=${env.YOUTUBE_API_KEY}`;
   try {
-    const data = await youtubeJson(url);
-    return (data.items || [])
-      .map(item => item.id?.videoId)
-      .filter(Boolean);
+    const data = await youtubeJson(apiUrl);
+    return (data.items || []).map(item => item.id?.videoId).filter(Boolean);
   } catch (e) {
     return [];
   }
 }
 
-async function fetchVideos(env, includeDescription = false) {
+async function fetchVideos(env, requestUrl, includeDescription = false) {
   if (!env.YOUTUBE_API_KEY) throw new Error("Missing YOUTUBE_API_KEY");
-  const publicIds = await fetchPublicChannelVideos(env);
-  const videos = await fetchVideoDetails(env, [...publicIds, ...KNOWN_VIDEO_IDS], includeDescription);
-  return videos
-    .filter(v => v.episode)
-    .sort((a, b) => b.episode - a.episode);
+
+  const requestIds = idsFromRequest(requestUrl);
+  // 如果網站傳入 ids，代表使用 data/videoIds.json，包含未列出影片；以它為主。
+  // 如果沒有傳入 ids，就用 Worker 內建清單 + 公開影片偵測做備援。
+  const ids = requestIds.length ? requestIds : [...await fetchPublicChannelVideos(env), ...KNOWN_VIDEO_IDS];
+  const videos = await fetchVideoDetails(env, ids, includeDescription);
+  return videos.filter(v => v.episode).sort((a, b) => b.episode - a.episode);
 }
 
 export default {
@@ -176,26 +184,27 @@ export default {
         return json({
           success: true,
           service: "wingchun-sync",
-          version: "5.0.0",
+          version: "6.0.0",
           status: "running",
-          mode: "known-video-ids-plus-public-youtube-auto-detect",
+          mode: "unlisted-video-ids-json-supported",
           channelId: CHANNEL_ID,
+          note: "For unlisted videos, update data/videoIds.json and call /api/videos?ids=...",
         });
       }
 
       if (url.pathname === "/api/videos") {
-        const videos = await fetchVideos(env, false);
-        return json({ success: true, source: "youtube-api-hybrid-v5", count: videos.length, videos });
+        const videos = await fetchVideos(env, url, false);
+        return json({ success: true, source: "youtube-api-video-ids-v6", count: videos.length, videos });
       }
 
       if (url.pathname === "/api/latest") {
-        const videos = await fetchVideos(env, false);
+        const videos = await fetchVideos(env, url, false);
         return json({ success: true, latest: videos[0] || null });
       }
 
       if (url.pathname.startsWith("/api/video/")) {
         const episode = Number(url.pathname.replace("/api/video/", ""));
-        const videos = await fetchVideos(env, true);
+        const videos = await fetchVideos(env, url, true);
         const video = videos.find(v => Number(v.episode) === episode);
         if (!video) return json({ success: false, message: "Not found" }, 404);
         return json({ success: true, video });
@@ -203,7 +212,7 @@ export default {
 
       if (url.pathname === "/api/search") {
         const q = (url.searchParams.get("q") || "").trim().toLowerCase();
-        const videos = await fetchVideos(env, true);
+        const videos = await fetchVideos(env, url, true);
         const results = q ? videos.filter(v => `${v.title} ${v.englishTitle} ${v.description || ""}`.toLowerCase().includes(q)) : [];
         return json({ success: true, query: q, count: results.length, results });
       }

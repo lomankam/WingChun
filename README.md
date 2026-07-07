@@ -1,16 +1,35 @@
-# WingChun V24.2 Auto New Video
+# WingChun V24.3 Unlisted Video Fix
 
-## 目的
-新的公開 YouTube 影片上傳後，網站可自動更新影片總數、中文標題，並提供英文標題 fallback，避免英文/雙語模式空白。
+這版修正「所有影片都是不公開／未列出」時無法自動偵測新影片的問題。
 
 ## 需要更新
-1. Cloudflare Worker：貼上 `cloudflare/worker.js` 後 Deploy。
-2. GitHub Pages：覆蓋 `index.html`。
-3. 保留 `data/` 與 `docs/`。
 
-## 測試
-- `/api/health` 應顯示 Worker v5.0.0
-- `/api/videos` 應顯示 count 至少 29
+請複製到專案根目錄：
 
-## 注意
-YouTube Data API 只能自動列出公開影片；若新影片設為「未列出」，仍需把 videoId 加入 Worker 或 WCMD。
+- `index.html`
+- `data/videoIds.json`
+- `cloudflare/worker.js`
+
+## 以後新增第 30 集
+
+只要把 YouTube 連結中的影片 ID 加到：
+
+`data/videoIds.json`
+
+例如：
+
+```json
+[
+  "SkXUAqbEqjQ",
+  "...",
+  "8m2_6mvsGkE",
+  "新影片ID"
+]
+```
+
+然後上傳 GitHub，網站就會自動更新影片數、中文標題、縮圖、連結；英文標題若尚未人工確認，會先顯示 `Episode 30 — 中文標題`，不會空白。
+
+## Worker 測試
+
+- `/api/health` 應顯示 Worker v6.0.0
+- `/api/videos` 應顯示 count 29
