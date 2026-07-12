@@ -1,9 +1,9 @@
 {
   "schemaVersion": "1.0",
-  "platformVersion": "V24.1",
+  "platformVersion": "V25.3",
   "project": "Master Lo Wing Chun Knowledge Platform",
-  "generatedAt": "2026-07-07",
-  "sourceNote": "Video titles and URLs are based on the uploaded PDF list for episodes 1–29. Category status marks episodes 1–20 as confirmed from conversation review, episodes 21–29 as draft pending final confirmation.",
+  "generatedAt": "2026-07-12",
+  "sourceNote": "Updated by WingChun Admin one-click publisher.",
   "categories": {
     "forms": {
       "zh": "詠春套路",
@@ -1144,6 +1144,39 @@
         "youtubeBasic": "confirmed_from_source_pdf",
         "classification": "draft",
         "englishTitle": "draft"
+      }
+    },
+    {
+      "episode": 30,
+      "title": {
+        "zh": "盧文錦 師父 授課精華 30 ─ 詠春拳「靠身」技法觀念與核心理論 | 距離控制、接觸反應及大抐手實戰運用。",
+        "en": "Episode 30 — “Kao San” (Body Pressing): Core Theory, Distance Control, Contact Response & Daai Na Sau Applications"
+      },
+      "category": {
+        "id": "techniques",
+        "zh": "特定技巧",
+        "en": "Specific Techniques",
+        "status": "draft"
+      },
+      "tags": [],
+      "concepts": [],
+      "skills": [],
+      "difficulty": "to_be_confirmed",
+      "summary": {
+        "zh": "",
+        "en": ""
+      },
+      "youtube": {
+        "videoId": "ZfeZMM-Cp_8",
+        "url": "https://youtu.be/ZfeZMM-Cp_8",
+        "thumbnail": "https://i.ytimg.com/vi/ZfeZMM-Cp_8/hqdefault.jpg",
+        "publishedAt": "2026-07-12T12:52:43Z"
+      },
+      "dataStatus": {
+        "youtubeBasic": "confirmed_from_youtube_api",
+        "titleEn": "confirmed",
+        "category": "draft",
+        "updatedAt": "2026-07-12"
       }
     }
   ]
