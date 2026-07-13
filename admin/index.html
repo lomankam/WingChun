@@ -3,36 +3,60 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Wing Chun Admin｜V25.3 One-click Publish</title>
+<title>Wing Chun Admin｜V26 Secure Publish</title>
 <style>
-:root{--bg:#0d0d0d;--panel:#181818;--panel2:#202020;--text:#f7f0e1;--muted:#b9ad98;--gold:#d9b760;--line:#463a24;--ok:#80e099;--bad:#ff8989}*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at top,#2d2113,#111 52%,#060606);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Noto Serif TC","Microsoft JhengHei",serif}.wrap{max-width:1100px;margin:0 auto;padding:28px 16px 70px}.card{background:rgba(24,24,24,.97);border:1px solid var(--line);border-radius:22px;padding:22px;margin:16px 0;box-shadow:0 16px 48px rgba(0,0,0,.32)}h1{margin:0 0 6px;color:var(--gold);font-size:30px}h2{margin:0 0 12px;color:#f4d382;font-size:20px}.muted{color:var(--muted);font-size:14px;line-height:1.65}.row{display:grid;grid-template-columns:1fr auto;gap:10px}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}@media(max-width:800px){.row,.grid,.grid3{grid-template-columns:1fr}}input,textarea,select{width:100%;background:#090909;color:var(--text);border:1px solid #55482f;border-radius:12px;padding:12px 13px;font-size:16px}textarea{min-height:90px;resize:vertical}button{border:0;border-radius:12px;background:linear-gradient(180deg,#f2cf72,#b98927);color:#1b1205;font-weight:800;padding:12px 16px;font-size:15px;cursor:pointer}button.secondary{background:#30291c;color:#f1d893;border:1px solid #64522f}button.danger{background:#5c2222;color:#ffdada;border:1px solid #914848}.field label{display:block;color:var(--muted);font-size:13px;margin:0 0 6px}.thumb{width:100%;max-width:420px;border-radius:14px;border:1px solid #4a3e2a}.status{white-space:pre-wrap;background:#080808;border:1px solid #423927;border-radius:12px;padding:12px;color:#d7ccb7;overflow:auto;line-height:1.55}.ok{color:var(--ok)}.bad{color:var(--bad)}.hidden{display:none}.footer{opacity:.55;text-align:center;margin-top:26px;font-size:12px}code{color:#f7d98a}.pill{display:inline-block;border:1px solid #5d4b2c;border-radius:999px;padding:5px 10px;margin:3px;color:#f2d795;background:#211b12}.actions{display:flex;gap:10px;flex-wrap:wrap}.previewTitle{font-size:20px;font-weight:800;color:#ffe09b;margin:8px 0}.previewSub{font-size:15px;color:#ddd0b8}.small{font-size:12px;color:#a99f8e}
+:root{--bg:#0d0d0d;--panel:#181818;--text:#f7f0e1;--muted:#b9ad98;--gold:#d9b760;--line:#463a24;--ok:#80e099;--bad:#ff8989}
+*{box-sizing:border-box}
+body{margin:0;background:radial-gradient(circle at top,#2d2113,#111 52%,#060606);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Noto Serif TC","Microsoft JhengHei",serif}
+.wrap{max-width:1100px;margin:0 auto;padding:28px 16px 70px}
+.card{background:rgba(24,24,24,.97);border:1px solid var(--line);border-radius:22px;padding:22px;margin:16px 0;box-shadow:0 16px 48px rgba(0,0,0,.32)}
+h1{margin:0 0 6px;color:var(--gold);font-size:30px}h2{margin:0 0 12px;color:#f4d382;font-size:20px}
+.muted{color:var(--muted);font-size:14px;line-height:1.65}.row{display:grid;grid-template-columns:1fr auto;gap:10px}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+@media(max-width:800px){.row,.grid,.grid3{grid-template-columns:1fr}}
+input,textarea,select{width:100%;background:#090909;color:var(--text);border:1px solid #55482f;border-radius:12px;padding:12px 13px;font-size:16px}
+textarea{min-height:90px;resize:vertical}
+button{border:0;border-radius:12px;background:linear-gradient(180deg,#f2cf72,#b98927);color:#1b1205;font-weight:800;padding:12px 16px;font-size:15px;cursor:pointer}
+button.secondary{background:#30291c;color:#f1d893;border:1px solid #64522f}
+.field label{display:block;color:var(--muted);font-size:13px;margin:0 0 6px}
+.thumb{width:100%;max-width:420px;border-radius:14px;border:1px solid #4a3e2a}
+.status{white-space:pre-wrap;background:#080808;border:1px solid #423927;border-radius:12px;padding:12px;color:#d7ccb7;overflow:auto;line-height:1.55}
+.ok{color:var(--ok)}.bad{color:var(--bad)}.hidden{display:none}.footer{opacity:.55;text-align:center;margin-top:26px;font-size:12px}
+code{color:#f7d98a}.pill{display:inline-block;border:1px solid #5d4b2c;border-radius:999px;padding:5px 10px;margin:3px;color:#f2d795;background:#211b12}
+.actions{display:flex;gap:10px;flex-wrap:wrap}.previewTitle{font-size:20px;font-weight:800;color:#ffe09b;margin:8px 0}.previewSub{font-size:15px;color:#ddd0b8}
 </style>
 </head>
 <body>
 <div class="wrap">
   <div class="card">
     <h1>🥋 Wing Chun Admin</h1>
-    <div class="muted">Website v25.3 ｜ One-click Publish ｜ GitHub 自動發布版</div>
-    <p class="muted">貼上 YouTube 連結後，可抓取未列出影片資料，確認英文標題與分類後，直接寫入 GitHub 的 <code>data/videoIds.json</code> 與 <code>data/wcmd.json</code>。</p>
+    <div class="muted">Website v26.0 ｜ Secure Admin Login ｜ GitHub 自動發布版</div>
+    <p class="muted">管理密碼只保存在 Cloudflare Secret，不會顯示在網頁或原始碼中。</p>
   </div>
 
   <div class="card" id="loginCard">
     <h2>管理登入</h2>
-    <div class="row"><input id="password" type="password" placeholder="請輸入管理密碼"><button id="loginBtn">登入</button></div>
-    <p class="muted">若尚未設定 Cloudflare Secret <code>ADMIN_PASSWORD</code>，預設密碼為 <code>wingchun2026</code>。</p>
+    <div class="row">
+      <input id="password" type="password" placeholder="請輸入管理密碼" autocomplete="current-password">
+      <button id="loginBtn">登入</button>
+    </div>
+    <p class="muted">登入成功後，本次瀏覽器分頁會暫時保持登入；關閉分頁後即自動登出。</p>
   </div>
 
   <div id="adminPanel" class="hidden">
     <div class="card">
       <h2>① 匯入 YouTube 影片</h2>
-      <div class="row"><input id="youtubeUrl" placeholder="貼上 YouTube 連結，例如：https://youtu.be/xxxxxxxxxxx"><button id="importBtn">匯入影片</button></div>
-      <p class="muted">支援未列出影片；只要連結正確，Worker 可以抓到標題、縮圖、發布日期。</p>
+      <div class="row">
+        <input id="youtubeUrl" placeholder="貼上 YouTube 連結，例如：https://youtu.be/xxxxxxxxxxx">
+        <button id="importBtn">匯入影片</button>
+      </div>
+      <p class="muted">支援未列出影片；只要連結正確，系統可取得標題、縮圖與發布日期。</p>
     </div>
 
     <div class="card hidden" id="resultCard">
       <h2>② 確認資料</h2>
       <div class="grid">
-        <div><img id="thumb" class="thumb" alt="縮圖"></div>
+        <div><img id="thumb" class="thumb" alt="影片縮圖"></div>
         <div>
           <div class="field"><label>集數</label><input id="episode"></div>
           <div class="field"><label>影片 ID</label><input id="videoId" readonly></div>
@@ -47,8 +71,8 @@
         <div class="field"><label>發布日期</label><input id="publishedAt" readonly></div>
       </div>
       <div class="grid">
-        <div class="field"><label>Tags（用頓號或逗號分隔）</label><textarea id="tags" placeholder="抱牌掌、黐手、接觸反應"></textarea></div>
-        <div class="field"><label>Skills（技巧；可留空）</label><textarea id="skills" placeholder="抱牌掌、穿心腳"></textarea></div>
+        <div class="field"><label>Tags（用頓號或逗號分隔）</label><textarea id="tags"></textarea></div>
+        <div class="field"><label>Skills（技巧；可留空）</label><textarea id="skills"></textarea></div>
       </div>
       <div class="grid">
         <div class="field"><label>中文摘要（可先留空）</label><textarea id="summaryZh"></textarea></div>
@@ -57,6 +81,7 @@
       <div class="actions">
         <button id="previewBtn" class="secondary">更新預覽</button>
         <button id="publishBtn">確認發布到 GitHub</button>
+        <button id="logoutBtn" class="secondary">登出</button>
       </div>
     </div>
 
@@ -73,120 +98,137 @@
     </div>
   </div>
 
-  <div class="footer">Wing Chun Admin ｜ V25.3 ｜ One-click GitHub Publisher</div>
+  <div class="footer">Wing Chun Admin ｜ V26.0 ｜ Secure GitHub Publisher</div>
 </div>
 
 <script>
 const WORKER_BASE = "https://wingchun-sync.lomankam-master.workers.dev";
-const DEFAULT_PASSWORD = "wingchun2026";
-let adminPassword = "";
+let adminToken = sessionStorage.getItem("wingchunAdminToken") || "";
 let importedVideo = null;
 let wcmd = null;
+const $ = id => document.getElementById(id);
 
-const $ = (id) => document.getElementById(id);
 function setStatus(msg, ok=true){ $("status").innerHTML = `<span class="${ok?'ok':'bad'}">${msg}</span>`; }
 function splitList(text){ return String(text||"").split(/[、,，\n]/).map(s=>s.trim()).filter(Boolean); }
-function extractEpisode(title=""){ const m = String(title).match(/授課精華\s*([0-9]+)/); return m ? Number(m[1]) : ""; }
+function extractEpisode(title=""){ const m=String(title).match(/授課精華\s*([0-9]+)/); return m?Number(m[1]):""; }
+function cleanTitle(raw=""){
+  return String(raw).trim()
+    .replace(/^盧[文⽂]錦\s*師[父⽗]\s*授課精華\s*[0-9]+\s*[\-－–—｜|：:]?\s*/u,"")
+    .replace(/^授課精華\s*[0-9]+\s*[\-－–—｜|：:]?\s*/u,"")
+    .replace(/^[\s\-－–—•●▪◆★]+/u,"")
+    .trim();
+}
 
 async function loadWCMD(){
   try{
-    const res = await fetch("../data/wcmd.json?v=" + Date.now());
+    const res=await fetch("../data/wcmd.json?v="+Date.now());
     if(!res.ok) throw new Error("wcmd not found");
-    wcmd = await res.json();
+    wcmd=await res.json();
   }catch(e){
-    wcmd = { categories: { principles:{zh:"觀念理論",en:"Concepts & Principles"}, techniques:{zh:"特定技巧",en:"Specific Techniques"}, combat:{zh:"實戰防身",en:"Combat & Self-defense"} }, episodes:[] };
+    wcmd={categories:{principles:{zh:"觀念理論",en:"Concepts & Principles"},techniques:{zh:"特定技巧",en:"Specific Techniques"},combat:{zh:"實戰防身",en:"Combat & Self-defense"}},episodes:[]};
   }
-  const sel = $("categoryId");
-  sel.innerHTML = "";
-  Object.entries(wcmd.categories || {}).sort((a,b)=>(a[1].order||99)-(b[1].order||99)).forEach(([id,c])=>{
-    const opt = document.createElement("option"); opt.value=id; opt.textContent=`${c.zh || id} / ${c.en || ""}`; sel.appendChild(opt);
+  const sel=$("categoryId"); sel.innerHTML="";
+  Object.entries(wcmd.categories||{}).sort((a,b)=>(a[1].order||99)-(b[1].order||99)).forEach(([id,c])=>{
+    const opt=document.createElement("option"); opt.value=id; opt.textContent=`${c.zh||id} / ${c.en||""}`; sel.appendChild(opt);
   });
 }
-
-function guessEnglishTitle(episode){
-  return `Episode ${episode || ""} — English title pending`;
+function showAdmin(){
+  $("loginCard").classList.add("hidden");
+  $("adminPanel").classList.remove("hidden");
 }
-
+async function validateSavedToken(){
+  if(!adminToken) return;
+  try{
+    const res=await fetch(`${WORKER_BASE}/api/admin/session`,{headers:{Authorization:`Bearer ${adminToken}`}});
+    const data=await res.json();
+    if(data.success){ showAdmin(); await loadWCMD(); setStatus("已登入。請貼上 YouTube 連結匯入影片。"); }
+    else throw new Error();
+  }catch(_){ sessionStorage.removeItem("wingchunAdminToken"); adminToken=""; }
+}
 function fillForm(video){
-  importedVideo = video;
-  const ep = video.episode || extractEpisode(video.title);
-  $("thumb").src = video.thumbnail || "";
-  $("episode").value = ep || "";
-  $("videoId").value = video.videoId || "";
-  $("videoUrl").value = video.url || "";
-  $("titleZh").value = video.title || "";
-  $("titleEn").value = guessEnglishTitle(ep);
-  $("publishedAt").value = video.publishedAt || "";
-  $("tags").value = "";
-  $("skills").value = "";
-  $("summaryZh").value = "";
-  $("summaryEn").value = "";
+  importedVideo=video;
+  const ep=video.episode||extractEpisode(video.title);
+  $("thumb").src=video.thumbnail||"";
+  $("episode").value=ep||"";
+  $("videoId").value=video.videoId||"";
+  $("videoUrl").value=video.url||"";
+  $("titleZh").value=cleanTitle(video.title||"");
+  $("titleEn").value=`Episode ${ep||""} — English title pending`;
+  $("publishedAt").value=video.publishedAt||"";
+  $("tags").value=$("skills").value=$("summaryZh").value=$("summaryEn").value="";
   $("resultCard").classList.remove("hidden");
   updatePreview();
 }
-
 function updatePreview(){
-  const tags = splitList($("tags").value);
-  $("previewTitle").textContent = $("titleZh").value || "";
-  $("previewEn").textContent = $("titleEn").value || "";
-  $("previewTags").innerHTML = tags.map(t=>`<span class="pill">${t}</span>`).join("");
+  const tags=splitList($("tags").value);
+  $("previewTitle").textContent=cleanTitle($("titleZh").value);
+  $("previewEn").textContent=$("titleEn").value||"";
+  $("previewTags").innerHTML=tags.map(t=>`<span class="pill">${t}</span>`).join("");
   $("previewCard").classList.remove("hidden");
 }
-
 function buildEntry(){
   return {
-    episode: Number($("episode").value),
-    titleZh: $("titleZh").value.trim(),
-    titleEn: $("titleEn").value.trim(),
-    categoryId: $("categoryId").value,
-    difficulty: $("difficulty").value,
-    tags: splitList($("tags").value),
-    concepts: splitList($("tags").value),
-    skills: splitList($("skills").value),
-    summaryZh: $("summaryZh").value.trim(),
-    summaryEn: $("summaryEn").value.trim()
+    episode:Number($("episode").value),
+    titleZh:cleanTitle($("titleZh").value),
+    titleEn:$("titleEn").value.trim(),
+    categoryId:$("categoryId").value,
+    difficulty:$("difficulty").value,
+    tags:splitList($("tags").value),
+    concepts:splitList($("tags").value),
+    skills:splitList($("skills").value),
+    summaryZh:$("summaryZh").value.trim(),
+    summaryEn:$("summaryEn").value.trim()
   };
 }
 
-$("loginBtn").onclick = async () => {
-  adminPassword = $("password").value.trim();
-  if(!adminPassword){ alert("請輸入密碼"); return; }
-  $("loginCard").classList.add("hidden");
-  $("adminPanel").classList.remove("hidden");
-  await loadWCMD();
-  setStatus("已登入。請貼上 YouTube 連結匯入影片。");
+$("loginBtn").onclick=async()=>{
+  const password=$("password").value;
+  if(!password){ alert("請輸入密碼"); return; }
+  try{
+    const res=await fetch(`${WORKER_BASE}/api/admin/login`,{
+      method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({password})
+    });
+    const data=await res.json();
+    if(!res.ok||!data.success) throw new Error(data.error||"登入失敗");
+    adminToken=data.token;
+    sessionStorage.setItem("wingchunAdminToken",adminToken);
+    $("password").value="";
+    showAdmin(); await loadWCMD(); setStatus("✅ 登入成功。請貼上 YouTube 連結。");
+  }catch(e){ alert(e.message); }
 };
+$("password").addEventListener("keydown",e=>{if(e.key==="Enter")$("loginBtn").click();});
 
-$("importBtn").onclick = async () => {
-  const url = $("youtubeUrl").value.trim();
+$("importBtn").onclick=async()=>{
+  const url=$("youtubeUrl").value.trim();
   if(!url){ alert("請貼上 YouTube 連結"); return; }
   setStatus("正在從 YouTube 讀取影片資料...");
   try{
-    const res = await fetch(`${WORKER_BASE}/api/import?url=${encodeURIComponent(url)}`);
-    const data = await res.json();
-    if(!data.success) throw new Error(data.error || "Import failed");
-    fillForm(data.video);
-    setStatus("影片資料已匯入，請確認英文標題、分類與 Tags。", true);
-  }catch(e){ setStatus("匯入失敗：" + e.message, false); }
+    const res=await fetch(`${WORKER_BASE}/api/import?url=${encodeURIComponent(url)}`);
+    const data=await res.json();
+    if(!data.success) throw new Error(data.error||"Import failed");
+    fillForm(data.video); setStatus("影片資料已匯入，請確認英文標題、分類與 Tags。");
+  }catch(e){ setStatus("匯入失敗："+e.message,false); }
 };
+$("previewBtn").onclick=updatePreview;
+$("logoutBtn").onclick=()=>{sessionStorage.removeItem("wingchunAdminToken"); location.reload();};
 
-$("previewBtn").onclick = updatePreview;
-
-$("publishBtn").onclick = async () => {
+$("publishBtn").onclick=async()=>{
   if(!importedVideo){ alert("請先匯入影片"); return; }
-  if(!confirm("確定要發布到 GitHub 嗎？這會更新 data/videoIds.json 與 data/wcmd.json。")) return;
+  if(!confirm("確定發布到 GitHub 嗎？")) return;
   setStatus("正在發布到 GitHub，請稍候...");
   try{
-    const res = await fetch(`${WORKER_BASE}/api/admin/publish`, {
+    const res=await fetch(`${WORKER_BASE}/api/admin/publish`,{
       method:"POST",
-      headers:{"Content-Type":"application/json"},
-      body: JSON.stringify({ password: adminPassword, video: importedVideo, entry: buildEntry() })
+      headers:{"Content-Type":"application/json",Authorization:`Bearer ${adminToken}`},
+      body:JSON.stringify({video:importedVideo,entry:buildEntry()})
     });
-    const data = await res.json();
-    if(!data.success) throw new Error(data.error || "Publish failed");
-    setStatus(`✅ 發布成功！\n${data.message}\n\n影片數：${data.videoIdsCount}\nWCMD Commit：${data.commits?.wcmd || "完成"}`);
-  }catch(e){ setStatus("發布失敗：" + e.message, false); }
+    const data=await res.json();
+    if(res.status===401){sessionStorage.removeItem("wingchunAdminToken");throw new Error("登入已逾時，請重新登入");}
+    if(!data.success) throw new Error(data.error||"Publish failed");
+    setStatus(`✅ 發布成功！\n${data.message}\n\n影片數：${data.videoIdsCount}`);
+  }catch(e){ setStatus("發布失敗："+e.message,false); }
 };
+validateSavedToken();
 </script>
 </body>
 </html>
