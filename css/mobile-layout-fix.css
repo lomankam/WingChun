@@ -1,4 +1,4 @@
-/* v26.0.1 — Mobile Safari responsive-width fixes */
+/* v26.0.2 — Mobile Safari full-width and full-hero-image fixes */
 html,
 body{
   width:100%;
@@ -37,16 +37,25 @@ svg{
     padding-right:10px!important;
   }
 
+  /* The source hero is a wide 1536×705 image. Previous mobile rules changed
+     the container to 1536/880 while keeping object-fit:cover, which cropped
+     both sides. Keep the original ratio so the entire banner is visible. */
   .hero.finalImageHero{
-    width:auto!important;
-    max-width:none!important;
+    width:calc(100% + 20px)!important;
+    max-width:calc(100% + 20px)!important;
     margin-left:-10px!important;
     margin-right:-10px!important;
+    aspect-ratio:1536 / 705!important;
+    height:auto!important;
   }
 
   .finalHeroImage{
+    display:block!important;
     width:100%!important;
+    height:100%!important;
     max-width:100%!important;
+    object-fit:contain!important;
+    object-position:center center!important;
   }
 
   /* Keep both official links entirely inside the hero. */
