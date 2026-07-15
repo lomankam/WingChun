@@ -121,17 +121,3 @@ svg{
     padding-right:3px!important;
   }
 }
-
-
-/* Move official links below hero on mobile and desktop */
-.officialQuickLinks{
-  position:relative!important;
-  left:auto!important;
-  right:auto!important;
-  bottom:auto!important;
-  transform:none!important;
-  width:100%!important;
-  max-width:1200px!important;
-  margin:12px auto 18px!important;
-  padding:0 12px!important;
-}
