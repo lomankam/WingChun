@@ -1,0 +1,114 @@
+/* v26.0.1 — Mobile Safari responsive-width fixes */
+html,
+body{
+  width:100%;
+  max-width:100%;
+  overflow-x:clip;
+}
+
+img,
+video,
+iframe,
+svg{
+  max-width:100%;
+}
+
+/* Flex/Grid children must be allowed to shrink instead of widening the page. */
+.wrap,
+.content,
+.mainPanel,
+.courseHeader,
+.courseLangButtons,
+.lessonSearchPanel,
+.searchBox,
+.grid,
+.card,
+.body{
+  min-width:0;
+}
+
+@media(max-width:760px){
+  /* chat.css changes .wrap to 10px padding, while the desktop hero kept a
+     -18px margin. That made the hero 16px wider than the phone viewport. */
+  .wrap{
+    width:100%!important;
+    max-width:100%!important;
+    padding-left:10px!important;
+    padding-right:10px!important;
+  }
+
+  .hero.finalImageHero{
+    width:auto!important;
+    max-width:none!important;
+    margin-left:-10px!important;
+    margin-right:-10px!important;
+  }
+
+  .finalHeroImage{
+    width:100%!important;
+    max-width:100%!important;
+  }
+
+  /* Keep both official links entirely inside the hero. */
+  .hero.finalImageHero .officialQuickLinks{
+    left:6px!important;
+    right:6px!important;
+    width:auto!important;
+    max-width:none!important;
+  }
+  .officialQuickLinksInner{
+    display:grid!important;
+    grid-template-columns:repeat(2,minmax(0,1fr))!important;
+    gap:5px!important;
+    width:100%!important;
+  }
+  .officialQuickLink{
+    width:100%!important;
+    min-width:0!important;
+    overflow:hidden!important;
+  }
+  .officialQuickLink span{
+    min-width:0!important;
+    overflow-wrap:anywhere!important;
+    word-break:break-word!important;
+    line-height:1.12!important;
+  }
+
+  /* Four controls remain readable without forcing horizontal overflow. */
+  .courseLangButtons{
+    display:grid!important;
+    grid-template-columns:repeat(2,minmax(0,1fr))!important;
+    width:100%!important;
+  }
+  .courseLangButtons .langBtn,
+  .courseLangButtons .aiJumpBtn{
+    width:100%!important;
+    min-width:0!important;
+    margin:0!important;
+  }
+
+  .lessonSearchPanel,
+  .searchBox,
+  .lessonSearchInput{
+    width:100%!important;
+    max-width:100%!important;
+    min-width:0!important;
+  }
+
+  .toTop{
+    right:max(12px,env(safe-area-inset-right))!important;
+    bottom:max(12px,env(safe-area-inset-bottom))!important;
+  }
+}
+
+@media(max-width:420px){
+  .officialQr{
+    width:25px!important;
+    height:25px!important;
+    flex-basis:25px!important;
+  }
+  .officialQuickLink{
+    font-size:9px!important;
+    padding-right:3px!important;
+  }
+}
