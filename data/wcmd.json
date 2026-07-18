@@ -1,8 +1,8 @@
 {
   "schemaVersion": "1.0",
-  "platformVersion": "V25.3",
+  "platformVersion": "V26.0",
   "project": "Master Lo Wing Chun Knowledge Platform",
-  "generatedAt": "2026-07-12",
+  "generatedAt": "2026-07-18",
   "sourceNote": "Updated by WingChun Admin one-click publisher.",
   "categories": {
     "forms": {
@@ -1177,6 +1177,39 @@
         "titleEn": "confirmed",
         "category": "draft",
         "updatedAt": "2026-07-12"
+      }
+    },
+    {
+      "episode": 31,
+      "title": {
+        "zh": "詠春身手步法之整合協調運用概念 | 靠身、蹬手、迫步如何融為一體",
+        "en": "Integrated Body–Hand–Footwork Coordination, How \"Kao Shen\"、\"Deng Sau\"、 and \"Bik Bo\" Work as One"
+      },
+      "category": {
+        "id": "principles",
+        "zh": "觀念理論",
+        "en": "Concepts & Principles",
+        "status": "draft"
+      },
+      "tags": [],
+      "concepts": [],
+      "skills": [],
+      "difficulty": "to_be_confirmed",
+      "summary": {
+        "zh": "",
+        "en": ""
+      },
+      "youtube": {
+        "videoId": "-_QTS6XgEWQ",
+        "url": "https://youtu.be/-_QTS6XgEWQ",
+        "thumbnail": "https://i.ytimg.com/vi/-_QTS6XgEWQ/hqdefault.jpg",
+        "publishedAt": "2026-07-18T13:30:47Z"
+      },
+      "dataStatus": {
+        "youtubeBasic": "confirmed_from_youtube_api",
+        "titleEn": "confirmed",
+        "category": "draft",
+        "updatedAt": "2026-07-18"
       }
     }
   ]
