@@ -78,6 +78,7 @@ const firebaseConfig = {
   let latestBannedDocs=[];
   let chatControl={disabled:false, closeAt:null, openAt:null};
   let chatClosed=false;
+  let azhiCourseContextPromise=null;
   const reservedNames=['管理員','admin','administrator','系統','版主','站長','阿智','AI','ai','Azhi','azhi','Assistant','assistant','ChatGPT','chatgpt','Gemini','gemini','Claude','claude'];
   if(!box||!form) return;
 
@@ -143,8 +144,52 @@ const firebaseConfig = {
     if(m.adminMessage) return '管理員';
     return String(m.name || '訪客').replace(/[\n\r]+/g,' ').slice(0,18);
   }
-  function buildAzhiPrompt(userText){
+  function loadAzhiCourseContext(){
+    if(azhiCourseContextPromise) return azhiCourseContextPromise;
+    azhiCourseContextPromise=(async()=>{
+      try{
+        const baseUrl=new URL('data/wcmd.json', document.baseURI).href;
+        const idsUrl=new URL('data/videoIds.json', document.baseURI).href;
+        const [wcmdRes, idsRes]=await Promise.all([
+          fetch(`${baseUrl}?v=${Date.now()}`,{cache:'no-store'}),
+          fetch(`${idsUrl}?v=${Date.now()}`,{cache:'no-store'})
+        ]);
+        if(!wcmdRes.ok) throw new Error(`WCMD HTTP ${wcmdRes.status}`);
+        const wcmd=await wcmdRes.json();
+        const ids=idsRes.ok ? await idsRes.json() : [];
+        const episodes=(Array.isArray(wcmd.episodes)?wcmd.episodes:[])
+          .filter(ep=>ep && Number.isFinite(Number(ep.episode)))
+          .sort((a,b)=>Number(a.episode)-Number(b.episode));
+        const uniqueEpisodes=[...new Map(episodes.map(ep=>[Number(ep.episode),ep])).values()];
+        const rows=uniqueEpisodes.map(ep=>{
+          const title=String(ep.title?.zh||ep.title?.en||'').trim()||`第${ep.episode}集`;
+          const category=String(ep.category?.zh||'').trim();
+          const terms=[...(Array.isArray(ep.tags)?ep.tags:[]),...(Array.isArray(ep.concepts)?ep.concepts:[]),...(Array.isArray(ep.skills)?ep.skills:[])];
+          const keywords=[...new Set(terms.map(String).map(s=>s.trim()).filter(Boolean))].slice(0,12);
+          return `第${ep.episode}集｜${title}${category?`｜分類：${category}`:''}${keywords.length?`｜關鍵詞：${keywords.join('、')}`:''}`;
+        });
+        const idCount=Array.isArray(ids)?new Set(ids.map(String).filter(Boolean)).size:0;
+        const episodeCount=uniqueEpisodes.length;
+        const sourceDate=String(wcmd.generatedAt||'').trim();
+        return [
+          '即時網站課程資料（回答影片數量與課程問題時，以此資料為準，不要使用舊記憶）：',
+          `資料來源：data/wcmd.json${sourceDate?`，更新日期：${sourceDate}`:''}`,
+          `影片 ID 總數：${idCount}`,
+          `WCMD 課程條目數：${episodeCount}`,
+          `目前網站影片總數：${Math.max(idCount,episodeCount)}`,
+          '課程索引：',
+          ...rows
+        ].join('\n');
+      }catch(err){
+        console.warn('阿智即時課程資料載入失敗',err);
+        return '即時網站課程資料目前無法載入；若使用者詢問影片數量，請明確說明無法確認，不要猜測。';
+      }
+    })();
+    return azhiCourseContextPromise;
+  }
+  async function buildAzhiPrompt(userText){
     const question=getAzhiQuestion(userText);
+    const courseContext=await loadAzhiCourseContext();
     const recent=(latestMessages || [])
       .filter(m=>m && m.text && !m.system && !m.deleted)
       .slice(-10)
@@ -161,6 +206,9 @@ const firebaseConfig = {
       '6. 如果問題與詠春拳有關，優先結合詠春觀念回答。',
       '7. 不要假裝自己是真人師父；你是 AI 助教「阿智」。',
       '8. 回答簡潔、親切、有耐心。',
+      '9. 影片數量、課程集數、課程標題與課程索引問題，必須以「即時網站課程資料」為準；若資料中顯示 31 部，就回答 31 部，不要回答舊的 29 部。',
+      '',
+      courseContext,
       '',
       recent ? '最近聊天室上下文（供你理解前後文，最多 10 則）：\n' + recent : '最近聊天室上下文：無',
       '',
@@ -178,7 +226,7 @@ const firebaseConfig = {
       const res=await fetch(AZHI_WORKER_URL,{
         method:'POST',
         headers:{'Content-Type':'application/json'},
-        body:JSON.stringify({message:buildAzhiPrompt(userText)})
+        body:JSON.stringify({message:await buildAzhiPrompt(userText)})
       });
       const data=await res.json().catch(()=>({}));
       const elapsedMs=Math.round((performance.now ? performance.now() : Date.now()) - startedAt);
