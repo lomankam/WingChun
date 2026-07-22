@@ -35,6 +35,7 @@ const firebaseConfig = {
   const collectionName='chatMessages';
   const onlineCollectionName='onlineUsers';
   const AZHI_WORKER_URL='https://wingchun.lomankam-master.workers.dev';
+  const AZHI_COURSE_API_URL='https://wingchun-sync.lomankam-master.workers.dev/api';
   const AZHI_NAME='🤖 阿智';
   const azhiPendingMessageIds=new Set();
   const box=document.getElementById('chatMessages');
@@ -78,7 +79,7 @@ const firebaseConfig = {
   let latestBannedDocs=[];
   let chatControl={disabled:false, closeAt:null, openAt:null};
   let chatClosed=false;
-  let azhiCourseContextPromise=null;
+  let azhiCourseDatasetPromise=null;
   const reservedNames=['管理員','admin','administrator','系統','版主','站長','阿智','AI','ai','Azhi','azhi','Assistant','assistant','ChatGPT','chatgpt','Gemini','gemini','Claude','claude'];
   if(!box||!form) return;
 
@@ -144,9 +145,9 @@ const firebaseConfig = {
     if(m.adminMessage) return '管理員';
     return String(m.name || '訪客').replace(/[\n\r]+/g,' ').slice(0,18);
   }
-  function loadAzhiCourseContext(){
-    if(azhiCourseContextPromise) return azhiCourseContextPromise;
-    azhiCourseContextPromise=(async()=>{
+  function loadAzhiCourseDataset(){
+    if(azhiCourseDatasetPromise) return azhiCourseDatasetPromise;
+    azhiCourseDatasetPromise=(async()=>{
       try{
         const baseUrl=new URL('data/wcmd.json', document.baseURI).href;
         const idsUrl=new URL('data/videoIds.json', document.baseURI).href;
@@ -161,35 +162,86 @@ const firebaseConfig = {
           .filter(ep=>ep && Number.isFinite(Number(ep.episode)))
           .sort((a,b)=>Number(a.episode)-Number(b.episode));
         const uniqueEpisodes=[...new Map(episodes.map(ep=>[Number(ep.episode),ep])).values()];
-        const rows=uniqueEpisodes.map(ep=>{
-          const title=String(ep.title?.zh||ep.title?.en||'').trim()||`第${ep.episode}集`;
-          const category=String(ep.category?.zh||'').trim();
-          const terms=[...(Array.isArray(ep.tags)?ep.tags:[]),...(Array.isArray(ep.concepts)?ep.concepts:[]),...(Array.isArray(ep.skills)?ep.skills:[])];
-          const keywords=[...new Set(terms.map(String).map(s=>s.trim()).filter(Boolean))].slice(0,12);
-          return `第${ep.episode}集｜${title}${category?`｜分類：${category}`:''}${keywords.length?`｜關鍵詞：${keywords.join('、')}`:''}`;
-        });
         const idCount=Array.isArray(ids)?new Set(ids.map(String).filter(Boolean)).size:0;
-        const episodeCount=uniqueEpisodes.length;
-        const sourceDate=String(wcmd.generatedAt||'').trim();
-        return [
-          '即時網站課程資料（回答影片數量與課程問題時，以此資料為準，不要使用舊記憶）：',
-          `資料來源：data/wcmd.json${sourceDate?`，更新日期：${sourceDate}`:''}`,
-          `影片 ID 總數：${idCount}`,
-          `WCMD 課程條目數：${episodeCount}`,
-          `目前網站影片總數：${Math.max(idCount,episodeCount)}`,
-          '課程索引：',
-          ...rows
-        ].join('\n');
+        return {wcmd,ids,episodes:uniqueEpisodes,idCount,episodeCount:uniqueEpisodes.length};
       }catch(err){
         console.warn('阿智即時課程資料載入失敗',err);
-        return '即時網站課程資料目前無法載入；若使用者詢問影片數量，請明確說明無法確認，不要猜測。';
+        return {wcmd:{},ids:[],episodes:[],idCount:0,episodeCount:0,error:true};
       }
     })();
-    return azhiCourseContextPromise;
+    return azhiCourseDatasetPromise;
+  }
+  function formatAzhiCourseContext(dataset){
+    if(!dataset || dataset.error) return '即時網站課程資料目前無法載入；若使用者詢問影片數量，請明確說明無法確認，不要猜測。';
+    const sourceDate=String(dataset.wcmd.generatedAt||'').trim();
+    const rows=dataset.episodes.map(ep=>{
+      const title=String(ep.title?.zh||ep.title?.en||'').trim()||`第${ep.episode}集`;
+      const category=String(ep.category?.zh||'').trim();
+      const terms=[...(Array.isArray(ep.tags)?ep.tags:[]),...(Array.isArray(ep.concepts)?ep.concepts:[]),...(Array.isArray(ep.skills)?ep.skills:[])];
+      const keywords=[...new Set(terms.map(String).map(s=>s.trim()).filter(Boolean))].slice(0,12);
+      return `第${ep.episode}集｜${title}${category?`｜分類：${category}`:''}${keywords.length?`｜關鍵詞：${keywords.join('、')}`:''}`;
+    });
+    return [
+      '即時網站課程資料（回答影片數量與課程問題時，以此資料為準，不要使用舊記憶）：',
+      `資料來源：data/wcmd.json${sourceDate?`，更新日期：${sourceDate}`:''}`,
+      `影片 ID 總數：${dataset.idCount}`,
+      `WCMD 課程條目數：${dataset.episodeCount}`,
+      `目前網站影片總數：${Math.max(dataset.idCount,dataset.episodeCount)}`,
+      '課程索引：',
+      ...rows
+    ].join('\n');
+  }
+  function episodeNumberFromQuestion(question){
+    const match=String(question||'').match(/(?:第|episode\s*)(\d+)\s*(?:集|話|期)?/i);
+    return match ? Number(match[1]) : null;
+  }
+  function titleSearchTerms(title){
+    const parts=String(title||'').split(/[｜|、，,：:；;。\s]+/).map(s=>s.trim()).filter(s=>s.length>=2);
+    const grams=[];
+    parts.forEach(part=>{
+      for(let length=2;length<=Math.min(4,part.length);length++){
+        for(let start=0;start+length<=part.length;start++) grams.push(part.slice(start,start+length));
+      }
+    });
+    return [String(title||''),...parts,...grams];
+  }
+  function descriptionSearchTerm(question,dataset){
+    const normalized=String(question||'').toLowerCase();
+    const candidates=[];
+    (dataset?.episodes||[]).forEach(ep=>{
+      const title=String(ep.title?.zh||ep.title?.en||'').replace(/^盧文錦\s*師父\s*授課精華\s*\d+\s*[-－–—｜|：:]?\s*/u,'').trim();
+      const terms=[...titleSearchTerms(title),ep.category?.zh,ep.category?.en,...(ep.tags||[]),...(ep.concepts||[]),...(ep.skills||[])];
+      terms.map(v=>String(v||'').trim()).filter(v=>v.length>=2).forEach(term=>{
+        if(normalized.includes(term.toLowerCase())) candidates.push(term);
+      });
+    });
+    return [...new Set(candidates)].sort((a,b)=>b.length-a.length)[0] || '';
+  }
+  async function loadAzhiDescriptionContext(question,dataset){
+    const episode=episodeNumberFromQuestion(question);
+    const term=descriptionSearchTerm(question,dataset);
+    if(!episode && !term) return '本次問題沒有找到需要查詢的特定 YouTube 說明欄；請勿自行編造影片重點。';
+    try{
+      const url=episode ? `${AZHI_COURSE_API_URL}/video/${episode}` : `${AZHI_COURSE_API_URL}/search?q=${encodeURIComponent(term)}`;
+      const res=await fetch(url,{cache:'no-store'});
+      if(!res.ok) throw new Error(`課程說明 API HTTP ${res.status}`);
+      const data=await res.json();
+      const videos=episode ? (data.video ? [data.video] : []) : (Array.isArray(data.results)?data.results:[]);
+      const rows=videos.filter(v=>v && v.description).slice(0,3).map(v=>{
+        const description=String(v.description).replace(/[\n\r]+/g,' ').trim().slice(0,1800);
+        return `第${v.episode||''}集｜${v.title||''}\nYouTube 說明欄：${description}\n影片連結：${v.url||''}`;
+      });
+      return rows.length ? ['相關 YouTube 影片說明欄（請以此作為課程重點來源）：',...rows].join('\n\n') : '找不到相關 YouTube 說明欄內容；請明確說明資料不足，不要猜測。';
+    }catch(err){
+      console.warn('阿智 YouTube 說明欄載入失敗',err);
+      return 'YouTube 說明欄目前無法載入；請明確說明資料不足，不要猜測。';
+    }
   }
   async function buildAzhiPrompt(userText){
     const question=getAzhiQuestion(userText);
-    const courseContext=await loadAzhiCourseContext();
+    const courseDataset=await loadAzhiCourseDataset();
+    const courseContext=formatAzhiCourseContext(courseDataset);
+    const descriptionContext=await loadAzhiDescriptionContext(question,courseDataset);
     const recent=(latestMessages || [])
       .filter(m=>m && m.text && !m.system && !m.deleted)
       .slice(-10)
@@ -207,8 +259,11 @@ const firebaseConfig = {
       '7. 不要假裝自己是真人師父；你是 AI 助教「阿智」。',
       '8. 回答簡潔、親切、有耐心。',
       '9. 影片數量、課程集數、課程標題與課程索引問題，必須以「即時網站課程資料」為準；若資料中顯示 31 部，就回答 31 部，不要回答舊的 29 部。',
+      '10. 如果提供了 YouTube 說明欄，請優先依據說明欄回答課程重點，並在回答中指出第幾集；沒有資料時不要自行補寫。',
       '',
       courseContext,
+      '',
+      descriptionContext,
       '',
       recent ? '最近聊天室上下文（供你理解前後文，最多 10 則）：\n' + recent : '最近聊天室上下文：無',
       '',
