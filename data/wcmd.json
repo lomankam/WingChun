@@ -761,14 +761,14 @@
     {
       "episode": 20,
       "title": {
-        "zh": "盧文錦 師父 授課精華 20 -- 詠春「蹬手」完整解析，實戰應用與核心觀念",
-        "en": "Complete Analysis of Ding Sau: Combat Applications and Core Concepts"
+        "zh": "詠春「蹬手」完整解析，實戰應用與核心觀念",
+        "en": "Complete Analysis of Deng Sau: Combat Applications and Core Concepts"
       },
       "category": {
         "id": "techniques",
         "zh": "特定技巧",
         "en": "Specific Techniques",
-        "status": "confirmed"
+        "status": "draft"
       },
       "tags": [
         "蹬手",
@@ -776,6 +776,8 @@
         "核心觀念"
       ],
       "concepts": [
+        "蹬手",
+        "實戰應用",
         "核心觀念"
       ],
       "skills": [
@@ -793,9 +795,10 @@
         "publishedAt": ""
       },
       "dataStatus": {
-        "youtubeBasic": "confirmed_from_source_pdf",
-        "classification": "confirmed",
-        "englishTitle": "draft"
+        "youtubeBasic": "confirmed_from_youtube_api",
+        "titleEn": "confirmed",
+        "category": "draft",
+        "updatedAt": "2026-07-25"
       }
     },
     {
