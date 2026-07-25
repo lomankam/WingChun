@@ -295,7 +295,7 @@ const firebaseConfig = {
       });
       const data=await res.json().catch(()=>({}));
       const elapsedMs=Math.round((performance.now ? performance.now() : Date.now()) - startedAt);
-      const reply=(data && data.reply ? String(data.reply) : '我是阿智，目前暫時無法回答，請稍後再試。').slice(0,1200);
+      const reply=(data && data.reply ? String(data.reply) : '我是阿智，目前暫時無法回答，請稍後再試。').slice(0,3000);
       await addDoc(chatRefForWrite, {name:AZHI_NAME, text:reply, likedBy:[], adminMessage:false, azhiMessage:true, system:true, azhiElapsedMs:elapsedMs, createdAt:serverTimestamp()});
     }catch(err){
       console.error('Azhi reply failed', err);
