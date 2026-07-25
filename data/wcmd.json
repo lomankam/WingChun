@@ -1214,6 +1214,39 @@
         "category": "draft",
         "updatedAt": "2026-07-25"
       }
+    },
+    {
+      "episode": 32,
+      "title": {
+        "zh": "詠春徒手防身核心技巧與觀念 | 面對持刀攻擊的正確應變方式",
+        "en": "Wing Chun Empty-Hand Self-Defense: Core Skills & How to Respond to a Knife Attack"
+      },
+      "category": {
+        "id": "combat",
+        "zh": "實戰防身",
+        "en": "Combat & Self-defense",
+        "status": "draft"
+      },
+      "tags": [],
+      "concepts": [],
+      "skills": [],
+      "difficulty": "to_be_confirmed",
+      "summary": {
+        "zh": "",
+        "en": ""
+      },
+      "youtube": {
+        "videoId": "2jYsY2FhEcc",
+        "url": "https://youtu.be/2jYsY2FhEcc",
+        "thumbnail": "https://i.ytimg.com/vi/2jYsY2FhEcc/hqdefault.jpg",
+        "publishedAt": "2026-07-25T11:28:26Z"
+      },
+      "dataStatus": {
+        "youtubeBasic": "confirmed_from_youtube_api",
+        "titleEn": "confirmed",
+        "category": "draft",
+        "updatedAt": "2026-07-25"
+      }
     }
   ]
 }
