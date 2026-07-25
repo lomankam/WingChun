@@ -1,0 +1,19 @@
+name = "wingchun-sync"
+main = "worker.js"
+compatibility_date = "2026-07-25"
+
+# Workers AI is exposed in worker.js as env.AI.
+[ai]
+binding = "AI"
+
+# Check the channel uploads playlist every 15 minutes (UTC).
+[triggers]
+crons = ["*/15 * * * *"]
+
+[vars]
+YOUTUBE_CHANNEL_ID = "UCe1GCW5PvXRayPykPNt4R6Q"
+
+# Keep these values in Cloudflare Secrets; do not put them in this file.
+# YOUTUBE_API_KEY
+# GITHUB_TOKEN
+# ADMIN_PASSWORD

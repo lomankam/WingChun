@@ -53,6 +53,15 @@ code{color:#f7d98a}.pill{display:inline-block;border:1px solid #5d4b2c;border-ra
       <p class="muted">支援未列出影片；只要連結正確，系統可取得標題、縮圖與發布日期。</p>
     </div>
 
+    <div class="card">
+      <h2>或修改既有影片</h2>
+      <div class="row">
+        <select id="existingEpisode"><option value="">請選擇要修改的集數</option></select>
+        <button id="loadExistingBtn" class="secondary">載入編輯</button>
+      </div>
+      <p class="muted">載入後可修改英文標題、分類、Tags、Skills 與摘要，再按「確認發布到 GitHub」儲存。</p>
+    </div>
+
     <div class="card hidden" id="resultCard">
       <h2>② 確認資料</h2>
       <div class="grid">
@@ -64,7 +73,7 @@ code{color:#f7d98a}.pill{display:inline-block;border:1px solid #5d4b2c;border-ra
         </div>
       </div>
       <div class="field" style="margin-top:12px"><label>中文標題</label><input id="titleZh"></div>
-      <div class="field"><label>英文標題</label><input id="titleEn" placeholder="例如：Practical Applications of ..."></div>
+      <div class="field"><label>英文標題</label><input id="titleEn" placeholder="留用預設值時，發布會由 Cloudflare Workers AI 自動產生；正式術語優先使用官方字典。"></div>
       <div class="grid3">
         <div class="field"><label>主分類</label><select id="categoryId"></select></div>
         <div class="field"><label>難度</label><select id="difficulty"><option value="to_be_confirmed">待確認</option><option value="Beginner">Beginner</option><option value="Intermediate">Intermediate</option><option value="Advanced">Advanced</option></select></div>
@@ -131,6 +140,16 @@ async function loadWCMD(){
   Object.entries(wcmd.categories||{}).sort((a,b)=>(a[1].order||99)-(b[1].order||99)).forEach(([id,c])=>{
     const opt=document.createElement("option"); opt.value=id; opt.textContent=`${c.zh||id} / ${c.en||""}`; sel.appendChild(opt);
   });
+  const episodeSel=$("existingEpisode");
+  if(episodeSel){
+    episodeSel.innerHTML='<option value="">請選擇要修改的集數</option>';
+    (Array.isArray(wcmd.episodes)?wcmd.episodes:[]).slice().sort((a,b)=>Number(b.episode)-Number(a.episode)).forEach(ep=>{
+      const opt=document.createElement("option");
+      opt.value=String(ep.episode);
+      opt.textContent=`第 ${ep.episode} 集｜${ep.title?.zh||"未命名課程"}`;
+      episodeSel.appendChild(opt);
+    });
+  }
 }
 function showAdmin(){
   $("loginCard").classList.add("hidden");
@@ -145,19 +164,33 @@ async function validateSavedToken(){
     else throw new Error();
   }catch(_){ sessionStorage.removeItem("wingchunAdminToken"); adminToken=""; }
 }
-function fillForm(video){
+function findExisting(video){
+  const videoId=String(video?.videoId||"");
+  const episode=Number(video?.episode||0);
+  return (wcmd?.episodes||[]).find(ep=>{
+    const id=String(ep.youtube?.videoId||"");
+    return (videoId && id===videoId) || (episode && Number(ep.episode)===episode);
+  })||null;
+}
+function fillForm(video,existing=findExisting(video)){
   importedVideo=video;
   const ep=video.episode||extractEpisode(video.title);
   $("thumb").src=video.thumbnail||"";
   $("episode").value=ep||"";
   $("videoId").value=video.videoId||"";
   $("videoUrl").value=video.url||"";
-  $("titleZh").value=cleanTitle(video.title||"");
-  $("titleEn").value=`Episode ${ep||""} — English title pending`;
+  $("titleZh").value=cleanTitle(existing?.title?.zh||video.title||"");
+  $("titleEn").value=existing?.title?.en||`Episode ${ep||""} — English title pending`;
   $("publishedAt").value=video.publishedAt||"";
-  $("tags").value=$("skills").value=$("summaryZh").value=$("summaryEn").value="";
+  $("categoryId").value=existing?.category?.id||$("categoryId").value||"principles";
+  $("difficulty").value=existing?.difficulty||"to_be_confirmed";
+  $("tags").value=(existing?.tags||[]).join("、");
+  $("skills").value=(existing?.skills||[]).join("、");
+  $("summaryZh").value=existing?.summary?.zh||"";
+  $("summaryEn").value=existing?.summary?.en||"";
   $("resultCard").classList.remove("hidden");
   updatePreview();
+  return existing;
 }
 function updatePreview(){
   const tags=splitList($("tags").value);
@@ -206,8 +239,17 @@ $("importBtn").onclick=async()=>{
     const res=await fetch(`${WORKER_BASE}/api/import?url=${encodeURIComponent(url)}`);
     const data=await res.json();
     if(!data.success) throw new Error(data.error||"Import failed");
-    fillForm(data.video); setStatus("影片資料已匯入，請確認英文標題、分類與 Tags。");
+    const existing=fillForm(data.video); setStatus(existing?"已載入既有影片資料，可直接修改英文標題後重新發布。":"影片資料已匯入，請確認英文標題、分類與 Tags。");
   }catch(e){ setStatus("匯入失敗："+e.message,false); }
+};
+$("loadExistingBtn").onclick=()=>{
+  const episode=Number($("existingEpisode").value||0);
+  const existing=(wcmd?.episodes||[]).find(ep=>Number(ep.episode)===episode);
+  if(!existing){ alert("請先選擇要修改的集數"); return; }
+  const youtube=existing.youtube||{};
+  const video={episode:existing.episode,title:existing.title?.zh||"",videoId:youtube.videoId||"",url:youtube.url||"",thumbnail:youtube.thumbnail||"",publishedAt:youtube.publishedAt||""};
+  fillForm(video,existing);
+  setStatus(`已載入第 ${existing.episode} 集，可修改英文標題後重新發布。`);
 };
 $("previewBtn").onclick=updatePreview;
 $("logoutBtn").onclick=()=>{sessionStorage.removeItem("wingchunAdminToken"); location.reload();};
@@ -225,7 +267,9 @@ $("publishBtn").onclick=async()=>{
     const data=await res.json();
     if(res.status===401){sessionStorage.removeItem("wingchunAdminToken");throw new Error("登入已逾時，請重新登入");}
     if(!data.success) throw new Error(data.error||"Publish failed");
-    setStatus(`✅ 發布成功！\n${data.message}\n\n影片數：${data.videoIdsCount}`);
+    const aiTitle=data.episode?.dataStatus?.titleEnSource==='cloudflare_workers_ai'?'\n英文標題：已由 Cloudflare Workers AI 產生':'\n英文標題：使用人工確認版本';
+    setStatus(`✅ 發布成功！\n${data.message}${aiTitle}\n\n影片數：${data.videoIdsCount}`);
+    await loadWCMD();
   }catch(e){ setStatus("發布失敗："+e.message,false); }
 };
 validateSavedToken();
