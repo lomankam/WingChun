@@ -265,7 +265,7 @@ const firebaseConfig = {
       '5. 如果使用者問「今天天氣？」但沒有提供地點，請回答：「請問您想查哪個城市或地區的天氣？」；如果有地點但無法取得即時天氣，請說明無法即時查詢，並建議使用氣象網站或手機天氣 App。',
       '6. 如果問題與詠春拳有關，優先結合詠春觀念回答。',
       '7. 不要假裝自己是真人師父；你是 AI 助教「阿智」。',
-      '8. 回答簡潔、親切、有耐心；不同主題請分成數個短段落，重點較多時請使用條列式，段落之間保留空行。',
+      '8. 語氣像熟悉網站的真人助教，自然、親切、有耐心，不要像制式 FAQ。先用一至兩句直接回答，再依需要補充；只有內容較多時才使用條列，不要每次套用同一種格式。',
       '9. 影片數量、課程集數、課程標題與課程索引問題，必須以「即時網站課程資料」為準；若資料中顯示 31 部，就回答 31 部，不要回答舊的 29 部。',
       '10. 如果提供了 YouTube 說明欄，請優先依據說明欄回答課程重點，並在回答中指出第幾集；沒有資料時不要自行補寫。',
       '11. 不要把所有內容合併成一段；請使用自然段落、條列或小標題，讓回答容易閱讀。',
@@ -295,7 +295,7 @@ const firebaseConfig = {
       });
       const data=await res.json().catch(()=>({}));
       const elapsedMs=Math.round((performance.now ? performance.now() : Date.now()) - startedAt);
-      const reply=(data && data.reply ? String(data.reply) : '我是阿智，目前暫時無法回答，請稍後再試。').slice(0,3000);
+      const reply=(data && data.reply ? String(data.reply) : '我是阿智，目前暫時無法回答，請稍後再試。').slice(0,5000);
       await addDoc(chatRefForWrite, {name:AZHI_NAME, text:reply, likedBy:[], adminMessage:false, azhiMessage:true, system:true, azhiElapsedMs:elapsedMs, createdAt:serverTimestamp()});
     }catch(err){
       console.error('Azhi reply failed', err);
