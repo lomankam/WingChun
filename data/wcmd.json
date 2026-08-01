@@ -2,7 +2,7 @@
   "schemaVersion": "1.0",
   "platformVersion": "V26.0",
   "project": "Master Lo Wing Chun Knowledge Platform",
-  "generatedAt": "2026-07-25",
+  "generatedAt": "2026-08-01",
   "sourceNote": "Updated by WingChun Admin one-click publisher.",
   "categories": {
     "forms": {
@@ -1246,6 +1246,39 @@
         "titleEn": "confirmed",
         "category": "draft",
         "updatedAt": "2026-07-25"
+      }
+    },
+    {
+      "episode": 33,
+      "title": {
+        "zh": "應對持刀攻擊之觀念解析 | 建立固定反應，比招式更重要",
+        "en": "Knife Attack Defense Principles | Building Automatic Responses Is More Important Than Techniques"
+      },
+      "category": {
+        "id": "principles",
+        "zh": "觀念理論",
+        "en": "Concepts & Principles",
+        "status": "draft"
+      },
+      "tags": [],
+      "concepts": [],
+      "skills": [],
+      "difficulty": "to_be_confirmed",
+      "summary": {
+        "zh": "",
+        "en": ""
+      },
+      "youtube": {
+        "videoId": "DGPL08TILZ0",
+        "url": "https://youtu.be/DGPL08TILZ0",
+        "thumbnail": "https://i.ytimg.com/vi/DGPL08TILZ0/hqdefault.jpg",
+        "publishedAt": "2026-08-01T12:41:52Z"
+      },
+      "dataStatus": {
+        "youtubeBasic": "confirmed_from_youtube_api",
+        "titleEn": "confirmed",
+        "category": "draft",
+        "updatedAt": "2026-08-01"
       }
     }
   ]
