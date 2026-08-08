@@ -2,7 +2,7 @@
   "schemaVersion": "1.0",
   "platformVersion": "V26.0",
   "project": "Master Lo Wing Chun Knowledge Platform",
-  "generatedAt": "2026-08-01",
+  "generatedAt": "2026-08-08",
   "sourceNote": "Updated by WingChun Admin one-click publisher.",
   "categories": {
     "forms": {
@@ -1279,6 +1279,39 @@
         "titleEn": "confirmed",
         "category": "draft",
         "updatedAt": "2026-08-01"
+      }
+    },
+    {
+      "episode": 34,
+      "title": {
+        "zh": "詠春真正的防身觀念 | 沒有絕招，只有反應",
+        "en": "Wing Chun’s True Approach to Self-Defense | No Ultimate Move, Only Reaction"
+      },
+      "category": {
+        "id": "principles",
+        "zh": "觀念理論",
+        "en": "Concepts & Principles",
+        "status": "draft"
+      },
+      "tags": [],
+      "concepts": [],
+      "skills": [],
+      "difficulty": "to_be_confirmed",
+      "summary": {
+        "zh": "",
+        "en": ""
+      },
+      "youtube": {
+        "videoId": "waEL-10lXCg",
+        "url": "https://youtu.be/waEL-10lXCg",
+        "thumbnail": "https://i.ytimg.com/vi/waEL-10lXCg/hqdefault.jpg",
+        "publishedAt": "2026-08-08T13:48:30Z"
+      },
+      "dataStatus": {
+        "youtubeBasic": "confirmed_from_youtube_api",
+        "titleEn": "confirmed",
+        "category": "draft",
+        "updatedAt": "2026-08-08"
       }
     }
   ]
