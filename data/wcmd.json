@@ -2,7 +2,7 @@
   "schemaVersion": "1.0",
   "platformVersion": "V26.0",
   "project": "Master Lo Wing Chun Knowledge Platform",
-  "generatedAt": "2026-08-08",
+  "generatedAt": "2026-08-16",
   "sourceNote": "Updated by WingChun Admin one-click publisher.",
   "categories": {
     "forms": {
@@ -1312,6 +1312,39 @@
         "titleEn": "confirmed",
         "category": "draft",
         "updatedAt": "2026-08-08"
+      }
+    },
+    {
+      "episode": 35,
+      "title": {
+        "zh": "詠春實戰中的自然反應 | 面對面的反應與身法",
+        "en": "Natural Responses in Wing Chun Combat | Face-to-Face Reactions and Body Movement"
+      },
+      "category": {
+        "id": "combat",
+        "zh": "實戰防身",
+        "en": "Combat & Self-defense",
+        "status": "draft"
+      },
+      "tags": [],
+      "concepts": [],
+      "skills": [],
+      "difficulty": "to_be_confirmed",
+      "summary": {
+        "zh": "",
+        "en": ""
+      },
+      "youtube": {
+        "videoId": "_waR8h3FeKs",
+        "url": "https://youtu.be/_waR8h3FeKs",
+        "thumbnail": "https://i.ytimg.com/vi/_waR8h3FeKs/hqdefault.jpg",
+        "publishedAt": "2026-08-16T11:12:06Z"
+      },
+      "dataStatus": {
+        "youtubeBasic": "confirmed_from_youtube_api",
+        "titleEn": "confirmed",
+        "category": "draft",
+        "updatedAt": "2026-08-16"
       }
     }
   ]
