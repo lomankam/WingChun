@@ -2,7 +2,7 @@
   "schemaVersion": "1.0",
   "platformVersion": "V26.0",
   "project": "Master Lo Wing Chun Knowledge Platform",
-  "generatedAt": "2026-08-16",
+  "generatedAt": "2026-08-22",
   "sourceNote": "Updated by WingChun Admin one-click publisher.",
   "categories": {
     "forms": {
@@ -1345,6 +1345,39 @@
         "titleEn": "confirmed",
         "category": "draft",
         "updatedAt": "2026-08-16"
+      }
+    },
+    {
+      "episode": 36,
+      "title": {
+        "zh": "詠春近身實戰觀念解析 | 掌握時間換取空間",
+        "en": "Wing Chun Close-Range Combat Concepts | Mastering Timing to Create Space"
+      },
+      "category": {
+        "id": "principles",
+        "zh": "觀念理論",
+        "en": "Concepts & Principles",
+        "status": "draft"
+      },
+      "tags": [],
+      "concepts": [],
+      "skills": [],
+      "difficulty": "to_be_confirmed",
+      "summary": {
+        "zh": "",
+        "en": ""
+      },
+      "youtube": {
+        "videoId": "WttKlUeRFWg",
+        "url": "https://youtu.be/WttKlUeRFWg",
+        "thumbnail": "https://i.ytimg.com/vi/WttKlUeRFWg/hqdefault.jpg",
+        "publishedAt": "2026-08-22T13:29:21Z"
+      },
+      "dataStatus": {
+        "youtubeBasic": "confirmed_from_youtube_api",
+        "titleEn": "confirmed",
+        "category": "draft",
+        "updatedAt": "2026-08-22"
       }
     }
   ]
