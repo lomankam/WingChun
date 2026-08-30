@@ -2,7 +2,7 @@
   "schemaVersion": "1.0",
   "platformVersion": "V26.0",
   "project": "Master Lo Wing Chun Knowledge Platform",
-  "generatedAt": "2026-08-22",
+  "generatedAt": "2026-08-30",
   "sourceNote": "Updated by WingChun Admin one-click publisher.",
   "categories": {
     "forms": {
@@ -1378,6 +1378,39 @@
         "titleEn": "confirmed",
         "category": "draft",
         "updatedAt": "2026-08-22"
+      }
+    },
+    {
+      "episode": 37,
+      "title": {
+        "zh": "詠春「拍手」應用技巧與觀念 | 排除威脅、破壞預設、順勢而行",
+        "en": "Wing Chun Pak Sau Applications, Techniques & Concepts | Neutralize Threats, Disrupt Expectations, and Flow with the Momentum"
+      },
+      "category": {
+        "id": "techniques",
+        "zh": "特定技巧",
+        "en": "Specific Techniques",
+        "status": "draft"
+      },
+      "tags": [],
+      "concepts": [],
+      "skills": [],
+      "difficulty": "to_be_confirmed",
+      "summary": {
+        "zh": "",
+        "en": ""
+      },
+      "youtube": {
+        "videoId": "6BXjuCGyaOE",
+        "url": "https://youtu.be/6BXjuCGyaOE",
+        "thumbnail": "https://i.ytimg.com/vi/6BXjuCGyaOE/hqdefault.jpg",
+        "publishedAt": "2026-08-30T04:58:38Z"
+      },
+      "dataStatus": {
+        "youtubeBasic": "confirmed_from_youtube_api",
+        "titleEn": "confirmed",
+        "category": "draft",
+        "updatedAt": "2026-08-30"
       }
     }
   ]
