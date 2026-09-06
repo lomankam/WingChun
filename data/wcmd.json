@@ -2,7 +2,7 @@
   "schemaVersion": "1.0",
   "platformVersion": "V26.0",
   "project": "Master Lo Wing Chun Knowledge Platform",
-  "generatedAt": "2026-09-05",
+  "generatedAt": "2026-09-06",
   "sourceNote": "Updated by WingChun Admin one-click publisher.",
   "categories": {
     "forms": {
@@ -1444,6 +1444,39 @@
         "titleEn": "confirmed",
         "category": "draft",
         "updatedAt": "2026-09-05"
+      }
+    },
+    {
+      "episode": 39,
+      "title": {
+        "zh": "詠春「綁手」進階變化技巧與運用觀念 | 綁住的不是手，而是對方發揮的機會",
+        "en": "Advanced Wing Chun Bong Sau Variations and Applications | It’s Not About Trapping the Hand, but Limiting Your Opponent’s Options"
+      },
+      "category": {
+        "id": "techniques",
+        "zh": "特定技巧",
+        "en": "Specific Techniques",
+        "status": "draft"
+      },
+      "tags": [],
+      "concepts": [],
+      "skills": [],
+      "difficulty": "to_be_confirmed",
+      "summary": {
+        "zh": "",
+        "en": ""
+      },
+      "youtube": {
+        "videoId": "7d3yFFc-P74",
+        "url": "https://youtu.be/7d3yFFc-P74",
+        "thumbnail": "https://i.ytimg.com/vi/7d3yFFc-P74/hqdefault.jpg",
+        "publishedAt": "2026-09-06T08:23:01Z"
+      },
+      "dataStatus": {
+        "youtubeBasic": "confirmed_from_youtube_api",
+        "titleEn": "confirmed",
+        "category": "draft",
+        "updatedAt": "2026-09-06"
       }
     }
   ]
