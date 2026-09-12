@@ -2,7 +2,7 @@
   "schemaVersion": "1.0",
   "platformVersion": "V26.0",
   "project": "Master Lo Wing Chun Knowledge Platform",
-  "generatedAt": "2026-09-06",
+  "generatedAt": "2026-09-12",
   "sourceNote": "Updated by WingChun Admin one-click publisher.",
   "categories": {
     "forms": {
@@ -1477,6 +1477,39 @@
         "titleEn": "confirmed",
         "category": "draft",
         "updatedAt": "2026-09-06"
+      }
+    },
+    {
+      "episode": 40,
+      "title": {
+        "zh": "詠春「綁手」的延伸應用與實戰思維 | 思想放大！從徒手、摔投到短棒的延伸應用",
+        "en": "Wing Chun “Bong Sau” — Extended Applications & Combat Concepts | Think Beyond the Technique: From Empty Hands and Throws to Short-Stick Applications"
+      },
+      "category": {
+        "id": "techniques",
+        "zh": "特定技巧",
+        "en": "Specific Techniques",
+        "status": "draft"
+      },
+      "tags": [],
+      "concepts": [],
+      "skills": [],
+      "difficulty": "to_be_confirmed",
+      "summary": {
+        "zh": "",
+        "en": ""
+      },
+      "youtube": {
+        "videoId": "3byOFJw2zjY",
+        "url": "https://youtu.be/3byOFJw2zjY",
+        "thumbnail": "https://i.ytimg.com/vi/3byOFJw2zjY/hqdefault.jpg",
+        "publishedAt": "2026-09-12T15:25:19Z"
+      },
+      "dataStatus": {
+        "youtubeBasic": "confirmed_from_youtube_api",
+        "titleEn": "confirmed",
+        "category": "draft",
+        "updatedAt": "2026-09-12"
       }
     }
   ]
