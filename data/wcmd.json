@@ -2,7 +2,7 @@
   "schemaVersion": "1.0",
   "platformVersion": "V26.0",
   "project": "Master Lo Wing Chun Knowledge Platform",
-  "generatedAt": "2026-09-12",
+  "generatedAt": "2026-09-19",
   "sourceNote": "Updated by WingChun Admin one-click publisher.",
   "categories": {
     "forms": {
@@ -1510,6 +1510,39 @@
         "titleEn": "confirmed",
         "category": "draft",
         "updatedAt": "2026-09-12"
+      }
+    },
+    {
+      "episode": 41,
+      "title": {
+        "zh": "詠春「接觸反應」的真正觀念 | 詠春不是背招式，而是練反應",
+        "en": "Understanding “Contact Reflexes” in Wing Chun | Don’t Memorize Techniques—Train Your Reactions"
+      },
+      "category": {
+        "id": "principles",
+        "zh": "觀念理論",
+        "en": "Concepts & Principles",
+        "status": "draft"
+      },
+      "tags": [],
+      "concepts": [],
+      "skills": [],
+      "difficulty": "to_be_confirmed",
+      "summary": {
+        "zh": "",
+        "en": ""
+      },
+      "youtube": {
+        "videoId": "OcAwizGL-2A",
+        "url": "https://youtu.be/OcAwizGL-2A",
+        "thumbnail": "https://i.ytimg.com/vi/OcAwizGL-2A/hqdefault.jpg",
+        "publishedAt": "2026-09-19T13:18:10Z"
+      },
+      "dataStatus": {
+        "youtubeBasic": "confirmed_from_youtube_api",
+        "titleEn": "confirmed",
+        "category": "draft",
+        "updatedAt": "2026-09-19"
       }
     }
   ]
