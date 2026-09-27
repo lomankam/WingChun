@@ -2,7 +2,7 @@
   "schemaVersion": "1.0",
   "platformVersion": "V26.0",
   "project": "Master Lo Wing Chun Knowledge Platform",
-  "generatedAt": "2026-09-19",
+  "generatedAt": "2026-09-27",
   "sourceNote": "Updated by WingChun Admin one-click publisher.",
   "categories": {
     "forms": {
@@ -1543,6 +1543,39 @@
         "titleEn": "confirmed",
         "category": "draft",
         "updatedAt": "2026-09-19"
+      }
+    },
+    {
+      "episode": 42,
+      "title": {
+        "zh": "「不戰而克敵之兵」詠春的制敵觀念 | 順勢而行、掌握人體的「結構弱點」",
+        "en": "“Subduing the Enemy Without Fighting” — Wing Chun’s Approach to Neutralizing an Opponent | Go with the Flow & Exploit the Body’s Structural Weaknesses"
+      },
+      "category": {
+        "id": "principles",
+        "zh": "觀念理論",
+        "en": "Concepts & Principles",
+        "status": "draft"
+      },
+      "tags": [],
+      "concepts": [],
+      "skills": [],
+      "difficulty": "to_be_confirmed",
+      "summary": {
+        "zh": "",
+        "en": ""
+      },
+      "youtube": {
+        "videoId": "6pt3Fzu1zFc",
+        "url": "https://youtu.be/6pt3Fzu1zFc",
+        "thumbnail": "https://i.ytimg.com/vi/6pt3Fzu1zFc/hqdefault.jpg",
+        "publishedAt": "2026-09-27T06:17:21Z"
+      },
+      "dataStatus": {
+        "youtubeBasic": "confirmed_from_youtube_api",
+        "titleEn": "confirmed",
+        "category": "draft",
+        "updatedAt": "2026-09-27"
       }
     }
   ]
