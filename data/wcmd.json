@@ -2,7 +2,7 @@
   "schemaVersion": "1.0",
   "platformVersion": "V26.0",
   "project": "Master Lo Wing Chun Knowledge Platform",
-  "generatedAt": "2026-09-27",
+  "generatedAt": "2026-10-03",
   "sourceNote": "Updated by WingChun Admin one-click publisher.",
   "categories": {
     "forms": {
@@ -1576,6 +1576,39 @@
         "titleEn": "confirmed",
         "category": "draft",
         "updatedAt": "2026-09-27"
+      }
+    },
+    {
+      "episode": 43,
+      "title": {
+        "zh": "從詠春徒手攻防到器械與身法應用 | 兵器是手的延伸，器械不同，拳理相通",
+        "en": "From Wing Chun Empty-Hand Combat to Weapon and Body-Movement Applications | Weapons as Extensions of the Hands, Different Tools but the Same Principles"
+      },
+      "category": {
+        "id": "combat",
+        "zh": "實戰防身",
+        "en": "Combat & Self-defense",
+        "status": "draft"
+      },
+      "tags": [],
+      "concepts": [],
+      "skills": [],
+      "difficulty": "to_be_confirmed",
+      "summary": {
+        "zh": "",
+        "en": ""
+      },
+      "youtube": {
+        "videoId": "XvPE0mCEh30",
+        "url": "https://youtu.be/XvPE0mCEh30",
+        "thumbnail": "https://i.ytimg.com/vi/XvPE0mCEh30/hqdefault.jpg",
+        "publishedAt": "2026-10-03T14:01:03Z"
+      },
+      "dataStatus": {
+        "youtubeBasic": "confirmed_from_youtube_api",
+        "titleEn": "confirmed",
+        "category": "draft",
+        "updatedAt": "2026-10-03"
       }
     }
   ]
