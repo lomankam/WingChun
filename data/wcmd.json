@@ -2,7 +2,7 @@
   "schemaVersion": "1.0",
   "platformVersion": "V26.0",
   "project": "Master Lo Wing Chun Knowledge Platform",
-  "generatedAt": "2026-10-03",
+  "generatedAt": "2026-10-10",
   "sourceNote": "Updated by WingChun Admin one-click publisher.",
   "categories": {
     "forms": {
@@ -1609,6 +1609,39 @@
         "titleEn": "confirmed",
         "category": "draft",
         "updatedAt": "2026-10-03"
+      }
+    },
+    {
+      "episode": 44,
+      "title": {
+        "zh": "詠春的自然反應與下盤應用 | 從沒有固定招式，到手腳身法的自然配合",
+        "en": "Wing Chun's Natural Reactions and Lower Body Applications | From Fixed-Free Techniques to the Natural Coordination of Hands, Feet, and Body Movements"
+      },
+      "category": {
+        "id": "techniques",
+        "zh": "特定技巧",
+        "en": "Specific Techniques",
+        "status": "draft"
+      },
+      "tags": [],
+      "concepts": [],
+      "skills": [],
+      "difficulty": "to_be_confirmed",
+      "summary": {
+        "zh": "",
+        "en": ""
+      },
+      "youtube": {
+        "videoId": "TvIWIHbAMec",
+        "url": "https://youtu.be/TvIWIHbAMec",
+        "thumbnail": "https://i.ytimg.com/vi/TvIWIHbAMec/hqdefault.jpg",
+        "publishedAt": "2026-10-10T09:04:58Z"
+      },
+      "dataStatus": {
+        "youtubeBasic": "confirmed_from_youtube_api",
+        "titleEn": "confirmed",
+        "category": "draft",
+        "updatedAt": "2026-10-10"
       }
     }
   ]
