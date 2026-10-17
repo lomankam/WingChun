@@ -2,7 +2,7 @@
   "schemaVersion": "1.0",
   "platformVersion": "V26.0",
   "project": "Master Lo Wing Chun Knowledge Platform",
-  "generatedAt": "2026-10-10",
+  "generatedAt": "2026-10-17",
   "sourceNote": "Updated by WingChun Admin one-click publisher.",
   "categories": {
     "forms": {
@@ -1642,6 +1642,39 @@
         "titleEn": "confirmed",
         "category": "draft",
         "updatedAt": "2026-10-10"
+      }
+    },
+    {
+      "episode": 45,
+      "title": {
+        "zh": "詠春的自然反應與應變之道｜不求破招，順勢而行，以自身安全為先",
+        "en": "The Art of Natural Reflexes and Adaptation | Beyond Countering Techniques, Flow with the Movement, and Prioritize Self-Protection"
+      },
+      "category": {
+        "id": "combat",
+        "zh": "實戰防身",
+        "en": "Combat & Self-defense",
+        "status": "draft"
+      },
+      "tags": [],
+      "concepts": [],
+      "skills": [],
+      "difficulty": "to_be_confirmed",
+      "summary": {
+        "zh": "",
+        "en": ""
+      },
+      "youtube": {
+        "videoId": "_qJ7NNnJ4pk",
+        "url": "https://youtu.be/_qJ7NNnJ4pk",
+        "thumbnail": "https://i.ytimg.com/vi/_qJ7NNnJ4pk/hqdefault.jpg",
+        "publishedAt": "2026-10-17T15:25:32Z"
+      },
+      "dataStatus": {
+        "youtubeBasic": "confirmed_from_youtube_api",
+        "titleEn": "confirmed",
+        "category": "draft",
+        "updatedAt": "2026-10-17"
       }
     }
   ]
