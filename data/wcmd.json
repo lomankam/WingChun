@@ -2,7 +2,7 @@
   "schemaVersion": "1.0",
   "platformVersion": "V26.0",
   "project": "Master Lo Wing Chun Knowledge Platform",
-  "generatedAt": "2026-10-17",
+  "generatedAt": "2026-10-27",
   "sourceNote": "Updated by WingChun Admin one-click publisher.",
   "categories": {
     "forms": {
@@ -1675,6 +1675,39 @@
         "titleEn": "confirmed",
         "category": "draft",
         "updatedAt": "2026-10-17"
+      }
+    },
+    {
+      "episode": 46,
+      "title": {
+        "zh": "詠春拳的活學活用之道｜手法不拘形式，身法隨勢而變，讓反應成為本能",
+        "en": "The Art of Adaptive Wing Chun | Unbound by Fixed Techniques, Moving with the Flow, Turning Reaction into Instinct"
+      },
+      "category": {
+        "id": "principles",
+        "zh": "觀念理論",
+        "en": "Concepts & Principles",
+        "status": "draft"
+      },
+      "tags": [],
+      "concepts": [],
+      "skills": [],
+      "difficulty": "to_be_confirmed",
+      "summary": {
+        "zh": "",
+        "en": ""
+      },
+      "youtube": {
+        "videoId": "MggFWXafxxA",
+        "url": "https://youtu.be/MggFWXafxxA",
+        "thumbnail": "https://i.ytimg.com/vi/MggFWXafxxA/hqdefault.jpg",
+        "publishedAt": "2026-10-27T04:31:51Z"
+      },
+      "dataStatus": {
+        "youtubeBasic": "confirmed_from_youtube_api",
+        "titleEn": "confirmed",
+        "category": "draft",
+        "updatedAt": "2026-10-27"
       }
     }
   ]
