@@ -5,7 +5,9 @@ const VIDEO_IDS_PATH="data/videoIds.json";
 const WCMD_PATH="data/wcmd.json";
 const TERMINOLOGY_PATH="data/terminology.json";
 const DEFAULT_AI_MODEL="@cf/qwen/qwen3-30b-a3b-fp8";
+const DEFAULT_STT_MODEL="@cf/openai/whisper-large-v3-turbo";
 const MAX_AI_INPUT=12000;
+const MAX_AUDIO_BYTES=8*1024*1024;
 const publicBase=`https://${REPO_OWNER}.github.io/${REPO_NAME}`;
 const corsHeaders={
   "Access-Control-Allow-Origin":"*",
@@ -32,6 +34,22 @@ async function fetchLatestUploads(env,playlistId){const data=await youtubeJson(e
 function terminologyLines(terminology){return Object.entries(terminology?.terms||{}).map(([key,t])=>{const zh=String(t?.zh||key).trim(),en=String(t?.official_en||t?.en||"").trim(),legacy=Array.isArray(t?.legacy_en)?t.legacy_en.filter(Boolean):[];return en?`${zh} = ${en}${legacy.length?`（舊用字：${legacy.join("、")}）`:""}`:"";}).filter(Boolean);}
 function glossaryInstruction(terminology){const lines=terminologyLines(terminology);return[`官方術語字典版本：${Number(terminology?.version)||0}`,"術語使用規則：只要中文內容包含字典術語，英文必須使用 official_en；不要自行改寫或翻譯已核准術語；未知術語請標記為待確認。",lines.length?`官方術語對照：\n${lines.join("\n")}`:"官方術語字典目前沒有可用資料。"].join("\n");}
 function aiText(result){if(typeof result==="string")return result.trim();return String(result?.response||result?.result?.response||result?.output_text||"").trim();}
+function cleanAudioBase64(raw=""){return String(raw||"").replace(/^data:[^;]+;base64,/i,"").replace(/\s+/g,"").trim();}
+function estimatedBase64Bytes(value=""){const text=String(value||"");return Math.max(0,Math.floor(text.length*3/4)-(text.endsWith("==")?2:text.endsWith("=")?1:0));}
+function speechLanguage(raw=""){const lang=String(raw||"").trim().toLowerCase().split("-")[0];return ["zh","en","ja","ko"].includes(lang)?lang:"zh";}
+async function transcribeAudio(request,env){
+  if(!env.AI)throw new Error("Workers AI binding is not configured");
+  const body=await request.json();
+  const audio=cleanAudioBase64(body.audio);
+  if(!audio)return json({success:false,error:"Missing audio"},400);
+  if(estimatedBase64Bytes(audio)>MAX_AUDIO_BYTES)return json({success:false,error:"Audio is too large"},413);
+  if(!/^[A-Za-z0-9+/]+={0,2}$/.test(audio))return json({success:false,error:"Invalid audio encoding"},400);
+  const language=speechLanguage(body.language);
+  const result=await env.AI.run(env.STT_MODEL||DEFAULT_STT_MODEL,{audio,task:"transcribe",language,vad_filter:true,initial_prompt:language==="zh"?"世界盧文錦詠春拳總會、盧文錦師父、詠春拳、黐手、尋橋、標指、阿智。":"Wing Chun, Master Lo Man Kam, Ah Chi."});
+  const text=String(result?.text||result?.transcription_info?.text||"").trim();
+  if(!text)return json({success:false,error:"No speech detected"},422);
+  return json({success:true,text,model:env.STT_MODEL||DEFAULT_STT_MODEL,language});
+}
 function languageInstructionFromMessage(message){const marker="使用者這次的問題：",index=String(message||"").lastIndexOf(marker),question=String(message||"").slice(index>=0?index+marker.length:0).trim();if(/[ぁ-ゖァ-ヺ]/u.test(question))return"回答語言：請完整使用日文回答。";if(/[가-힣]/u.test(question))return"回答語言：請完整使用韓文回答。";if(/[一-鿿]/u.test(question))return"回答語言：請完整使用繁體中文回答。";if(/[A-Za-z]/.test(question))return"回答語言：請完整使用英文回答。";return"回答語言：請使用與提問者相同的語言回答。";}
 function cleanAiTitle(text){return String(text||"").replace(/^```[a-z]*\s*/i,"").replace(/```$/g,"").replace(/^\s*["'「『]|["'」』]\s*$/g,"").split(/[\n\r]/)[0].trim().slice(0,240);}
 function applyGlossary(text,terminology){let result=String(text||"");const terms=Object.entries(terminology?.terms||{}).map(([key,t])=>({zh:String(t?.zh||key),en:String(t?.official_en||t?.en||""),legacy:Array.isArray(t?.legacy_en)?t.legacy_en:[],aliases:Array.isArray(t?.aliases)?t.aliases:[]})).filter(t=>t.en).sort((a,b)=>b.zh.length-a.zh.length);for(const term of terms){for(const old of [...term.legacy,...term.aliases]){const escaped=String(old).replace(/[.*+?^${}()|[\]\\]/g,"\\$&");result=result.replace(new RegExp(escaped,"giu"),term.en);}const escapedZh=term.zh.replace(/[.*+?^${}()|[\]\\]/g,"\\$&");result=result.replace(new RegExp(escapedZh,"gu"),term.en);}return result;}
@@ -52,10 +70,11 @@ async function publishEpisode(request,env){await requireSession(env,request);con
 async function syncYouTubeUploads(env){if(!env.YOUTUBE_API_KEY||!env.GITHUB_TOKEN||!env.AI)return{skipped:true,reason:"Missing YOUTUBE_API_KEY, GITHUB_TOKEN, or Workers AI binding"};const playlistId=await getUploadsPlaylistId(env);if(!playlistId)return{skipped:true,reason:"Missing YouTube uploads playlist"};const latestIds=await fetchLatestUploads(env,playlistId);if(!latestIds.length)return{added:0};const [idsFile,wcmdFile]=await Promise.all([ghGetFile(env,VIDEO_IDS_PATH),ghGetFile(env,WCMD_PATH)]);const existingIds=new Set((Array.isArray(idsFile.data)?idsFile.data:[]).map(String));const newIds=latestIds.filter(id=>!existingIds.has(id));if(!newIds.length)return{added:0};const videos=await fetchVideosByIds(env,newIds,true);const terminology=await getTerminology();let wcmd=wcmdFile.data||{schemaVersion:"1.0",categories:{},episodes:[]};if(!Array.isArray(wcmd.episodes))wcmd.episodes=[];const added=[];for(const video of videos){if(!video.episode)continue;const existing=wcmd.episodes.find(e=>Number(e.episode)===Number(video.episode));if(existing)continue;const form={episode:video.episode,titleZh:video.title,titleEnSource:"cloudflare_workers_ai",categoryId:"principles",tags:[],concepts:[],skills:[],difficulty:"to_be_confirmed",summaryZh:"",summaryEn:""};form.titleEn=await generateEnglishTitle(env,video.title,video.description||"",terminology);const entry=buildEpisodeEntry(wcmd,video,{...form,terminologyVersion:Number(terminology.version)||0});wcmd.episodes.push(entry);added.push(video.videoId);}
 if(!added.length)return{added:0,detected:newIds.length};wcmd.episodes.sort((a,b)=>Number(a.episode)-Number(b.episode));wcmd.platformVersion="V26.0";wcmd.generatedAt=today();const ids=[...new Set([...existingIds,...added])];const msg=`Scheduled YouTube sync: ${added.length} episode(s)`;await ghPutFile(env,VIDEO_IDS_PATH,ids,msg+" videoIds",idsFile.sha);await ghPutFile(env,WCMD_PATH,wcmd,msg+" WCMD",wcmdFile.sha);return{added:added.length,episodes:wcmd.episodes.filter(e=>added.includes(e.youtube?.videoId)).map(e=>e.episode)};}
 export default{async scheduled(controller,env,ctx){ctx.waitUntil(syncYouTubeUploads(env).catch(error=>console.error("Scheduled YouTube sync failed",error)));},async fetch(request,env){const url=new URL(request.url);if(request.method==="OPTIONS")return new Response(null,{headers:corsHeaders});try{
-if(url.pathname==="/"||url.pathname==="/api/health")return json({success:true,service:"wingchun-sync",version:"8.2.0",status:"running",githubEnabled:Boolean(env.GITHUB_TOKEN),adminEnabled:Boolean(env.ADMIN_PASSWORD),workersAIEnabled:Boolean(env.AI),aiModel:env.AI_MODEL||DEFAULT_AI_MODEL,repo:`${REPO_OWNER}/${REPO_NAME}`});
+if(url.pathname==="/"||url.pathname==="/api/health")return json({success:true,service:"wingchun-sync",version:"8.3.0",status:"running",githubEnabled:Boolean(env.GITHUB_TOKEN),adminEnabled:Boolean(env.ADMIN_PASSWORD),workersAIEnabled:Boolean(env.AI),aiModel:env.AI_MODEL||DEFAULT_AI_MODEL,speechToTextEnabled:Boolean(env.AI),speechToTextModel:env.STT_MODEL||DEFAULT_STT_MODEL,repo:`${REPO_OWNER}/${REPO_NAME}`});
 if(url.pathname==="/api/admin/login"&&request.method==="POST"){if(!env.ADMIN_PASSWORD)return json({success:false,error:"ADMIN_PASSWORD is not configured"},503);const body=await request.json();if(body.password!==env.ADMIN_PASSWORD)return json({success:false,error:"密碼錯誤"},401);return json({success:true,token:await createSession(env),expiresIn:7200});}
 if(url.pathname==="/api/admin/session")return json({success:await verifySession(env,request)},(await verifySession(env,request))?200:401);
 if(url.pathname==="/api/ai/chat"&&request.method==="POST")return await aiChat(request,env);
+if(url.pathname==="/api/ai/transcribe"&&request.method==="POST")return await transcribeAudio(request,env);
 if(url.pathname==="/api/import"){const input=url.searchParams.get("url")||url.searchParams.get("id")||"";return json({success:true,video:await fetchOneVideo(env,input)});}
 if(url.pathname==="/api/admin/publish"&&request.method==="POST")return await publishEpisode(request,env);
 if(url.pathname==="/api/videos"){const ids=await getVideoIds(),videos=await fetchVideosByIds(env,ids,false);return json({success:true,source:"data/videoIds.json",count:videos.length,videos});}

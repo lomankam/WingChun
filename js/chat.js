@@ -45,6 +45,13 @@ const firebaseConfig = {
   const callAiBtn=document.getElementById('callAiBtn');
   const clearBtn=document.getElementById('chatClear');
   const toolsText=document.querySelector('.chatTools span');
+  const voiceAssistant=document.getElementById('voiceAssistant');
+  const voiceRecordBtn=document.getElementById('voiceRecordBtn');
+  const voiceRecordLabel=document.getElementById('voiceRecordLabel');
+  const voiceStopSpeakingBtn=document.getElementById('voiceStopSpeakingBtn');
+  const voiceAutoSend=document.getElementById('voiceAutoSend');
+  const voiceAutoSpeak=document.getElementById('voiceAutoSpeak');
+  const voiceStatus=document.getElementById('voiceStatus');
   const onlineCountEl=document.getElementById('onlineCount');
   const onlineCountMiniEl=document.getElementById('onlineCountMini');
   const messageCountEl=document.getElementById('messageCount');
@@ -80,8 +87,193 @@ const firebaseConfig = {
   let chatControl={disabled:false, closeAt:null, openAt:null};
   let chatClosed=false;
   let azhiCourseDatasetPromise=null;
+  let voiceMediaRecorder=null;
+  let voiceMediaStream=null;
+  let voiceAudioChunks=[];
+  let voiceRecordingTimer=null;
+  let voiceRecordingTicker=null;
+  let voiceRecordingStartedAt=0;
+  let speechRunId=0;
+  const AZHI_TRANSCRIBE_URL=AZHI_WORKER_URL.replace(/\/chat$/, '/transcribe');
+  const MAX_RECORDING_MS=45000;
   const reservedNames=['管理員','admin','administrator','系統','版主','站長','阿智','AI','ai','Azhi','azhi','Assistant','assistant','ChatGPT','chatgpt','Gemini','gemini','Claude','claude'];
   if(!box||!form) return;
+
+  function englishUI(){return document.documentElement.dataset.lang==='en';}
+  function voiceText(zh,en){return englishUI()?en:zh;}
+  function setVoiceState(state,message){
+    if(!voiceAssistant) return;
+    voiceAssistant.classList.toggle('is-recording',state==='recording');
+    voiceAssistant.classList.toggle('is-processing',state==='processing');
+    voiceAssistant.classList.toggle('is-speaking',state==='speaking');
+    if(voiceStatus&&message) voiceStatus.textContent=message;
+    if(voiceStopSpeakingBtn) voiceStopSpeakingBtn.disabled=state!=='speaking';
+  }
+  function setRecordLabel(recording,elapsedSeconds=0){
+    if(!voiceRecordLabel||!voiceRecordBtn) return;
+    voiceRecordLabel.textContent=recording?voiceText(`停止錄音（${elapsedSeconds} 秒）`,`Stop recording (${elapsedSeconds}s)`):voiceText('開始說話','Start speaking');
+    voiceRecordBtn.setAttribute('aria-pressed',recording?'true':'false');
+  }
+  function cleanupRecording(){
+    clearTimeout(voiceRecordingTimer);
+    clearInterval(voiceRecordingTicker);
+    voiceRecordingTimer=null;
+    voiceRecordingTicker=null;
+    if(voiceMediaStream){voiceMediaStream.getTracks().forEach(track=>track.stop());voiceMediaStream=null;}
+    voiceMediaRecorder=null;
+    setRecordLabel(false);
+  }
+  function preferredRecordingMimeType(){
+    if(!window.MediaRecorder||!MediaRecorder.isTypeSupported) return '';
+    return ['audio/webm;codecs=opus','audio/webm','audio/mp4','audio/ogg;codecs=opus'].find(type=>MediaRecorder.isTypeSupported(type))||'';
+  }
+  function blobToBase64(blob){
+    return new Promise((resolve,reject)=>{
+      const reader=new FileReader();
+      reader.onload=()=>resolve(String(reader.result||'').split(',')[1]||'');
+      reader.onerror=()=>reject(reader.error||new Error('Audio encoding failed'));
+      reader.readAsDataURL(blob);
+    });
+  }
+  function stopSpeaking(message){
+    speechRunId+=1;
+    if('speechSynthesis' in window) window.speechSynthesis.cancel();
+    setVoiceState('idle',message||voiceText('已停止朗讀，可以繼續說話。','Speech stopped. You can continue speaking.'));
+  }
+  function speechLanguage(text){
+    const value=String(text||'');
+    if(/[ぁ-ゖァ-ヺ]/u.test(value)) return 'ja-JP';
+    if(/[가-힣]/u.test(value)) return 'ko-KR';
+    if(/[一-鿿]/u.test(value)) return 'zh-TW';
+    return 'en-US';
+  }
+  function speechVoice(lang){
+    const voices=window.speechSynthesis?.getVoices?.()||[];
+    const exact=voices.find(voice=>String(voice.lang||'').toLowerCase()===lang.toLowerCase());
+    if(exact) return exact;
+    const base=lang.split('-')[0].toLowerCase();
+    return voices.find(voice=>String(voice.lang||'').toLowerCase().startsWith(base))||null;
+  }
+  function cleanSpeechText(text){
+    return String(text||'')
+      .replace(/https?:\/\/\S+/g,voiceText('連結','link'))
+      .replace(/[`*_#>~]/g,' ')
+      .replace(/\s+/g,' ')
+      .trim();
+  }
+  function speechChunks(text,maxLength=180){
+    const sentences=cleanSpeechText(text).split(/(?<=[。！？!?；;])\s*/u).filter(Boolean);
+    const chunks=[];
+    sentences.forEach(sentence=>{
+      if(sentence.length<=maxLength){chunks.push(sentence);return;}
+      for(let i=0;i<sentence.length;i+=maxLength) chunks.push(sentence.slice(i,i+maxLength));
+    });
+    return chunks;
+  }
+  async function speakAzhiReply(text){
+    if(!voiceAutoSpeak?.checked||!('speechSynthesis' in window)||!window.SpeechSynthesisUtterance){
+      setVoiceState('idle',voiceText('阿智已回答，可以繼續說話。','Ah Chi replied. You can continue speaking.'));
+      return;
+    }
+    stopSpeaking();
+    const runId=speechRunId;
+    const chunks=speechChunks(text);
+    if(!chunks.length) return;
+    setVoiceState('speaking',voiceText('阿智正在朗讀回答；可以隨時按「停止朗讀」。','Ah Chi is reading the reply aloud. You can stop at any time.'));
+    const lang=speechLanguage(text);
+    const voice=speechVoice(lang);
+    for(const chunk of chunks){
+      if(runId!==speechRunId) return;
+      await new Promise(resolve=>{
+        const utterance=new SpeechSynthesisUtterance(chunk);
+        utterance.lang=lang;
+        utterance.rate=lang==='zh-TW'?0.95:1;
+        utterance.pitch=1;
+        if(voice) utterance.voice=voice;
+        utterance.onend=resolve;
+        utterance.onerror=resolve;
+        window.speechSynthesis.speak(utterance);
+      });
+    }
+    if(runId===speechRunId) setVoiceState('idle',voiceText('朗讀完成，可以繼續說話。','Reading finished. You can continue speaking.'));
+  }
+  async function transcribeRecording(blob){
+    setVoiceState('processing',voiceText('正在辨識語音，請稍候……','Transcribing your speech…'));
+    if(voiceRecordBtn) voiceRecordBtn.disabled=true;
+    try{
+      const audio=await blobToBase64(blob);
+      const res=await fetch(AZHI_TRANSCRIBE_URL,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({audio,mimeType:blob.type,language:englishUI()?'en':'zh'})});
+      const data=await res.json().catch(()=>({}));
+      if(!res.ok||!data.success||!data.text) throw new Error(data.error||`Speech recognition HTTP ${res.status}`);
+      const transcript=String(data.text).trim().slice(0,270);
+      if(!transcript) throw new Error('No speech detected');
+      textInput.value=`${englishUI()?'@Azhi':'@阿智'} ${transcript}`;
+      textInput.dispatchEvent(new Event('input',{bubbles:true}));
+      if(voiceAutoSend?.checked){
+        setVoiceState('processing',voiceText(`已辨識：「${transcript}」\n正在送給阿智……`,`Transcribed: “${transcript}”\nSending to Ah Chi…`));
+        form.requestSubmit();
+      }else{
+        setVoiceState('idle',voiceText(`已辨識：「${transcript}」\n請確認文字後按「送出」。`,`Transcribed: “${transcript}”\nReview the text, then press Send.`));
+        textInput.focus();
+      }
+    }catch(err){
+      console.error('Voice transcription failed',err);
+      const noSpeech=String(err?.message||'').includes('No speech');
+      setVoiceState('idle',noSpeech?voiceText('沒有辨識到清楚語音，請靠近麥克風再試一次。','No clear speech was detected. Please try again closer to the microphone.'):voiceText('語音辨識暫時失敗，請稍後再試或直接輸入文字。','Speech recognition failed. Please try again or type your message.'));
+    }finally{
+      if(voiceRecordBtn) voiceRecordBtn.disabled=isKicked||(chatClosed&&!isAdmin);
+    }
+  }
+  async function handleRecordingStopped(){
+    const mimeType=voiceMediaRecorder?.mimeType||voiceAudioChunks[0]?.type||'audio/webm';
+    const blob=new Blob(voiceAudioChunks,{type:mimeType});
+    voiceAudioChunks=[];
+    cleanupRecording();
+    if(blob.size<800){setVoiceState('idle',voiceText('錄音太短，請再試一次。','The recording was too short. Please try again.'));return;}
+    await transcribeRecording(blob);
+  }
+  async function startRecording(){
+    if(!navigator.mediaDevices?.getUserMedia||!window.MediaRecorder){
+      setVoiceState('idle',voiceText('這個瀏覽器不支援語音錄音，請改用最新版 Google Chrome。','This browser does not support voice recording. Please use the latest Google Chrome.'));
+      return;
+    }
+    if(isKicked||chatClosed&&!isAdmin) return;
+    stopSpeaking(voiceText('麥克風準備中……','Preparing the microphone…'));
+    try{
+      voiceMediaStream=await navigator.mediaDevices.getUserMedia({audio:{echoCancellation:true,noiseSuppression:true,autoGainControl:true},video:false});
+      const mimeType=preferredRecordingMimeType();
+      voiceMediaRecorder=new MediaRecorder(voiceMediaStream,mimeType?{mimeType}:undefined);
+      voiceAudioChunks=[];
+      voiceMediaRecorder.ondataavailable=event=>{if(event.data?.size) voiceAudioChunks.push(event.data);};
+      voiceMediaRecorder.onstop=handleRecordingStopped;
+      voiceMediaRecorder.onerror=event=>{console.error('MediaRecorder error',event.error||event);cleanupRecording();setVoiceState('idle',voiceText('錄音發生錯誤，請重新嘗試。','A recording error occurred. Please try again.'));};
+      voiceMediaRecorder.start(250);
+      voiceRecordingStartedAt=Date.now();
+      setRecordLabel(true,0);
+      setVoiceState('recording',voiceText('正在聆聽……說完後再按一次麥克風。最長可錄 45 秒。','Listening… Press the microphone again when finished. Maximum 45 seconds.'));
+      voiceRecordingTicker=setInterval(()=>setRecordLabel(true,Math.min(45,Math.floor((Date.now()-voiceRecordingStartedAt)/1000))),1000);
+      voiceRecordingTimer=setTimeout(()=>stopRecording(),MAX_RECORDING_MS);
+    }catch(err){
+      console.error('Microphone permission failed',err);
+      cleanupRecording();
+      const denied=err?.name==='NotAllowedError'||err?.name==='PermissionDeniedError';
+      setVoiceState('idle',denied?voiceText('麥克風權限未開啟。請允許這個網站使用麥克風後再試。','Microphone access is blocked. Allow microphone access for this site and try again.'):voiceText('無法開啟麥克風，請檢查裝置後再試。','Unable to open the microphone. Please check your device and try again.'));
+    }
+  }
+  function stopRecording(){
+    if(voiceMediaRecorder?.state==='recording'){
+      clearTimeout(voiceRecordingTimer);
+      clearInterval(voiceRecordingTicker);
+      setVoiceState('processing',voiceText('錄音完成，正在準備辨識……','Recording complete. Preparing transcription…'));
+      voiceMediaRecorder.stop();
+    }
+  }
+
+  if(voiceAutoSend){voiceAutoSend.checked=localStorage.getItem('wingchun-voice-auto-send')!=='false';voiceAutoSend.addEventListener('change',()=>localStorage.setItem('wingchun-voice-auto-send',String(voiceAutoSend.checked)));}
+  if(voiceAutoSpeak){voiceAutoSpeak.checked=localStorage.getItem('wingchun-voice-auto-speak')!=='false';voiceAutoSpeak.addEventListener('change',()=>{localStorage.setItem('wingchun-voice-auto-speak',String(voiceAutoSpeak.checked));if(!voiceAutoSpeak.checked)stopSpeaking(voiceText('自動朗讀已關閉。','Automatic reading is off.'));});}
+  voiceRecordBtn?.addEventListener('click',()=>{if(voiceMediaRecorder?.state==='recording')stopRecording();else startRecording();});
+  voiceStopSpeakingBtn?.addEventListener('click',()=>stopSpeaking());
+  if(!navigator.mediaDevices?.getUserMedia||!window.MediaRecorder){if(voiceRecordBtn)voiceRecordBtn.disabled=true;setVoiceState('idle',voiceText('請使用最新版 Google Chrome，才能啟用語音對話。','Use the latest Google Chrome to enable voice conversation.'));}
 
   function getOrCreateId(storageKey){
     let id=localStorage.getItem(storageKey);
@@ -283,6 +475,7 @@ const firebaseConfig = {
   async function sendAzhiReply(userText, chatRefForWrite, sourceMessageId){
     if(!isAzhiRequest(userText)) return;
     const startedAt = performance.now ? performance.now() : Date.now();
+    setVoiceState('processing',voiceText('阿智正在思考回答……','Ah Chi is preparing a reply…'));
     if(sourceMessageId){
       azhiPendingMessageIds.add(sourceMessageId);
       renderMessages(latestMessages);
@@ -297,8 +490,10 @@ const firebaseConfig = {
       const elapsedMs=Math.round((performance.now ? performance.now() : Date.now()) - startedAt);
       const reply=(data && data.reply ? String(data.reply) : '我是阿智，目前暫時無法回答，請稍後再試。').slice(0,5000);
       await addDoc(chatRefForWrite, {name:AZHI_NAME, text:reply, likedBy:[], adminMessage:false, azhiMessage:true, system:true, azhiElapsedMs:elapsedMs, createdAt:serverTimestamp()});
+      speakAzhiReply(reply);
     }catch(err){
       console.error('Azhi reply failed', err);
+      setVoiceState('idle',voiceText('阿智目前連線不穩，請稍後再試。','Ah Chi is temporarily unavailable. Please try again later.'));
       try{ await addDoc(chatRefForWrite, {name:AZHI_NAME, text:'我是阿智，目前連線暫時不穩，請稍後再問我一次。', likedBy:[], adminMessage:false, azhiMessage:true, system:true, createdAt:serverTimestamp()}); }catch(e){}
     }finally{
       if(sourceMessageId){
@@ -407,6 +602,8 @@ const firebaseConfig = {
     const sendBtn=form ? form.querySelector('.chatSend') : null;
     if(sendBtn) sendBtn.disabled = shouldDisable;
     if(callAiBtn) callAiBtn.disabled = shouldDisable;
+    if(voiceRecordBtn) voiceRecordBtn.disabled = shouldDisable||!navigator.mediaDevices?.getUserMedia||!window.MediaRecorder;
+    if(shouldDisable&&voiceMediaRecorder?.state==='recording') stopRecording();
     if(isKicked){
       renderMessages([{id:'kicked', name:'系統', text:(isBanned ? '你已被管理員列入黑名單，暫時無法傳送訊息或按讚。' : '你已被管理員踢出本次聊天室，重新整理後可再嘗試加入。'), time:new Date().toISOString(), system:true, likedBy:[]}]);
     }
