@@ -66,13 +66,47 @@ async function hmac(secret,text){const key=await crypto.subtle.importKey("raw",n
 async function createSession(env){if(!env.ADMIN_PASSWORD)throw new Error("ADMIN_PASSWORD is not configured");const payload={exp:Date.now()+2*60*60*1000,nonce:crypto.randomUUID()};const body=btoa(JSON.stringify(payload)).replace(/\+/g,"-").replace(/\//g,"_").replace(/=+$/,"");const sig=await hmac(env.ADMIN_PASSWORD,body);return `${body}.${sig}`;}
 async function verifySession(env,request){if(!env.ADMIN_PASSWORD)return false;const auth=request.headers.get("Authorization")||"";const token=auth.replace(/^Bearer\s+/i,"");const [body,sig]=token.split(".");if(!body||!sig)return false;const expected=await hmac(env.ADMIN_PASSWORD,body);if(sig!==expected)return false;try{const json=JSON.parse(atob(body.replace(/-/g,"+").replace(/_/g,"/")));return Number(json.exp)>Date.now();}catch(_){return false;}}
 async function requireSession(env,request){if(!(await verifySession(env,request)))throw new Error("Unauthorized");if(!env.GITHUB_TOKEN)throw new Error("Missing GITHUB_TOKEN");}
+async function verifyAdminSession(env,request){
+  if(await verifySession(env,request))return true;
+  const origin=String(env.ADMIN_SESSION_ORIGIN||"").replace(/\/$/,"");
+  const authorization=request.headers.get("Authorization")||"";
+  if(!origin||!authorization)return false;
+  try{const response=await fetch(`${origin}/api/admin/session`,{headers:{Authorization:authorization},cf:{cacheTtl:0}});const data=await response.json();return response.ok&&data.success===true;}catch(_){return false;}
+}
+async function requireAdminSession(env,request){if(!(await verifyAdminSession(env,request)))throw new Error("Unauthorized");}
+function visitorCountryCode(request){const country=String(request.cf?.country||request.headers.get("CF-IPCountry")||"").trim().toUpperCase();return /^[A-Z]{2}$/.test(country)?country:"UN";}
+async function recordVisit(request,env){
+  if(!env.VISITOR_STATS)return json({success:false,error:"Visitor statistics database is not configured"},503);
+  const countryCode=visitorCountryCode(request),now=new Date().toISOString();
+  await env.VISITOR_STATS.prepare(`
+    INSERT INTO visitor_country_counts (country_code, visit_count, last_seen_at)
+    VALUES (?1, 1, ?2)
+    ON CONFLICT(country_code) DO UPDATE SET
+      visit_count = visitor_country_counts.visit_count + 1,
+      last_seen_at = excluded.last_seen_at
+  `).bind(countryCode,now).run();
+  return json({success:true});
+}
+async function visitorStats(request,env){
+  await requireAdminSession(env,request);
+  if(!env.VISITOR_STATS)return json({success:false,error:"Visitor statistics database is not configured"},503);
+  const result=await env.VISITOR_STATS.prepare(`
+    SELECT country_code AS countryCode, visit_count AS visitCount, last_seen_at AS lastSeenAt
+    FROM visitor_country_counts
+    ORDER BY visit_count DESC, country_code ASC
+  `).all();
+  const countries=result.results||[];
+  return json({success:true,totalVisits:countries.reduce((sum,country)=>sum+Number(country.visitCount||0),0),countries,generatedAt:new Date().toISOString()});
+}
 async function publishEpisode(request,env){await requireSession(env,request);const body=await request.json();const video=body.video?.videoId?body.video:await fetchOneVideo(env,body.videoUrl||body.url||body.id||"");const terminology=await getTerminology();const form={...(body.entry||{})};const generated=await autoTitleForEntry(env,video,form,terminology);form.titleEn=generated.title;form.titleEnSource=generated.source;form.terminologyVersion=Number(terminology.version)||0;const [idsFile,wcmdFile]=await Promise.all([ghGetFile(env,VIDEO_IDS_PATH),ghGetFile(env,WCMD_PATH)]);const ids=[...new Set([...(Array.isArray(idsFile.data)?idsFile.data:[]),video.videoId])];let wcmd=wcmdFile.data||{schemaVersion:"1.0",categories:{},episodes:[]};if(!Array.isArray(wcmd.episodes))wcmd.episodes=[];const entry=buildEpisodeEntry(wcmd,video,form);const idx=wcmd.episodes.findIndex(e=>Number(e.episode)===entry.episode);if(idx>=0)wcmd.episodes[idx]={...wcmd.episodes[idx],...entry};else wcmd.episodes.push(entry);wcmd.episodes.sort((a,b)=>Number(a.episode)-Number(b.episode));wcmd.platformVersion="V26.0";wcmd.generatedAt=today();const msg=`Admin: publish episode ${entry.episode}`;await ghPutFile(env,VIDEO_IDS_PATH,ids,`${msg} videoIds`,idsFile.sha);await ghPutFile(env,WCMD_PATH,wcmd,`${msg} WCMD`,wcmdFile.sha);return json({success:true,message:`Episode ${entry.episode} published. GitHub Pages may take 1–3 minutes.`,videoIdsCount:ids.length,episode:entry});}
 async function syncYouTubeUploads(env){if(!env.YOUTUBE_API_KEY||!env.GITHUB_TOKEN||!env.AI)return{skipped:true,reason:"Missing YOUTUBE_API_KEY, GITHUB_TOKEN, or Workers AI binding"};const playlistId=await getUploadsPlaylistId(env);if(!playlistId)return{skipped:true,reason:"Missing YouTube uploads playlist"};const latestIds=await fetchLatestUploads(env,playlistId);if(!latestIds.length)return{added:0};const [idsFile,wcmdFile]=await Promise.all([ghGetFile(env,VIDEO_IDS_PATH),ghGetFile(env,WCMD_PATH)]);const existingIds=new Set((Array.isArray(idsFile.data)?idsFile.data:[]).map(String));const newIds=latestIds.filter(id=>!existingIds.has(id));if(!newIds.length)return{added:0};const videos=await fetchVideosByIds(env,newIds,true);const terminology=await getTerminology();let wcmd=wcmdFile.data||{schemaVersion:"1.0",categories:{},episodes:[]};if(!Array.isArray(wcmd.episodes))wcmd.episodes=[];const added=[];for(const video of videos){if(!video.episode)continue;const existing=wcmd.episodes.find(e=>Number(e.episode)===Number(video.episode));if(existing)continue;const form={episode:video.episode,titleZh:video.title,titleEnSource:"cloudflare_workers_ai",categoryId:"principles",tags:[],concepts:[],skills:[],difficulty:"to_be_confirmed",summaryZh:"",summaryEn:""};form.titleEn=await generateEnglishTitle(env,video.title,video.description||"",terminology);const entry=buildEpisodeEntry(wcmd,video,{...form,terminologyVersion:Number(terminology.version)||0});wcmd.episodes.push(entry);added.push(video.videoId);}
 if(!added.length)return{added:0,detected:newIds.length};wcmd.episodes.sort((a,b)=>Number(a.episode)-Number(b.episode));wcmd.platformVersion="V26.0";wcmd.generatedAt=today();const ids=[...new Set([...existingIds,...added])];const msg=`Scheduled YouTube sync: ${added.length} episode(s)`;await ghPutFile(env,VIDEO_IDS_PATH,ids,msg+" videoIds",idsFile.sha);await ghPutFile(env,WCMD_PATH,wcmd,msg+" WCMD",wcmdFile.sha);return{added:added.length,episodes:wcmd.episodes.filter(e=>added.includes(e.youtube?.videoId)).map(e=>e.episode)};}
 export default{async scheduled(controller,env,ctx){ctx.waitUntil(syncYouTubeUploads(env).catch(error=>console.error("Scheduled YouTube sync failed",error)));},async fetch(request,env){const url=new URL(request.url);if(request.method==="OPTIONS")return new Response(null,{headers:corsHeaders});try{
-if(url.pathname==="/"||url.pathname==="/api/health")return json({success:true,service:"wingchun-sync",version:"8.3.0",status:"running",githubEnabled:Boolean(env.GITHUB_TOKEN),adminEnabled:Boolean(env.ADMIN_PASSWORD),workersAIEnabled:Boolean(env.AI),aiModel:env.AI_MODEL||DEFAULT_AI_MODEL,speechToTextEnabled:Boolean(env.AI),speechToTextModel:env.STT_MODEL||DEFAULT_STT_MODEL,repo:`${REPO_OWNER}/${REPO_NAME}`});
+if(url.pathname==="/"||url.pathname==="/api/health")return json({success:true,service:"wingchun-sync",version:"8.4.0",status:"running",githubEnabled:Boolean(env.GITHUB_TOKEN),adminEnabled:Boolean(env.ADMIN_PASSWORD),adminSessionBridgeEnabled:Boolean(env.ADMIN_SESSION_ORIGIN),visitorStatsEnabled:Boolean(env.VISITOR_STATS),workersAIEnabled:Boolean(env.AI),aiModel:env.AI_MODEL||DEFAULT_AI_MODEL,speechToTextEnabled:Boolean(env.AI),speechToTextModel:env.STT_MODEL||DEFAULT_STT_MODEL,repo:`${REPO_OWNER}/${REPO_NAME}`});
 if(url.pathname==="/api/admin/login"&&request.method==="POST"){if(!env.ADMIN_PASSWORD)return json({success:false,error:"ADMIN_PASSWORD is not configured"},503);const body=await request.json();if(body.password!==env.ADMIN_PASSWORD)return json({success:false,error:"密碼錯誤"},401);return json({success:true,token:await createSession(env),expiresIn:7200});}
 if(url.pathname==="/api/admin/session")return json({success:await verifySession(env,request)},(await verifySession(env,request))?200:401);
+if(url.pathname==="/api/visit"&&request.method==="POST")return await recordVisit(request,env);
+if(url.pathname==="/api/admin/visitor-stats"&&request.method==="GET")return await visitorStats(request,env);
 if(url.pathname==="/api/ai/chat"&&request.method==="POST")return await aiChat(request,env);
 if(url.pathname==="/api/ai/transcribe"&&request.method==="POST")return await transcribeAudio(request,env);
 if(url.pathname==="/api/import"){const input=url.searchParams.get("url")||url.searchParams.get("id")||"";return json({success:true,video:await fetchOneVideo(env,input)});}
