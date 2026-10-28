@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Wing Chun Admin｜V26 Secure Publish</title>
+<title>Wing Chun Admin｜V26.2 Visitor Statistics</title>
 <style>
 :root{--bg:#0d0d0d;--panel:#181818;--text:#f7f0e1;--muted:#b9ad98;--gold:#d9b760;--line:#463a24;--ok:#80e099;--bad:#ff8989}
 *{box-sizing:border-box}
@@ -24,13 +24,18 @@ button.secondary{background:#30291c;color:#f1d893;border:1px solid #64522f}
 .ok{color:var(--ok)}.bad{color:var(--bad)}.hidden{display:none}.footer{opacity:.55;text-align:center;margin-top:26px;font-size:12px}
 code{color:#f7d98a}.pill{display:inline-block;border:1px solid #5d4b2c;border-radius:999px;padding:5px 10px;margin:3px;color:#f2d795;background:#211b12}
 .actions{display:flex;gap:10px;flex-wrap:wrap}.previewTitle{font-size:20px;font-weight:800;color:#ffe09b;margin:8px 0}.previewSub{font-size:15px;color:#ddd0b8}
+.statsHead{display:flex;align-items:flex-start;justify-content:space-between;gap:14px}.statsHead button{flex:0 0 auto}
+.statsSummary{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:16px 0}
+.statsSummary>div{padding:15px;border:1px solid #4c4029;border-radius:14px;background:#100e0a}.statsSummary span,.statsSummary small{display:block;color:var(--muted);font-size:12px}.statsSummary strong{display:block;margin:5px 0 2px;color:#f4d382;font-size:30px}
+.statsMeta{margin:0 0 12px;color:var(--muted);font-size:13px}.statsTableWrap{overflow-x:auto;border:1px solid #463a24;border-radius:14px}.statsTable{width:100%;min-width:650px;border-collapse:collapse;background:#0c0b09}.statsTable th,.statsTable td{padding:12px 14px;border-bottom:1px solid #332b1d;text-align:left;font-size:13px}.statsTable th{color:#b9ad98;background:#17130d;font-size:11px;white-space:nowrap}.statsTable tbody tr:last-child td{border-bottom:0}.statsCountry{display:flex;align-items:center;gap:9px;font-weight:800}.statsFlag{font-size:22px}.statsCount{color:#f4d382;font-weight:900}.statsEmpty{text-align:center!important;color:var(--muted)!important;padding:26px!important}.statsSort{display:flex;justify-content:flex-end;gap:8px;margin:0 0 12px}.statsSort button{padding:8px 11px;font-size:12px}.statsSort button.active{background:linear-gradient(180deg,#f2cf72,#b98927);color:#1b1205}.statsSort button:not(.active){background:#30291c;color:#f1d893;border:1px solid #64522f}
+@media(max-width:800px){.statsHead{align-items:stretch;flex-direction:column}.statsHead button{width:100%}.statsSort{display:grid;grid-template-columns:1fr 1fr}.statsSummary{gap:8px}}
 </style>
 </head>
 <body>
 <div class="wrap">
   <div class="card">
     <h1>🥋 Wing Chun Admin</h1>
-    <div class="muted">Website v26.1.0 ｜ Secure Admin Login ｜ GitHub 自動發布版</div>
+    <div class="muted">Website v26.2.0 ｜ Secure Admin Login ｜ GitHub 自動發布版</div>
     <p class="muted">管理密碼只保存在 Cloudflare Secret，不會顯示在網頁或原始碼中。</p>
   </div>
 
@@ -101,23 +106,67 @@ code{color:#f7d98a}.pill{display:inline-block;border:1px solid #5d4b2c;border-ra
       <div id="previewTags"></div>
     </div>
 
+    <div class="card" id="visitorStatsCard">
+      <div class="statsHead">
+        <div>
+          <h2>連線國家與時間統計</h2>
+          <p class="muted">只統計國家、累計造訪次數與最後造訪時間，不儲存 IP 位址。</p>
+        </div>
+        <button id="reloadStatsBtn" class="secondary" type="button">重新整理</button>
+      </div>
+      <div class="statsSummary" aria-label="訪客統計摘要">
+        <div><span>Total Visits</span><strong id="totalVisits">--</strong><small>總造訪次數</small></div>
+        <div><span>Countries</span><strong id="countryCount">--</strong><small>連線國家數</small></div>
+      </div>
+      <p id="visitorStatsStatus" class="statsMeta" role="status">正在載入統計資料…</p>
+      <div class="statsSort" role="group" aria-label="統計排序方式">
+        <button id="sortByVisits" class="active" type="button" aria-pressed="true">造訪次數</button>
+        <button id="sortByTime" type="button" aria-pressed="false">最後造訪</button>
+      </div>
+      <div class="statsTableWrap">
+        <table class="statsTable">
+          <thead><tr><th scope="col">國家</th><th scope="col">代碼</th><th scope="col">累計造訪</th><th scope="col">最後造訪（臺北時間）</th></tr></thead>
+          <tbody id="visitorStatsBody"><tr><td colspan="4" class="statsEmpty">正在載入…</td></tr></tbody>
+        </table>
+      </div>
+    </div>
+
     <div class="card">
       <h2>執行狀態</h2>
       <div id="status" class="status">等待操作。</div>
     </div>
   </div>
 
-  <div class="footer">Wing Chun Admin ｜ V26.0 ｜ Secure GitHub Publisher</div>
+  <div class="footer">Wing Chun Admin ｜ V26.2 ｜ Secure GitHub Publisher</div>
 </div>
 
 <script>
 const WORKER_BASE = "https://wingchun-sync.lomankam-master.workers.dev";
+const STATS_WORKER_BASE = "https://wingchun-sync.201505-login.workers.dev";
 let adminToken = sessionStorage.getItem("wingchunAdminToken") || "";
 let importedVideo = null;
 let wcmd = null;
+let visitorCountries = [];
+let statsSortMode = "visits";
 const $ = id => document.getElementById(id);
 
 function setStatus(msg, ok=true){ $("status").innerHTML = `<span class="${ok?'ok':'bad'}">${msg}</span>`; }
+function flagFor(code){ const value=String(code||"").trim().toUpperCase(); return /^[A-Z]{2}$/.test(value)?String.fromCodePoint(...[...value].map(letter=>127397+letter.charCodeAt(0))):"🌐"; }
+function countryNameFor(code){ const value=String(code||"").trim().toUpperCase(); if(value==="UN") return "未知／未辨識"; try{return new Intl.DisplayNames(["zh-TW"],{type:"region"}).of(value)||value;}catch(_){return value;} }
+function timeFor(value){ const date=new Date(value); if(Number.isNaN(date.getTime())) return "--"; return new Intl.DateTimeFormat("zh-TW",{timeZone:"Asia/Taipei",year:"numeric",month:"2-digit",day:"2-digit",hour:"2-digit",minute:"2-digit",hour12:false}).format(date); }
+function sortedVisitorCountries(){ return [...visitorCountries].sort((a,b)=>{ const count=(Number(b.visitCount)||0)-(Number(a.visitCount)||0),time=(Date.parse(b.lastSeenAt)||0)-(Date.parse(a.lastSeenAt)||0); return statsSortMode==="time"?(time||count):(count||time); }); }
+function renderVisitorCountries(){
+  const tbody=$("visitorStatsBody"); tbody.textContent="";
+  if(!visitorCountries.length){ const row=document.createElement("tr"),cell=document.createElement("td"); cell.colSpan=4; cell.className="statsEmpty"; cell.textContent="目前尚無統計資料。"; row.appendChild(cell); tbody.appendChild(row); return; }
+  sortedVisitorCountries().forEach(country=>{ const code=String(country.countryCode||"UN").toUpperCase(),row=document.createElement("tr"),nameCell=document.createElement("td"),flag=document.createElement("span"),name=document.createElement("span"),codeCell=document.createElement("td"),countCell=document.createElement("td"),timeCell=document.createElement("td"); nameCell.className="statsCountry"; flag.className="statsFlag"; flag.setAttribute("aria-hidden","true"); flag.textContent=flagFor(code); name.textContent=countryNameFor(code); nameCell.append(flag,name); codeCell.textContent=code; countCell.className="statsCount"; countCell.textContent=new Intl.NumberFormat("zh-TW").format(Number(country.visitCount)||0); timeCell.textContent=timeFor(country.lastSeenAt); row.append(nameCell,codeCell,countCell,timeCell); tbody.appendChild(row); });
+}
+function setStatsSort(mode){ statsSortMode=mode; const byVisits=mode==="visits"; $("sortByVisits").classList.toggle("active",byVisits); $("sortByVisits").setAttribute("aria-pressed",String(byVisits)); $("sortByTime").classList.toggle("active",!byVisits); $("sortByTime").setAttribute("aria-pressed",String(!byVisits)); renderVisitorCountries(); }
+async function loadVisitorStats(){
+  if(!adminToken) return;
+  $("visitorStatsStatus").textContent="正在載入統計資料…";
+  try{ const res=await fetch(`${STATS_WORKER_BASE}/api/admin/visitor-stats?v=${Date.now()}`,{cache:"no-store",headers:{Authorization:`Bearer ${adminToken}`}}); const data=await res.json(); if(res.status===401){sessionStorage.removeItem("wingchunAdminToken"); throw new Error("登入已逾時，請重新登入");} if(!res.ok||!data.success) throw new Error(data.error||"統計資料無法使用"); visitorCountries=Array.isArray(data.countries)?data.countries:[]; $("totalVisits").textContent=new Intl.NumberFormat("zh-TW").format(Number(data.totalVisits)||0); $("countryCount").textContent=new Intl.NumberFormat("zh-TW").format(visitorCountries.length); renderVisitorCountries(); $("visitorStatsStatus").textContent=`最後更新：${timeFor(data.generatedAt)}（臺北時間）`; }
+  catch(error){ visitorCountries=[]; $("totalVisits").textContent="--"; $("countryCount").textContent="--"; renderVisitorCountries(); $("visitorStatsStatus").textContent=`目前無法取得統計資料：${error.message||"請稍後再試"}`; }
+}
 function splitList(text){ return String(text||"").split(/[、,，\n]/).map(s=>s.trim()).filter(Boolean); }
 function extractEpisode(title=""){ const m=String(title).match(/授課精華\s*([0-9]+)/); return m?Number(m[1]):""; }
 function cleanTitle(raw=""){
@@ -160,7 +209,7 @@ async function validateSavedToken(){
   try{
     const res=await fetch(`${WORKER_BASE}/api/admin/session`,{headers:{Authorization:`Bearer ${adminToken}`}});
     const data=await res.json();
-    if(data.success){ showAdmin(); await loadWCMD(); setStatus("已登入。請貼上 YouTube 連結匯入影片。"); }
+    if(data.success){ showAdmin(); await Promise.all([loadWCMD(),loadVisitorStats()]); setStatus("已登入。請貼上 YouTube 連結匯入影片。"); }
     else throw new Error();
   }catch(_){ sessionStorage.removeItem("wingchunAdminToken"); adminToken=""; }
 }
@@ -226,10 +275,13 @@ $("loginBtn").onclick=async()=>{
     adminToken=data.token;
     sessionStorage.setItem("wingchunAdminToken",adminToken);
     $("password").value="";
-    showAdmin(); await loadWCMD(); setStatus("✅ 登入成功。請貼上 YouTube 連結。");
+    showAdmin(); await Promise.all([loadWCMD(),loadVisitorStats()]); setStatus("✅ 登入成功。請貼上 YouTube 連結。");
   }catch(e){ alert(e.message); }
 };
 $("password").addEventListener("keydown",e=>{if(e.key==="Enter")$("loginBtn").click();});
+$("reloadStatsBtn").addEventListener("click",loadVisitorStats);
+$("sortByVisits").addEventListener("click",()=>setStatsSort("visits"));
+$("sortByTime").addEventListener("click",()=>setStatsSort("time"));
 
 $("importBtn").onclick=async()=>{
   const url=$("youtubeUrl").value.trim();
