@@ -149,10 +149,20 @@ const firebaseConfig = {
   }
   function speechVoice(lang){
     const voices=window.speechSynthesis?.getVoices?.()||[];
-    const exact=voices.find(voice=>String(voice.lang||'').toLowerCase()===lang.toLowerCase());
-    if(exact) return exact;
+    const preferredMaleNames={
+      zh:[/\breed\b/i,/\beddy\b/i,/\bgrandpa\b/i,/\brocko\b/i,/\bli[- ]?mu\b/i,/\byun(?:xi|jian|yang|hao)\b/i,/\bkangkang\b/i,/男/u,/male/i],
+      en:[/\bdaniel\b/i,/\balex\b/i,/\baaron\b/i,/\bfred\b/i,/\bbruce\b/i,/\breed\b/i,/\beddy\b/i,/\bgrandpa\b/i,/\brocko\b/i,/male/i]
+    };
+    const target=lang.toLowerCase();
     const base=lang.split('-')[0].toLowerCase();
-    return voices.find(voice=>String(voice.lang||'').toLowerCase().startsWith(base))||null;
+    const exact=voices.filter(voice=>String(voice.lang||'').toLowerCase()===target);
+    const matching=exact.length?exact:voices.filter(voice=>String(voice.lang||'').toLowerCase().startsWith(base));
+    const patterns=preferredMaleNames[base]||[/male/i,/男/u];
+    for(const pattern of patterns){
+      const preferred=matching.find(voice=>pattern.test(String(voice.name||'')));
+      if(preferred) return preferred;
+    }
+    return matching[0]||null;
   }
   function cleanSpeechText(text){
     return String(text||'')
@@ -187,8 +197,8 @@ const firebaseConfig = {
       await new Promise(resolve=>{
         const utterance=new SpeechSynthesisUtterance(chunk);
         utterance.lang=lang;
-        utterance.rate=lang==='zh-TW'?0.95:1;
-        utterance.pitch=1;
+        utterance.rate=lang==='zh-TW'?1.08:1.05;
+        utterance.pitch=lang==='zh-TW'?0.96:1;
         if(voice) utterance.voice=voice;
         utterance.onend=resolve;
         utterance.onerror=resolve;
