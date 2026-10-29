@@ -1,4 +1,4 @@
-# WingChun V26.2.1 Male Voice Tuning
+# WingChun V26.2.2 Voice Rollback
 
 管理後台 `admin/index.html` 新增連線國家與時間統計，資料由 Cloudflare Worker 與 D1 提供。
 
