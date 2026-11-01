@@ -2,7 +2,7 @@
   "schemaVersion": "1.0",
   "platformVersion": "V26.0",
   "project": "Master Lo Wing Chun Knowledge Platform",
-  "generatedAt": "2026-10-27",
+  "generatedAt": "2026-11-01",
   "sourceNote": "Updated by WingChun Admin one-click publisher.",
   "categories": {
     "forms": {
@@ -1708,6 +1708,39 @@
         "titleEn": "confirmed",
         "category": "draft",
         "updatedAt": "2026-10-27"
+      }
+    },
+    {
+      "episode": 47,
+      "title": {
+        "zh": "詠春拳的反應訓練與養成 | 從黐手訓練到即時應變，讓動作成為自然習慣",
+        "en": "Wing Chun Reaction Training and Development | From Chi Sao Practice to Real-Time Adaptation, Turning Movements into Natural Instincts"
+      },
+      "category": {
+        "id": "principles",
+        "zh": "觀念理論",
+        "en": "Concepts & Principles",
+        "status": "draft"
+      },
+      "tags": [],
+      "concepts": [],
+      "skills": [],
+      "difficulty": "to_be_confirmed",
+      "summary": {
+        "zh": "",
+        "en": ""
+      },
+      "youtube": {
+        "videoId": "uakO5jpvQ-U",
+        "url": "https://youtu.be/uakO5jpvQ-U",
+        "thumbnail": "https://i.ytimg.com/vi/uakO5jpvQ-U/hqdefault.jpg",
+        "publishedAt": "2026-11-01T09:34:29Z"
+      },
+      "dataStatus": {
+        "youtubeBasic": "confirmed_from_youtube_api",
+        "titleEn": "confirmed",
+        "category": "draft",
+        "updatedAt": "2026-11-01"
       }
     }
   ]
