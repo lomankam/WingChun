@@ -2,7 +2,7 @@
   "schemaVersion": "1.0",
   "platformVersion": "V26.0",
   "project": "Master Lo Wing Chun Knowledge Platform",
-  "generatedAt": "2026-11-01",
+  "generatedAt": "2026-11-08",
   "sourceNote": "Updated by WingChun Admin one-click publisher.",
   "categories": {
     "forms": {
@@ -1741,6 +1741,39 @@
         "titleEn": "confirmed",
         "category": "draft",
         "updatedAt": "2026-11-01"
+      }
+    },
+    {
+      "episode": 48,
+      "title": {
+        "zh": "從孫子兵法看詠春反應｜掌握先機，出其不意、攻其無備",
+        "en": "Wing Chun Reactions Through the Lens of Sun Tzu’s Art of War | Seize the Initiative, Strike Unexpectedly, and Exploit the Opponent’s Weaknesses"
+      },
+      "category": {
+        "id": "principles",
+        "zh": "觀念理論",
+        "en": "Concepts & Principles",
+        "status": "draft"
+      },
+      "tags": [],
+      "concepts": [],
+      "skills": [],
+      "difficulty": "to_be_confirmed",
+      "summary": {
+        "zh": "",
+        "en": ""
+      },
+      "youtube": {
+        "videoId": "7X1gi4024YM",
+        "url": "https://youtu.be/7X1gi4024YM",
+        "thumbnail": "https://i.ytimg.com/vi/7X1gi4024YM/maxresdefault.jpg",
+        "publishedAt": "2026-11-08T14:44:46Z"
+      },
+      "dataStatus": {
+        "youtubeBasic": "confirmed_from_youtube_api",
+        "titleEn": "confirmed",
+        "category": "draft",
+        "updatedAt": "2026-11-08"
       }
     }
   ]
