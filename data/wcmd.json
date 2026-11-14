@@ -2,7 +2,7 @@
   "schemaVersion": "1.0",
   "platformVersion": "V26.0",
   "project": "Master Lo Wing Chun Knowledge Platform",
-  "generatedAt": "2026-11-08",
+  "generatedAt": "2026-11-14",
   "sourceNote": "Updated by WingChun Admin one-click publisher.",
   "categories": {
     "forms": {
@@ -1774,6 +1774,39 @@
         "titleEn": "confirmed",
         "category": "draft",
         "updatedAt": "2026-11-08"
+      }
+    },
+    {
+      "episode": 49,
+      "title": {
+        "zh": "詠春的微動制敵之道｜小動作大作用，掌握突發瞬間的應變關鍵",
+        "en": "The Art of Subtle Movements in Wing Chun | Small Movements, Big Impact: Mastering the Key to Responding in Critical Moments"
+      },
+      "category": {
+        "id": "principles",
+        "zh": "觀念理論",
+        "en": "Concepts & Principles",
+        "status": "draft"
+      },
+      "tags": [],
+      "concepts": [],
+      "skills": [],
+      "difficulty": "to_be_confirmed",
+      "summary": {
+        "zh": "",
+        "en": ""
+      },
+      "youtube": {
+        "videoId": "2Pw3g2rR7W4",
+        "url": "https://youtu.be/2Pw3g2rR7W4",
+        "thumbnail": "https://i.ytimg.com/vi/2Pw3g2rR7W4/hqdefault.jpg",
+        "publishedAt": "2026-11-14T14:06:31Z"
+      },
+      "dataStatus": {
+        "youtubeBasic": "confirmed_from_youtube_api",
+        "titleEn": "confirmed",
+        "category": "draft",
+        "updatedAt": "2026-11-14"
       }
     }
   ]
