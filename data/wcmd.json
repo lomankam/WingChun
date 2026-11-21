@@ -2,7 +2,7 @@
   "schemaVersion": "1.0",
   "platformVersion": "V26.0",
   "project": "Master Lo Wing Chun Knowledge Platform",
-  "generatedAt": "2026-11-14",
+  "generatedAt": "2026-11-21",
   "sourceNote": "Updated by WingChun Admin one-click publisher.",
   "categories": {
     "forms": {
@@ -1807,6 +1807,39 @@
         "titleEn": "confirmed",
         "category": "draft",
         "updatedAt": "2026-11-14"
+      }
+    },
+    {
+      "episode": 50,
+      "title": {
+        "zh": "詠春「朝形」的攻防智慧｜面對敵人，掌握距離、時機與連續應變",
+        "en": "The Martial Art of Wing Chun’s “Facing Principle” (Face to Face)｜Confront Your Opponent, Command the Distance, Seize the Timing, and Flow Through Every Encounter."
+      },
+      "category": {
+        "id": "principles",
+        "zh": "觀念理論",
+        "en": "Concepts & Principles",
+        "status": "draft"
+      },
+      "tags": [],
+      "concepts": [],
+      "skills": [],
+      "difficulty": "to_be_confirmed",
+      "summary": {
+        "zh": "",
+        "en": ""
+      },
+      "youtube": {
+        "videoId": "hnZucNZnILI",
+        "url": "https://youtu.be/hnZucNZnILI",
+        "thumbnail": "https://i.ytimg.com/vi/hnZucNZnILI/hqdefault.jpg",
+        "publishedAt": "2026-11-21T10:13:09Z"
+      },
+      "dataStatus": {
+        "youtubeBasic": "confirmed_from_youtube_api",
+        "titleEn": "confirmed",
+        "category": "draft",
+        "updatedAt": "2026-11-21"
       }
     }
   ]
